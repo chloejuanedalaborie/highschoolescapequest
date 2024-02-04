@@ -1,1 +1,1 @@
-# highschoolescapequest
+# High School Escape Quest
