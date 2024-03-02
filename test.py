@@ -39,9 +39,12 @@ while continuer :
             rect_main.center = event.pos
             fenetre.blit(main, rect_main)
     
-    offset_x = rect_check.x - rect_main.x
-    offset_y = rect_check.y - rect_main.y
-    if mask_main.overlap(mask_check, (offset_x, offset_y)):
+    offset_x = rect_bicheck.x - rect_main.x
+    offset_y = rect_bicheck.y - rect_main.y
+    
+    offset_w = rect_check.x - rect_main.x
+    offset_q = rect_check.y - rect_main.y
+    if mask_main.overlap(mask_bicheck, (offset_x, offset_y)) or mask_main.overlap(mask_check, (offset_w, offset_q)):
         print("Touché")
     
     else:
