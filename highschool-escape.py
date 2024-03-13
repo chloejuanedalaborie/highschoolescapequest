@@ -89,7 +89,7 @@ def jeu_mémo():
     for i in range(1, 7):
         image = pygame.image.load(f'./images/mémo/card_{i}.jpeg')
         image = pygame.transform.scale(image, (70, 90))  # Redimensionner l'image
-        #image.set_alpha(0) # Rendre l'image transparente par défaut
+        image.set_alpha(0) # Rendre l'image transparente par défaut
         memo.append(image)
 
     # Dimensions des cases du mémo
