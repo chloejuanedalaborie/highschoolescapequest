@@ -158,8 +158,11 @@ def memory_game():
             image = pygame.image.load(f'./images/mémo/card_{index}.jpeg')
             image = pygame.transform.scale(image, (70, 90))
             fenetre.blit(image, rect_info['rectangle'])
-        if rect_info in memory_game_case_clicked:
-            pygame.display.update(rect_info['rectangle'])
+
+    if len(memory_game_case_clicked) == 2: 
+        pygame.display.update(memory_game_case_clicked[1]['rectangle'])
+
+    gérer_curseur()
 
     # On teste si une paire de carte a été retournée
     if len(memory_game_case_clicked) == 2:
@@ -172,7 +175,6 @@ def memory_game():
                 rect_info['clicked'] = False
         else:
             print('match')
-            pygame.time.delay(1000)
             memory_game_results.extend(memory_game_case_clicked)
 
         # On réinitialise la liste des cartes cliquées
@@ -182,8 +184,6 @@ def memory_game():
     if len(memory_game_results) == len(memory_game_case):
         print('memo complet')
         state = MENU_STATE  # Return to the menu screen after completing the memory game    
-
-    gérer_curseur()
 
 def tic_tac_toe_game():
     # Play the tic-tac-toe game
