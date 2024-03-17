@@ -2,6 +2,7 @@
 
 import pygame
 import random
+import time
 
 # Définition des couleurs
 WHITE = (255, 255, 255)
@@ -38,15 +39,16 @@ def start():
     for event in pygame.event.get():
         # Le bouton play est cliqué
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # lorsque le clique de la souris est appuyé sur la surface rectangulaire du play
+            # lorsque le bouton gauche de la souris est appuyé sur la surface rectangulaire du play
             # alors le fond change et le play disparait
-            if rect_play.collidepoint(event.pos):
+            if pygame.mouse.get_pressed()[0] and rect_play.collidepoint(event.pos):
                 play = pygame.Surface(rect_play.size) #rend le play transparent
                 play.set_alpha(0) #rend le carré noir du rect_play transparent
                 affiche_écran = menu    
 
 def menu():
     global affiche_écran
+
     fond = pygame.image.load("./images/plan_lycee.png").convert()
     fenetre.blit(fond,(0,0))
 
@@ -73,66 +75,94 @@ def menu():
     for event in pygame.event.get():
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if zone_cliquable_mémo.collidepoint(event.pos):
+            if pygame.mouse.get_pressed()[0] and zone_cliquable_mémo.collidepoint(event.pos):
                 affiche_écran = jeu_mémo
-            elif zone_cliquable_morpion.collidepoint(event.pos):
+            elif pygame.mouse.get_pressed()[0] and zone_cliquable_morpion.collidepoint(event.pos):
                 affiche_écran = jeu_morpion
-            elif zone_cliquable_quiz.collidepoint(event.pos):
+            elif pygame.mouse.get_pressed()[0] and zone_cliquable_quiz.collidepoint(event.pos):
                 affiche_écran = jeu_quiz
-                
-def jeu_mémo():
-    fond = pygame.image.load("./images/salle_memo.png").convert()
-    fenetre.blit(fond,(0,0))
-    
-    # Chargement des images du mémo
-    memo = []
-    for i in range(1, 7):
-        image = pygame.image.load(f'./images/mémo/card_{i}.jpeg')
-        image = pygame.transform.scale(image, (70, 90))  # Redimensionner l'image
-        image.set_alpha(0) # Rendre l'image transparente par défaut
-        memo.append(image)
 
+def init_mémo():
     # Dimensions des cases du mémo
     RECT_WIDTH = 70
     RECT_HEIGHT = 90
     GAP = 30  # Espace entre les rectangles
 
-    #calcul total de l'espace horizontal et vertical
+    # Calcul total de l'espace horizontal et vertical
     total_width = 4 * (RECT_WIDTH + GAP) - GAP        
     total_height = 4 * (RECT_HEIGHT + GAP) - GAP 
 
-    #position du coin supérieur gauche de la zone des rectangle
+    # Position du coin supérieur gauche de la zone des rectangle
     start_x = (550 - total_width) // 2
     start_y = (700 - total_height) // 2
 
     # Création des cases du mémo
+    global rectangles
     rectangles = []
     for ligne in range(3):
         for colonne in range(4):
             rect = pygame.Rect(start_x + (RECT_WIDTH + GAP) * colonne + GAP, start_y + (RECT_HEIGHT + GAP) * ligne + GAP, RECT_WIDTH, RECT_HEIGHT)
-            rect_surf = pygame.Surface(rect.size)
-            rect_surf.fill(WHITE)
-            fenetre.blit(rect_surf, rect)
             rectangles.append({'rectangle': rect, 'image_index': None, 'clicked': False})
 
     # Attribution aléatoire des images aux rectangles
-    index_images_disponibles = list(range(len(memo))) * 2
+    index_images_disponibles = list(range(6)) * 2
     for rect_info in rectangles:
         rect_info['image_index'] = index_images_disponibles.pop(random.randint(0, len(index_images_disponibles)-1))    
-        fenetre.blit(memo[rect_info['image_index']], rect_info['rectangle'])  # Afficher l'image (transparente à ce stage)  
+    
+    global cliquées
+    cliquées = []    
+    global resultats
+    resultats = []
+                        
+def jeu_mémo():
+    fond = pygame.image.load("./images/salle_memo.png").convert()
+    fenetre.blit(fond,(0,0))
+
+    # par défaut, toutes les images sont cachées
+    cases_blanches = [rect for rect in rectangles + resultats + cliquées if rect not in resultats]
+    for rect_info in cases_blanches:
+        rect_surf = pygame.Surface(rect_info['rectangle'].size)
+        rect_surf.fill(WHITE)
+        fenetre.blit(rect_surf, rect_info['rectangle'])    
+    
+    # on affiche les images déjà trouvées
+    for rect_info in resultats + cliquées:
+        index = rect_info['image_index'] + 1
+        image = pygame.image.load(f'./images/mémo/card_{index}.jpeg')
+        image = pygame.transform.scale(image, (70, 90))
+        fenetre.blit(image, rect_info['rectangle'])
+
+    if len(cliquées) == 2:
+        print('compare '+str(cliquées[0])+' à '+str(cliquées[1]))
+        if cliquées[0]['image_index'] != cliquées[1]['image_index']:
+            # la paire cliquée est fausse
+            for rect_2 in rectangles:
+                if rect_2['image_index'] == rect_info['image_index']:
+                    rect_2['clicked'] = False
+        else:
+            print('match')
+            resultats.extend(cliquées)
+        cliquées.clear()
+       
     
     gérer_curseur()
-    """ jeu_terminé = False
-    while not jeu_terminé:
+    
+    # on vérifie si toutes les cases ont été retournées
+    # resultats contient les paires qui ont été validées
+    if (len(resultats) != len(rectangles)) :
         for event in pygame.event.get():
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for rect_info in rectangles:
-                    if rect_info['rectangle'].collidepoint(event.pos):
+                    # si la case est cliquée on affiche l'image et on met 'clicked' à True
+                    if pygame.mouse.get_pressed()[0] and rect_info['rectangle'].collidepoint(event.pos):
+                        rect_info['clicked'] = not rect_info['clicked']
+                        if rect_info['clicked']:
+                            if rect_info not in cliquées:
+                                cliquées.append(rect_info)
 
-                        memo[rect_info['image_index']].set_alpha(None)
-
-                        rect_info['clicked'] = not rect_info['clicked']  # Inverser l'état du clic """
+    else:
+        print('memo complet')                            
+    
 
 def jeu_morpion():
     fond = pygame.image.load("./images/salle_morpion.png").convert()
@@ -151,6 +181,7 @@ def gérer_curseur():
     curseur = pygame.transform.scale(curseur, (50,50))
     rect_curseur = curseur.get_rect()
     rect_curseur.center = pygame.mouse.get_pos()
+    pygame.mouse.set_visible(False)
     fenetre.blit(curseur, rect_curseur)
 
 def gérer_event_quit():
@@ -162,6 +193,8 @@ def gérer_event_quit():
             continuer = False
             
 clock = pygame.time.Clock()
+
+init_mémo()
 
 affiche_écran = start
 continuer = True
