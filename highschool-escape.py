@@ -13,9 +13,10 @@ WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 600
 
 # Couleurs
+TRANSPARENT = (0, 0, 0, 0)
 WHITE = (255, 255, 255)
 LIGHT_BLUE = (173, 216, 230)
-GRAY = (100, 100, 100) 
+GRAY = (100, 100, 100)
 
 # Création de la fenêtre
 fenetre = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -23,8 +24,6 @@ pygame.display.set_caption("High School Escape Quest")
 
 # Font
 font_path = "retro-gaming-fonts.ttf"  # Replace with the path to your font file
-font_size = 24
-retro_font = pygame.font.Font(font_path, font_size)
 
 # Variables pour maintenir l'état de la navigation dans le jeu
 START_STATE = 'start'
@@ -42,6 +41,9 @@ memory_background = pygame.image.load("./images/salle_memo.png").convert()
 tic_tac_toe_background = pygame.image.load("./images/salle_morpion.png").convert()
 quiz_background = pygame.image.load("./images/salle_quiz.png").convert()
 
+# Barre de score
+score_barre_rect = pygame.Rect(0, 0, WINDOW_WIDTH, 50)
+
 # Boutons et Zones de clic
 play_button_image = pygame.image.load("./images/bouton_play.png").convert_alpha()
 play_button_image = pygame.transform.scale(play_button_image, (100,100))
@@ -56,7 +58,6 @@ menu_button_size = 50
 menu_button_margin = 10
 menu_button_rect = pygame.Rect(WINDOW_WIDTH - menu_button_size - menu_button_margin, menu_button_margin,
                                menu_button_size, menu_button_size)
-menu_button_color = GRAY
 
 # Curseur
 cursor_image = pygame.image.load("./images/curseur.png").convert_alpha()
@@ -67,6 +68,7 @@ pygame.mouse.set_visible(False) # cache le pointeur de la souris
 memory_game_case = []
 memory_game_case_clicked = []
 memory_game_results = []
+memory_game_click_count = 0
 
 def start_screen():
     # Affiche la page d'accueil du jeu
@@ -77,11 +79,42 @@ def start_screen():
     gérer_curseur()
 
 def menu_screen():
+    global memory_game_click_count
+
     # Display the menu screen
     fenetre.blit(menu_background, (0, 0))
-    pygame.draw.rect(fenetre, WHITE, memo_button_rect, 2)
-    pygame.draw.rect(fenetre, WHITE, morpion_button_rect, 2)
-    pygame.draw.rect(fenetre, WHITE, quiz_button_rect, 2)
+
+    memo_image_text_font = pygame.font.Font(font_path, 24)
+    memo_image_text_surface = memo_image_text_font.render("Mémo", True, pygame.Color('black'))
+    memo_rect = pygame.draw.rect(fenetre, WHITE, memo_button_rect, 2)
+    memo_image = pygame.transform.scale(memory_background, memo_rect.size)
+    memo_image_text_rect = memo_image_text_surface.get_rect(center=memo_image.get_rect().center)
+    memo_image.blit(memo_image_text_surface, memo_image_text_rect)
+    fenetre.blit(memo_image, memo_rect)
+    # Vérifier si le score est supérieur à 0
+    if memory_game_click_count > 0:
+        # Afficher le score centré en bas du bouton mémo
+        score_font = pygame.font.Font(font_path, 18)
+        score_text = "Score: " + str(memory_game_click_count)
+        score_text_surface = score_font.render(score_text, True, pygame.Color('green'))
+        score_text_rect = score_text_surface.get_rect(center=(memo_button_rect.centerx, memo_button_rect.bottom - 50))
+        fenetre.blit(score_text_surface, score_text_rect)
+
+    morpion_image_text_font = pygame.font.Font(font_path, 24)
+    morpion_image_text_surface = morpion_image_text_font.render("Morpion", True, pygame.Color('black'))
+    morpion_rect = pygame.draw.rect(fenetre, WHITE, morpion_button_rect, 2)
+    morpion_image = pygame.transform.scale(tic_tac_toe_background, morpion_rect.size)
+    morpion_image_text_rect = morpion_image_text_surface.get_rect(center=morpion_image.get_rect().center)
+    morpion_image.blit(morpion_image_text_surface, morpion_image_text_rect)
+    fenetre.blit(morpion_image, morpion_rect)
+
+    quiz_image_text_font = pygame.font.Font(font_path, 24)
+    quiz_image_text_surface = quiz_image_text_font.render("Quiz", True, pygame.Color('black'))
+    quiz_rect = pygame.draw.rect(fenetre, WHITE, quiz_button_rect, 2)
+    quiz_image = pygame.transform.scale(quiz_background, quiz_rect.size)
+    quiz_image_text_rect = quiz_image_text_surface.get_rect(center=quiz_image.get_rect().center)
+    quiz_image.blit(quiz_image_text_surface, quiz_image_text_rect)
+    fenetre.blit(quiz_image, quiz_rect)
 
     # Highlight buttons when mouse is over them
     if memo_button_rect.collidepoint(pygame.mouse.get_pos()):
@@ -95,7 +128,8 @@ def menu_screen():
 
 # Function to draw the menu button
 def menu_button():
-    button_text_surface = retro_font.render("Menu", True, menu_button_color)
+    menu_font = pygame.font.Font(font_path, 24)
+    button_text_surface = menu_font.render("Menu", True, GRAY)
     button_text_rect = button_text_surface.get_rect(topright=(WINDOW_WIDTH - menu_button_margin, menu_button_margin))
     fenetre.blit(button_text_surface, button_text_rect)
 
@@ -133,13 +167,23 @@ def init_memory_game():
                              'image_index': image_index, 'clicked': False}
                             for position, image_index in zip(rect_positions, index_images_disponibles)]
         memory_game_results = []
- 
+
 def memory_game():
     global memory_game_case_clicked
+    global memory_game_click_count
     global state
 
     # Affiche le jeu mémo
     fenetre.blit(memory_background, (0, 0))
+
+    # Affiche la barre de score
+    pygame.draw.rect(fenetre, WHITE, score_barre_rect, 0)
+    score_text_font = pygame.font.Font(font_path, 12)
+    score_text_surface = score_text_font.render("Nombre de tentative: " + str(memory_game_click_count), True, GRAY)
+    score_text_rect = score_text_surface.get_rect(topleft=(10, 25))
+    fenetre.blit(score_text_surface, score_text_rect)
+
+    # Affiche le bouton menu
     menu_button()
 
     init_memory_game()
@@ -159,31 +203,44 @@ def memory_game():
             image = pygame.transform.scale(image, (70, 90))
             fenetre.blit(image, rect_info['rectangle'])
 
-    if len(memory_game_case_clicked) == 2: 
-        pygame.display.update(memory_game_case_clicked[1]['rectangle'])
-
     gérer_curseur()
 
     # On teste si une paire de carte a été retournée
     if len(memory_game_case_clicked) == 2:
-        print('compare ' + str(memory_game_case_clicked[0]) + ' à ' + str(memory_game_case_clicked[1]))
+        memory_game_click_count += 1
         # Si la paire est incorrecte, on doit à nouveau cacher les cartes
         if memory_game_case_clicked[0]['image_index'] != memory_game_case_clicked[1]['image_index']:
-            print('wrong')
+            # on force la mise à jour de l'affichage pour laisser le temps au joueur de voir la carte
+            pygame.display.update(memory_game_case_clicked[1]['rectangle'])
             pygame.time.delay(1000)
             for rect_info in memory_game_case_clicked:
                 rect_info['clicked'] = False
         else:
-            print('match')
+            # on ajoute la paire aux cartes validées
             memory_game_results.extend(memory_game_case_clicked)
 
         # On réinitialise la liste des cartes cliquées
         memory_game_case_clicked.clear()
 
-    # Check if all images are revealed
+    # Si toutes les cartes ont été retournées, le jeu est fini on retourne au menu
     if len(memory_game_results) == len(memory_game_case):
-        print('memo complet')
-        state = MENU_STATE  # Return to the menu screen after completing the memory game    
+        # Afficher toutes les cases avec un cadre vert
+        for rect_info in memory_game_case:
+            rect_surf = pygame.Surface(rect_info['rectangle'].size)
+            rect_surf.fill(pygame.Color('green'))
+            fenetre.blit(rect_surf, rect_info['rectangle'])
+            pygame.draw.rect(fenetre, WHITE, rect_info['rectangle'], 2)
+
+        # Afficher "Jeu complet !" en rouge
+        complete_text_surface = score_text_font.render("Jeu complet !", True, pygame.Color('red'))
+        complete_text_rect = complete_text_surface.get_rect(center=(WINDOW_WIDTH // 2, 25))
+        fenetre.blit(complete_text_surface, complete_text_rect)
+
+        pygame.display.update()
+        pygame.time.delay(2000)
+
+        state = MENU_STATE
+
 
 def tic_tac_toe_game():
     # Play the tic-tac-toe game
@@ -194,7 +251,7 @@ def tic_tac_toe_game():
 
 def quiz_game():
     # Play the quiz game
-    fenetre.blit(quiz_background, (0, 0))
+    fenetre.blit(pygame.transform.scale(quiz_background, fenetre.get_size()), (0, 0))
     menu_button()
     # Implement quiz game logic here
     gérer_curseur()
@@ -210,7 +267,7 @@ def gérer_events():
 
     for event in pygame.event.get():
 
-        # Quitter le jeu 
+        # Quitter le jeu
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -238,7 +295,7 @@ def gérer_events():
                         # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
                         if not rect_info['clicked'] and rect_info not in memory_game_results:
                             rect_info['clicked'] = True
-                            memory_game_case_clicked.append(rect_info)                            
+                            memory_game_case_clicked.append(rect_info)
             elif state == TIC_TAC_TOE_STATE:
                 # Gestion du bouton de retour au menu
                 if menu_button_rect.collidepoint(event.pos):
@@ -264,4 +321,4 @@ while True:
         quiz_game()
 
     pygame.display.update()
-    clock.tick(40)
+    clock.tick(60)
