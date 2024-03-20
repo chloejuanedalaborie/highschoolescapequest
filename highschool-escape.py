@@ -89,10 +89,17 @@ def start_screen():
     fenetre.blit(play_button_image, play_button_rect)
     gérer_curseur()
 
-def score_barre(bShowMenuButton=False, sScoreText=""):
+def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
     # Affiche la barre de score
     pygame.draw.rect(fenetre, WHITE, score_barre_rect, 0)
     score_text_font = pygame.font.Font(font_path, 12)
+    gameover_font = pygame.font.Font(font_path, 48)
+    
+    if dGameOverText:
+        print(str(dGameOverText))
+        complete_text_surface = gameover_font.render(dGameOverText['text'], True, dGameOverText['color'])
+        complete_text_rect = complete_text_surface.get_rect(center=(WINDOW_WIDTH // 2, 30)) # à décaler un peu à droite
+        fenetre.blit(complete_text_surface, complete_text_rect)        
 
     life_text_surface = score_text_font.render("Vies :", True, GRAY)
     life_text_rect = life_text_surface.get_rect(topleft=(10, 10))
@@ -213,25 +220,10 @@ def init_memory_game():
                             for position, image_index in zip(rect_positions, index_images_disponibles)]
         memory_game_results = []
 
-def memory_game():
-    global memory_game_case_clicked
-    global memory_game_click_count
+def refresh_memory_game_cards_display():
     global memory_game_case
-    global state
-    global livesCount
-    global final_memory_game_click_count
-
-    MAX_TENTATIVES=10
-
-    # Affiche le jeu mémo
-    fenetre.blit(memory_background, (0, score_barre_rect.height))
-
-    gameover_font = pygame.font.Font(font_path, 48)
-
-    # Affiche la barre de score
-    score_barre(True, "Nombre de tentatives: " + str(memory_game_click_count))
-
-    init_memory_game()
+    global memory_game_results
+    global memory_game_case_clicked
 
     # On itére sur l'ensemble des cases
     for rect_info in memory_game_case:
@@ -247,6 +239,26 @@ def memory_game():
             image = pygame.image.load(f'./images/mémo/card_{index}.jpeg')
             image = pygame.transform.scale(image, (105, 125))
             fenetre.blit(image, rect_info['rectangle'])
+
+def memory_game():
+    global memory_game_case_clicked
+    global memory_game_click_count
+    global memory_game_case
+    global state
+    global livesCount
+    global final_memory_game_click_count
+
+    MAX_TENTATIVES=10
+
+    # Affiche le background du jeu mémo
+    fenetre.blit(memory_background, (0, score_barre_rect.height))
+
+    # Affiche la barre de score
+    score_barre(True, "Nombre de tentatives: " + str(memory_game_click_count))
+
+    init_memory_game()
+
+    refresh_memory_game_cards_display()
 
     gérer_curseur()
 
@@ -280,7 +292,7 @@ def memory_game():
                 livesCount -= 1
                 memory_game_results.clear()
                 memory_game_case_clicked.clear()
-                if livesCount > 1:
+                if livesCount >= 1:
                     memory_game_case.clear()
 
         # Si toutes les cartes ont été retournées, le jeu est fini on retourne au menu
@@ -290,9 +302,7 @@ def memory_game():
 
         # Afficher "Perdu !" ou  "Well done !"
         print("Mémo gameover: " + gameover_text)
-        complete_text_surface = gameover_font.render(gameover_text, True, gameover_color)
-        complete_text_rect = complete_text_surface.get_rect(center=(WINDOW_WIDTH // 2, 30))
-        fenetre.blit(complete_text_surface, complete_text_rect)
+        score_barre(True, "Nombre de tentatives: " + str(memory_game_click_count), {"text": gameover_text, "color": gameover_color})
 
         # Afficher toutes les cases la couleur perdu ou gagné
         for rect_info in memory_game_case:
@@ -331,12 +341,58 @@ def gérer_curseur():
     mouse_pos = pygame.mouse.get_pos()
     fenetre.blit(cursor_image, mouse_pos)
 
+def memory_game_events(mousePosition):
+    global menu_button_rect
+    global memory_game_case
+    global memory_game_results
+    global state
+
+    # Gestion du bouton de retour au menu
+    if menu_button_rect.collidepoint(mousePosition):
+        state = MENU_STATE
+
+    # On teste chaque case du mémo
+    for rect_info in memory_game_case:
+        if rect_info['rectangle'].collidepoint(mousePosition):
+            # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
+            if not rect_info['clicked'] and rect_info not in memory_game_results:
+                rect_info['clicked'] = True
+                memory_game_case_clicked.append(rect_info) 
+
+def morpion_game_events(mousePosition):
+    global menu_button_rect
+    global state
+
+    # Gestion du bouton de retour au menu
+    if menu_button_rect.collidepoint(mousePosition):
+        state = MENU_STATE
+
+def quiz_game_events(mousePosition):
+    global menu_button_rect
+    global state
+
+    # Gestion du bouton de retour au menu
+    if menu_button_rect.collidepoint(mousePosition):
+        state = MENU_STATE
+
+def menu_events(mousePosition):
+    global memo_button_rect
+    global morpion_button_rect
+    global quiz_button_rect
+    global state
+
+    if memo_button_rect.collidepoint(mousePosition):
+        state = MEMORY_STATE
+    elif morpion_button_rect.collidepoint(mousePosition):
+        state = TIC_TAC_TOE_STATE
+    elif quiz_button_rect.collidepoint(mousePosition):
+        state = QUIZ_STATE    
+
 def gérer_events():
     # Handle events such as quitting and button clicks
     global state
 
     for event in pygame.event.get():
-
         # Quitter le jeu
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -347,33 +403,15 @@ def gérer_events():
             # écran d'accueil
             if state == START_STATE and play_button_rect.collidepoint(event.pos):
                     state = MENU_STATE
-          # écran menu
+            # écran menu
             elif state == MENU_STATE:
-                if memo_button_rect.collidepoint(event.pos):
-                    state = MEMORY_STATE
-                elif morpion_button_rect.collidepoint(event.pos):
-                    state = TIC_TAC_TOE_STATE
-                elif quiz_button_rect.collidepoint(event.pos):
-                    state = QUIZ_STATE
+                menu_events(event.pos)
             elif state == MEMORY_STATE:
-                # Gestion du bouton de retour au menu
-                if menu_button_rect.collidepoint(event.pos):
-                    state = MENU_STATE
-                # On teste chaque case du mémo
-                for rect_info in memory_game_case:
-                    if rect_info['rectangle'].collidepoint(event.pos):
-                        # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
-                        if not rect_info['clicked'] and rect_info not in memory_game_results:
-                            rect_info['clicked'] = True
-                            memory_game_case_clicked.append(rect_info)
+                memory_game_events(event.pos)
             elif state == TIC_TAC_TOE_STATE:
-                # Gestion du bouton de retour au menu
-                if menu_button_rect.collidepoint(event.pos):
-                    state = MENU_STATE
+                morpion_game_events(event.pos)
             elif state == QUIZ_STATE:
-                # Gestion du bouton de retour au menu
-                if menu_button_rect.collidepoint(event.pos):
-                    state = MENU_STATE
+                quiz_game_events(event.pos)
 
 # Main game loop
 while True:
