@@ -94,12 +94,6 @@ def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
     pygame.draw.rect(fenetre, WHITE, score_barre_rect, 0)
     score_text_font = pygame.font.Font(font_path, 12)
     gameover_font = pygame.font.Font(font_path, 48)
-    
-    if dGameOverText:
-        print(str(dGameOverText))
-        complete_text_surface = gameover_font.render(dGameOverText['text'], True, dGameOverText['color'])
-        complete_text_rect = complete_text_surface.get_rect(center=(WINDOW_WIDTH // 2, 30)) # à décaler un peu à droite
-        fenetre.blit(complete_text_surface, complete_text_rect)        
 
     life_text_surface = score_text_font.render("Vies :", True, GRAY)
     life_text_rect = life_text_surface.get_rect(topleft=(10, 10))
@@ -110,6 +104,12 @@ def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
     score_text_surface = score_text_font.render(sScoreText, True, GRAY)
     score_text_rect = score_text_surface.get_rect(topleft=(10, 30))
     fenetre.blit(score_text_surface, score_text_rect)
+
+    if dGameOverText:
+        print(str(dGameOverText))
+        complete_text_surface = gameover_font.render(dGameOverText['text'], True, dGameOverText['color'])
+        complete_text_rect = complete_text_surface.get_rect(midleft=(score_text_rect.right + 20, 30)) # à décaler un peu à droite
+        fenetre.blit(complete_text_surface, complete_text_rect)
 
     if bShowMenuButton:
         # Affiche le bouton menu
@@ -155,14 +155,6 @@ def menu_screen():
     quiz_image_text_rect = quiz_image_text_surface.get_rect(center=quiz_image.get_rect().center)
     quiz_image.blit(quiz_image_text_surface, quiz_image_text_rect)
     fenetre.blit(quiz_image, quiz_rect)
-
-    # Highlight buttons when mouse is over them
-    if memo_button_rect.collidepoint(pygame.mouse.get_pos()):
-        pygame.draw.rect(fenetre, LIGHT_BLUE, memo_button_rect, 2)
-    if morpion_button_rect.collidepoint(pygame.mouse.get_pos()):
-        pygame.draw.rect(fenetre, LIGHT_BLUE, morpion_button_rect, 2)
-    if quiz_button_rect.collidepoint(pygame.mouse.get_pos()):
-        pygame.draw.rect(fenetre, LIGHT_BLUE, quiz_button_rect, 2)
 
     # Afficher "Game Over !" quand le joeur n'a plus de vie
     if livesCount == 0:
@@ -382,10 +374,13 @@ def menu_events(mousePosition):
     global state
 
     if memo_button_rect.collidepoint(mousePosition):
-        state = MEMORY_STATE
+       pygame.draw.rect(fenetre, LIGHT_BLUE, memo_button_rect, 2)
+       state = MEMORY_STATE
     elif morpion_button_rect.collidepoint(mousePosition):
+        pygame.draw.rect(fenetre, LIGHT_BLUE, morpion_button_rect, 2)
         state = TIC_TAC_TOE_STATE
     elif quiz_button_rect.collidepoint(mousePosition):
+        pygame.draw.rect(fenetre, LIGHT_BLUE, quiz_button_rect, 2)
         state = QUIZ_STATE    
 
 def gérer_events():
