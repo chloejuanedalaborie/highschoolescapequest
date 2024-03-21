@@ -84,7 +84,9 @@ final_memory_game_click_count = 0
 def start_screen():
     # Affiche la page d'accueil du jeu
     fenetre.fill(WHITE)  # Clear the screen
-    fond = pygame.image.load("./images/menu.png").convert()
+    fond = pygame.image.load("./images/title.png").convert()
+    fond = pygame.transform.scale(fond, (WINDOW_WIDTH,WINDOW_HEIGHT))
+
     fenetre.blit(fond, (0, 0))
     fenetre.blit(play_button_image, play_button_rect)
     gérer_curseur()
@@ -364,7 +366,7 @@ def memory_game_events(mousePosition):
             # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
             if not rect_info['clicked'] and rect_info not in memory_game_results:
                 rect_info['clicked'] = True
-                memory_game_case_clicked.append(rect_info) 
+                memory_game_case_clicked.append(rect_info)
 
 def morpion_game_events(mousePosition):
     global menu_button_rect
@@ -396,7 +398,7 @@ def menu_events(mousePosition):
         state = TIC_TAC_TOE_STATE
     elif quiz_button_rect.collidepoint(mousePosition):
         pygame.draw.rect(fenetre, LIGHT_BLUE, quiz_button_rect, 2)
-        state = QUIZ_STATE    
+        state = QUIZ_STATE
 
 def gérer_events():
     # Handle events such as quitting and button clicks
