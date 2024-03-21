@@ -308,9 +308,24 @@ def memory_game():
 
         state = MENU_STATE
 
+def init_tic_tac_toe_game():
+    
+    square_top = 50
+    carré = []
+    for j in range(3):
+        square_top = square_top + 130
+        square_left = 120
+        for i in range(1,4):
+            carré.append(f'square_{j}{i}')
+            pygame.draw.rect(fenetre, (255,255,255), ((square_left,square_top), (110,110)))
+            square_left = square_left + 130
+
+    
 def tic_tac_toe_game():
     # Play the tic-tac-toe game
     fenetre.blit(tic_tac_toe_background, (0, score_barre_rect.height))
+    init_tic_tac_toe_game()
+    
 
     # Affiche la barre de score
     score_barre(True)
