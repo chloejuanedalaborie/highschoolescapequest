@@ -6,6 +6,9 @@ import random
 
 # Initialise PyGame
 pygame.init()
+pygame.mixer.init()
+pygame.mixer.music.load('musics\password-infinity-123276.mp3')
+#pygame.mixer.music.play()
 clock = pygame.time.Clock()
 
 # Dimensions de la fenêtre
