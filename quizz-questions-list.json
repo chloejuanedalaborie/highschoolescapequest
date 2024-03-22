@@ -1,0 +1,1696 @@
+[
+  {
+    "question": "Qui est le développeur de 'Minecraft' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Markus Persson",
+        "isCorrect": true
+      },
+      {
+        "answer": "Gabe Newell",
+        "isCorrect": false
+      },
+      {
+        "answer": "John Carmack",
+        "isCorrect": false
+      },
+      {
+        "answer": "Tim Sweeney",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qu'est-ce qu'une liste en compréhension en 'Python' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Une manière plus concise et lisible de créer des listes",
+        "isCorrect": true
+      },
+      {
+        "answer": "Une liste qui comprend toutes les autres listes",
+        "isCorrect": false
+      },
+      {
+        "answer": "Une liste qui peut comprendre le code python",
+        "isCorrect": false
+      },
+      {
+        "answer": "Une liste qui contient des erreurs de syntaxe",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le créateur de la bande dessinée 'Tintin' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Hergé",
+        "isCorrect": true
+      },
+      {
+        "answer": "Uderzo",
+        "isCorrect": false
+      },
+      {
+        "answer": "Goscinny",
+        "isCorrect": false
+      },
+      {
+        "answer": "Franquin",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a remporté la Coupe du Monde de la FIFA 2018 ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "La France",
+        "isCorrect": true
+      },
+      {
+        "answer": "Le Brésil",
+        "isCorrect": false
+      },
+      {
+        "answer": "L'Allemagne",
+        "isCorrect": false
+      },
+      {
+        "answer": "L'Argentine",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le créateur de la série 'Game of Thrones' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "David Benioff et D.B. Weiss",
+        "isCorrect": true
+      },
+      {
+        "answer": "George R.R. Martin",
+        "isCorrect": false
+      },
+      {
+        "answer": "J.J. Abrams",
+        "isCorrect": false
+      },
+      {
+        "answer": "Vince Gilligan",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel acteur a joué Iron Man dans l'Univers Cinématographique Marvel ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Robert Downey Jr.",
+        "isCorrect": true
+      },
+      {
+        "answer": "Chris Evans",
+        "isCorrect": false
+      },
+      {
+        "answer": "Mark Ruffalo",
+        "isCorrect": false
+      },
+      {
+        "answer": "Chris Hemsworth",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du protagoniste dans 'The Legend of Zelda' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Link",
+        "isCorrect": true
+      },
+      {
+        "answer": "Zelda",
+        "isCorrect": false
+      },
+      {
+        "answer": "Ganon",
+        "isCorrect": false
+      },
+      {
+        "answer": "Sheik",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Comment définir une fonction en 'Python' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "def",
+        "isCorrect": true
+      },
+      {
+        "answer": "function",
+        "isCorrect": false
+      },
+      {
+        "answer": "var",
+        "isCorrect": false
+      },
+      {
+        "answer": "class",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a réalisé 'Pulp Fiction' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Quentin Tarantino",
+        "isCorrect": true
+      },
+      {
+        "answer": "Martin Scorsese",
+        "isCorrect": false
+      },
+      {
+        "answer": "Christopher Nolan",
+        "isCorrect": false
+      },
+      {
+        "answer": "Alfred Hitchcock",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle est la profession de Goku dans 'Dragon Ball' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Agriculteur",
+        "isCorrect": true
+      },
+      {
+        "answer": "Cuisinier",
+        "isCorrect": false
+      },
+      {
+        "answer": "Professeur",
+        "isCorrect": false
+      },
+      {
+        "answer": "Policier",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel super-héros est également connu sous le nom de 'Clark Kent' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Superman",
+        "isCorrect": true
+      },
+      {
+        "answer": "Batman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Spider-Man",
+        "isCorrect": false
+      },
+      {
+        "answer": "Iron Man",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a remporté le plus de titres en NBA ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Boston Celtics et Los Angeles Lakers",
+        "isCorrect": true
+      },
+      {
+        "answer": "Chicago Bulls",
+        "isCorrect": false
+      },
+      {
+        "answer": "Golden State Warriors",
+        "isCorrect": false
+      },
+      {
+        "answer": "Miami Heat",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du restaurant où travaille SpongeBob ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Le Crabe Croustillant",
+        "isCorrect": true
+      },
+      {
+        "answer": "Le Homard Rouge",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le Poisson Grillé",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le Calamar Grincheux",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel chanteur est connu comme 'The King of Pop' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Michael Jackson",
+        "isCorrect": true
+      },
+      {
+        "answer": "Elvis Presley",
+        "isCorrect": false
+      },
+      {
+        "answer": "Prince",
+        "isCorrect": false
+      },
+      {
+        "answer": "Freddie Mercury",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le prénom du personnage principal dans 'Assassin's Creed II' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Ezio",
+        "isCorrect": true
+      },
+      {
+        "answer": "Altair",
+        "isCorrect": false
+      },
+      {
+        "answer": "Connor",
+        "isCorrect": false
+      },
+      {
+        "answer": "Edward",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle fonction est utilisée pour imprimer quelque chose en Python ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "print",
+        "isCorrect": true
+      },
+      {
+        "answer": "echo",
+        "isCorrect": false
+      },
+      {
+        "answer": "write",
+        "isCorrect": false
+      },
+      {
+        "answer": "display",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel film a remporté le plus d'Oscars ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Titanic, Ben-Hur et Le Seigneur des anneaux : Le Retour du roi",
+        "isCorrect": true
+      },
+      {
+        "answer": "Avatar",
+        "isCorrect": false
+      },
+      {
+        "answer": "La Forme de l'eau",
+        "isCorrect": false
+      },
+      {
+        "answer": "Parasite",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du fruit du démon que Luffy a mangé dans 'One Piece' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Le fruit du Gomu Gomu",
+        "isCorrect": true
+      },
+      {
+        "answer": "Le fruit du Mera Mera",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le fruit du Yami Yami",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le fruit du Hito Hito",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le compagnon de Batman ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Robin",
+        "isCorrect": true
+      },
+      {
+        "answer": "Alfred",
+        "isCorrect": false
+      },
+      {
+        "answer": "Superman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Catwoman",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a remporté le Tour de France 2020 ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Tadej Pogacar",
+        "isCorrect": true
+      },
+      {
+        "answer": "Primoz Roglic",
+        "isCorrect": false
+      },
+      {
+        "answer": "Chris Froome",
+        "isCorrect": false
+      },
+      {
+        "answer": "Egan Bernal",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Dans quelle ville se déroule la série 'Friends' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "New York",
+        "isCorrect": true
+      },
+      {
+        "answer": "Los Angeles",
+        "isCorrect": false
+      },
+      {
+        "answer": "Chicago",
+        "isCorrect": false
+      },
+      {
+        "answer": "San Francisco",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le vrai nom de Lady Gaga ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Stefani Joanne Angelina Germanotta",
+        "isCorrect": true
+      },
+      {
+        "answer": "Katheryn Elizabeth Hudson",
+        "isCorrect": false
+      },
+      {
+        "answer": "Robyn Rihanna Fenty",
+        "isCorrect": false
+      },
+      {
+        "answer": "Alecia Beth Moore",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Dans quel jeu vidéo populaire peut-on trouver le personnage de 'Master Chief' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Halo",
+        "isCorrect": true
+      },
+      {
+        "answer": "Call of Duty",
+        "isCorrect": false
+      },
+      {
+        "answer": "Doom",
+        "isCorrect": false
+      },
+      {
+        "answer": "Battlefield",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel opérateur est utilisé pour la division entière en Python ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "//",
+        "isCorrect": true
+      },
+      {
+        "answer": "/",
+        "isCorrect": false
+      },
+      {
+        "answer": "%",
+        "isCorrect": false
+      },
+      {
+        "answer": "div",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a joué le rôle de 'Forrest Gump' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Tom Hanks",
+        "isCorrect": true
+      },
+      {
+        "answer": "Brad Pitt",
+        "isCorrect": false
+      },
+      {
+        "answer": "Leonardo DiCaprio",
+        "isCorrect": false
+      },
+      {
+        "answer": "Johnny Depp",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du protagoniste de 'Attack on Titan' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Eren Yeager",
+        "isCorrect": true
+      },
+      {
+        "answer": "Mikasa Ackerman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Armin Arlert",
+        "isCorrect": false
+      },
+      {
+        "answer": "Levi Ackerman",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel super-héros vit à Gotham City ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Batman",
+        "isCorrect": true
+      },
+      {
+        "answer": "Spider-Man",
+        "isCorrect": false
+      },
+      {
+        "answer": "Superman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Iron Man",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a remporté la Coupe du Monde de la FIFA 2014 ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "L'Allemagne",
+        "isCorrect": true
+      },
+      {
+        "answer": "Le Brésil",
+        "isCorrect": false
+      },
+      {
+        "answer": "L'Argentine",
+        "isCorrect": false
+      },
+      {
+        "answer": "La France",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Dans quelle série trouve-t-on les personnages de Jon Snow et Daenerys Targaryen ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Game of Thrones",
+        "isCorrect": true
+      },
+      {
+        "answer": "The Walking Dead",
+        "isCorrect": false
+      },
+      {
+        "answer": "Breaking Bad",
+        "isCorrect": false
+      },
+      {
+        "answer": "Stranger Things",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est l'épouse de Barack Obama ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Michelle Obama",
+        "isCorrect": true
+      },
+      {
+        "answer": "Oprah Winfrey",
+        "isCorrect": false
+      },
+      {
+        "answer": "Beyonce Knowles",
+        "isCorrect": false
+      },
+      {
+        "answer": "Hillary Clinton",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans Super Mario ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Mario",
+        "isCorrect": true
+      },
+      {
+        "answer": "Luigi",
+        "isCorrect": false
+      },
+      {
+        "answer": "Peach",
+        "isCorrect": false
+      },
+      {
+        "answer": "Bowser",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a réalisé le film 'The Room', souvent considéré comme le pire film jamais réalisé ?",
+    "difficulty": "normal",
+    "answers": [
+      {
+        "answer": "Tommy Wiseau",
+        "isCorrect": true
+      },
+      {
+        "answer": "Ed Wood",
+        "isCorrect": false
+      },
+      {
+        "answer": "Michael Bay",
+        "isCorrect": false
+      },
+      {
+        "answer": "Uwe Boll",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle est la complexité temporelle de l'algorithme de tri à bulles ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "O(n^2)",
+        "isCorrect": true
+      },
+      {
+        "answer": "O(n log n)",
+        "isCorrect": false
+      },
+      {
+        "answer": "O(n)",
+        "isCorrect": false
+      },
+      {
+        "answer": "O(log n)",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel mangaka a créé 'Akira' ?",
+    "difficulty": "normal",
+    "answers": [
+      {
+        "answer": "Katsuhiro Otomo",
+        "isCorrect": true
+      },
+      {
+        "answer": "Akira Toriyama",
+        "isCorrect": false
+      },
+      {
+        "answer": "Osamu Tezuka",
+        "isCorrect": false
+      },
+      {
+        "answer": "Hayao Miyazaki",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle est la couleur du cheval blanc d'Henri IV ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Blanc",
+        "isCorrect": true
+      },
+      {
+        "answer": "Noir",
+        "isCorrect": false
+      },
+      {
+        "answer": "Gris",
+        "isCorrect": false
+      },
+      {
+        "answer": "Marron",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans 'Tomb Raider' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Lara Croft",
+        "isCorrect": true
+      },
+      {
+        "answer": "Samus Aran",
+        "isCorrect": false
+      },
+      {
+        "answer": "Jill Valentine",
+        "isCorrect": false
+      },
+      {
+        "answer": "Aloy",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle bibliothèque Python est couramment utilisée pour le traitement des données ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Pandas",
+        "isCorrect": true
+      },
+      {
+        "answer": "Matplotlib",
+        "isCorrect": false
+      },
+      {
+        "answer": "Seaborn",
+        "isCorrect": false
+      },
+      {
+        "answer": "NumPy",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel film de 1994 raconte l'histoire d'un prisonnier innocent et de sa vie en prison ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Les Évadés",
+        "isCorrect": true
+      },
+      {
+        "answer": "Pulp Fiction",
+        "isCorrect": false
+      },
+      {
+        "answer": "Forrest Gump",
+        "isCorrect": false
+      },
+      {
+        "answer": "Lion King",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Dans 'Naruto', quel est le nom de l'équipe composée de Naruto, Sakura et Sasuke ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Équipe 7",
+        "isCorrect": true
+      },
+      {
+        "answer": "Équipe 8",
+        "isCorrect": false
+      },
+      {
+        "answer": "Équipe 10",
+        "isCorrect": false
+      },
+      {
+        "answer": "Équipe 3",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel super-héros est connu comme l'homme d'acier ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Superman",
+        "isCorrect": true
+      },
+      {
+        "answer": "Iron Man",
+        "isCorrect": false
+      },
+      {
+        "answer": "Batman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Captain America",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le détenteur du record du monde du 100 mètres ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Usain Bolt",
+        "isCorrect": true
+      },
+      {
+        "answer": "Tyson Gay",
+        "isCorrect": false
+      },
+      {
+        "answer": "Yohan Blake",
+        "isCorrect": false
+      },
+      {
+        "answer": "Asafa Powell",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du bar dans 'How I Met Your Mother' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "MacLaren's Pub",
+        "isCorrect": true
+      },
+      {
+        "answer": "Paddy's Pub",
+        "isCorrect": false
+      },
+      {
+        "answer": "Central Perk",
+        "isCorrect": false
+      },
+      {
+        "answer": "Moe's Tavern",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel acteur a joué le rôle de 'John Wick' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Keanu Reeves",
+        "isCorrect": true
+      },
+      {
+        "answer": "Tom Cruise",
+        "isCorrect": false
+      },
+      {
+        "answer": "Brad Pitt",
+        "isCorrect": false
+      },
+      {
+        "answer": "Jason Statham",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du développeur du jeu 'The Witcher 3: Wild Hunt' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "CD Projekt",
+        "isCorrect": true
+      },
+      {
+        "answer": "Bethesda Softworks",
+        "isCorrect": false
+      },
+      {
+        "answer": "Rockstar Games",
+        "isCorrect": false
+      },
+      {
+        "answer": "Ubisoft",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Comment appelle-t-on une fonction qui s'appelle elle-même en Python ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Fonction récursive",
+        "isCorrect": true
+      },
+      {
+        "answer": "Fonction itérative",
+        "isCorrect": false
+      },
+      {
+        "answer": "Fonction lambda",
+        "isCorrect": false
+      },
+      {
+        "answer": "Fonction de rappel",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel acteur a gagné le plus d'Oscars du meilleur acteur ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Daniel Day-Lewis",
+        "isCorrect": true
+      },
+      {
+        "answer": "Tom Hanks",
+        "isCorrect": false
+      },
+      {
+        "answer": "Jack Nicholson",
+        "isCorrect": false
+      },
+      {
+        "answer": "Marlon Brando",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du mangaka qui a créé 'Berserk' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Kentaro Miura",
+        "isCorrect": true
+      },
+      {
+        "answer": "Hirohiko Araki",
+        "isCorrect": false
+      },
+      {
+        "answer": "Masashi Kishimoto",
+        "isCorrect": false
+      },
+      {
+        "answer": "Eiichiro Oda",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a créé le personnage de bande dessinée 'Corto Maltese' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Hugo Pratt",
+        "isCorrect": true
+      },
+      {
+        "answer": "Hergé",
+        "isCorrect": false
+      },
+      {
+        "answer": "Franquin",
+        "isCorrect": false
+      },
+      {
+        "answer": "Moebius",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le record du monde du saut à la perche ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "6,18 mètres",
+        "isCorrect": true
+      },
+      {
+        "answer": "6,15 mètres",
+        "isCorrect": false
+      },
+      {
+        "answer": "6,16 mètres",
+        "isCorrect": false
+      },
+      {
+        "answer": "6,14 mètres",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le créateur de la série 'The Wire' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "David Simon",
+        "isCorrect": true
+      },
+      {
+        "answer": "Vince Gilligan",
+        "isCorrect": false
+      },
+      {
+        "answer": "David Chase",
+        "isCorrect": false
+      },
+      {
+        "answer": "Matthew Weiner",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom de naissance de l'acteur connu sous le nom de 'Charlie Chaplin' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Charles Spencer Chaplin",
+        "isCorrect": true
+      },
+      {
+        "answer": "Charles Dickens Chaplin",
+        "isCorrect": false
+      },
+      {
+        "answer": "Charles Darwin Chaplin",
+        "isCorrect": false
+      },
+      {
+        "answer": "Charles David Chaplin",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du développeur du jeu 'Dark Souls' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "FromSoftware",
+        "isCorrect": true
+      },
+      {
+        "answer": "Bethesda Softworks",
+        "isCorrect": false
+      },
+      {
+        "answer": "Rockstar Games",
+        "isCorrect": false
+      },
+      {
+        "answer": "Ubisoft",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel film a remporté la Palme d'Or au Festival de Cannes en 2000 ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Dancer in the Dark",
+        "isCorrect": true
+      },
+      {
+        "answer": "Mulholland Drive",
+        "isCorrect": false
+      },
+      {
+        "answer": "Pulp Fiction",
+        "isCorrect": false
+      },
+      {
+        "answer": "Rosetta",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est l'auteur du manga 'Vagabond' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Takehiko Inoue",
+        "isCorrect": true
+      },
+      {
+        "answer": "Akira Toriyama",
+        "isCorrect": false
+      },
+      {
+        "answer": "Hajime Isayama",
+        "isCorrect": false
+      },
+      {
+        "answer": "Yoshihiro Togashi",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle bande dessinée est connue comme 'La bande dessinée la plus lue et la plus traduite dans le monde' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Les Aventures d'Astérix",
+        "isCorrect": true
+      },
+      {
+        "answer": "Tintin",
+        "isCorrect": false
+      },
+      {
+        "answer": "Batman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Spider-Man",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a remporté la Coupe du Monde de Rugby en 2007 ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "L'Afrique du Sud",
+        "isCorrect": true
+      },
+      {
+        "answer": "La Nouvelle-Zélande",
+        "isCorrect": false
+      },
+      {
+        "answer": "L'Angleterre",
+        "isCorrect": false
+      },
+      {
+        "answer": "L'Australie",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle série télévisée est basée sur les livres de 'La saga du sorceleur' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "The Witcher",
+        "isCorrect": true
+      },
+      {
+        "answer": "Game of Thrones",
+        "isCorrect": false
+      },
+      {
+        "answer": "The Expanse",
+        "isCorrect": false
+      },
+      {
+        "answer": "Outlander",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle célébrité est connue pour avoir joué dans 'Pirates des Caraïbes' et 'Edward aux mains d'argent' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Johnny Depp",
+        "isCorrect": true
+      },
+      {
+        "answer": "Orlando Bloom",
+        "isCorrect": false
+      },
+      {
+        "answer": "Keira Knightley",
+        "isCorrect": false
+      },
+      {
+        "answer": "Helena Bonham Carter",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel réalisateur a dirigé 'The Revenant' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Alejandro González Iñárritu",
+        "isCorrect": true
+      },
+      {
+        "answer": "Martin Scorsese",
+        "isCorrect": false
+      },
+      {
+        "answer": "Quentin Tarantino",
+        "isCorrect": false
+      },
+      {
+        "answer": "Christopher Nolan",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le créateur de la série 'Mad Men' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Matthew Weiner",
+        "isCorrect": true
+      },
+      {
+        "answer": "Vince Gilligan",
+        "isCorrect": false
+      },
+      {
+        "answer": "David Chase",
+        "isCorrect": false
+      },
+      {
+        "answer": "David Simon",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du dernier film de la 'Phase 3' dans l'Univers Cinématographique Marvel ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Spider-Man: Far From Home",
+        "isCorrect": true
+      },
+      {
+        "answer": "Avengers: Endgame",
+        "isCorrect": false
+      },
+      {
+        "answer": "Captain Marvel",
+        "isCorrect": false
+      },
+      {
+        "answer": "Avengers: Infinity War",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel manga a été créé par Naoko Takeuchi ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Sailor Moon",
+        "isCorrect": true
+      },
+      {
+        "answer": "Naruto",
+        "isCorrect": false
+      },
+      {
+        "answer": "One Piece",
+        "isCorrect": false
+      },
+      {
+        "answer": "Dragon Ball",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans le jeu vidéo 'The Legend of Zelda' ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Link",
+        "isCorrect": true
+      },
+      {
+        "answer": "Zelda",
+        "isCorrect": false
+      },
+      {
+        "answer": "Ganon",
+        "isCorrect": false
+      },
+      {
+        "answer": "Navi",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quelle série télévisée est basée sur les livres de George R. R. Martin ?",
+    "difficulty": "hard",
+    "answers": [
+      {
+        "answer": "Game of Thrones",
+        "isCorrect": true
+      },
+      {
+        "answer": "The Witcher",
+        "isCorrect": false
+      },
+      {
+        "answer": "Outlander",
+        "isCorrect": false
+      },
+      {
+        "answer": "The Expanse",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans 'Breaking Bad' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Walter White",
+        "isCorrect": true
+      },
+      {
+        "answer": "Jesse Pinkman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Saul Goodman",
+        "isCorrect": false
+      },
+      {
+        "answer": "Hank Schrader",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est l'auteur du roman '1984' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "George Orwell",
+        "isCorrect": true
+      },
+      {
+        "answer": "Aldous Huxley",
+        "isCorrect": false
+      },
+      {
+        "answer": "Ray Bradbury",
+        "isCorrect": false
+      },
+      {
+        "answer": "Philip K. Dick",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du vaisseau dans 'Star Trek' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "USS Enterprise",
+        "isCorrect": true
+      },
+      {
+        "answer": "USS Voyager",
+        "isCorrect": false
+      },
+      {
+        "answer": "USS Discovery",
+        "isCorrect": false
+      },
+      {
+        "answer": "USS Defiant",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans le jeu vidéo 'Super Metroid' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Samus Aran",
+        "isCorrect": true
+      },
+      {
+        "answer": "Ridley",
+        "isCorrect": false
+      },
+      {
+        "answer": "Mario",
+        "isCorrect": false
+      },
+      {
+        "answer": "Megaman",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a réalisé le film 'Inception' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Christopher Nolan",
+        "isCorrect": true
+      },
+      {
+        "answer": "David Fincher",
+        "isCorrect": false
+      },
+      {
+        "answer": "Steven Spielberg",
+        "isCorrect": false
+      },
+      {
+        "answer": "Quentin Tarantino",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui a écrit le roman 'Le Seigneur des Anneaux' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "J.R.R. Tolkien",
+        "isCorrect": true
+      },
+      {
+        "answer": "George R.R. Martin",
+        "isCorrect": false
+      },
+      {
+        "answer": "C.S. Lewis",
+        "isCorrect": false
+      },
+      {
+        "answer": "J.K. Rowling",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans le jeu vidéo 'Halo' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Master Chief",
+        "isCorrect": true
+      },
+      {
+        "answer": "Cortana",
+        "isCorrect": false
+      },
+      {
+        "answer": "Marcus Fenix",
+        "isCorrect": false
+      },
+      {
+        "answer": "Kratos",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans le manga 'Naruto' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Naruto Uzumaki",
+        "isCorrect": true
+      },
+      {
+        "answer": "Sasuke Uchiha",
+        "isCorrect": false
+      },
+      {
+        "answer": "Kakashi Hatake",
+        "isCorrect": false
+      },
+      {
+        "answer": "Itachi Uchiha",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel acteur joue le rôle de Tony Stark dans 'Iron Man' ?",
+    "difficulty": "medium",
+    "answers": [
+      {
+        "answer": "Robert Downey Jr.",
+        "isCorrect": true
+      },
+      {
+        "answer": "Chris Evans",
+        "isCorrect": false
+      },
+      {
+        "answer": "Mark Ruffalo",
+        "isCorrect": false
+      },
+      {
+        "answer": "Chris Hemsworth",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans 'Harry Potter' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Harry Potter",
+        "isCorrect": true
+      },
+      {
+        "answer": "Ron Weasley",
+        "isCorrect": false
+      },
+      {
+        "answer": "Hermione Granger",
+        "isCorrect": false
+      },
+      {
+        "answer": "Albus Dumbledore",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du personnage principal dans le jeu vidéo 'Super Mario Bros.' ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Mario",
+        "isCorrect": true
+      },
+      {
+        "answer": "Luigi",
+        "isCorrect": false
+      },
+      {
+        "answer": "Peach",
+        "isCorrect": false
+      },
+      {
+        "answer": "Bowser",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Qui est le super-héros principal dans 'The Avengers' de Marvel ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Il n'y en a pas un en particulier",
+        "isCorrect": true
+      },
+      {
+        "answer": "Iron Man",
+        "isCorrect": false
+      },
+      {
+        "answer": "Captain America",
+        "isCorrect": false
+      },
+      {
+        "answer": "Thor",
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "question": "Quel est le nom du vaisseau spatial dans 'Star Wars' piloté par Han Solo ?",
+    "difficulty": "easy",
+    "answers": [
+      {
+        "answer": "Le Faucon Millenium",
+        "isCorrect": true
+      },
+      {
+        "answer": "L'Etoile de la Mort",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le X-Wing",
+        "isCorrect": false
+      },
+      {
+        "answer": "Le Tie Fighter",
+        "isCorrect": false
+      }
+    ]
+  }
+]

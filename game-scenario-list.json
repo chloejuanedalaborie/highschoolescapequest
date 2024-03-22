@@ -1,0 +1,44 @@
+[
+  {
+    "scenario": "Fire Alarm",
+    "introduction": "Le calme de votre journée scolaire est brusquement interrompu par une alarme incendie tonitruante. Les portes coupe-feu se sont verrouillées automatiquement. C'est la panique totale. Votre seule chance de survie ? Résoudre une série de défis pour récupérer les clés qui ouvriront ces portes. Chaque clé vous rapproche de la liberté. Chaque échec, du danger. Vous et vos camarades de classe devez travailler ensemble pour échapper à ce cauchemar. Votre mission : quitter l'établissement sans encombre. Bonne chance !",
+    "conclusionWin": "Félicitations ! Vous avez réussi à déjouer les pièges et à sortir du lycée en un seul morceau. Mais attendez...L'alarme incendie n'était qu'un canular ?! Tous ceux qui ont quitté l'établissement sans autorisation seront collés la semaine prochaine. Vous avez survécu à un faux incendie, mais réussirez-vous à survivre à une semaine de colle ?",
+    "conclusionLose": "Malheureusement, vous n'avez pas réussi à surmonter les défis à temps. Les portes restent fermées, et l'alarme continue de sonner. Alors que vous vous préparez à affronter le pire, l'alarme s'arrête... C'était un canular. Mais pour avoir créé la panique, vous et vos camarades qui n'ont pas réussi à sortir serez collés la semaine prochaine. Peut-être qu'une semaine de colle vous donnera le temps de réfléchir à vos stratégies d'évasion."
+  },
+  {
+    "scenario": "Alien Invasion",
+    "introduction": "Des extraterrestres ont envahi le lycée et verrouillé toutes les portes. Pour échapper à une abduction certaine, vous devez résoudre une série de défis. Les extraterrestres ont-ils sous-estimé l'intelligence humaine ? C'est à vous de le prouver !",
+    "conclusionWin": "Bravo ! Vous avez déjoué les extraterrestres et vous êtes échappé du lycée. En sortant, vous réalisez que l'invasion était juste une mise en scène pour le tournage d'un film. Vous voilà la nouvelle star du lycée !",
+    "conclusionLose": "Oh non ! Les défis étaient trop difficiles et vous n'avez pas réussi à échapper aux extraterrestres. Heureusement, c'était juste une mise en scène pour le tournage d'un film. Vous n'êtes pas une star, mais au moins, vous n'êtes pas un cobaye extraterrestre."
+  },
+  {
+    "scenario": "Zombie Apocalypse",
+    "introduction": "Une épidémie zombie a éclaté dans le lycée. Les portes sont verrouillées et les zombies sont à vos trousses. Votre survie dépend de votre capacité à résoudre une série de défis. Vous ne voulez pas finir en casse-croûte pour zombie, n'est-ce pas ?",
+    "conclusionWin": "Félicitations, vous avez survécu à l'apocalypse zombie ! En sortant, vous découvrez que c'était juste une blague organisée par les seniors pour la journée d'Halloween. Vous avez survécu aux zombies, et vous avez une histoire incroyable à raconter !",
+    "conclusionLose": "Les zombies ont eu raison de vous...ou pas. Il s'avère que c'était juste une blague organisée par les seniors pour la journée d'Halloween. Vous avez peut-être perdu, mais au moins, vous n'avez pas été mordu par un zombie."
+  },
+  {
+    "scenario": "The Principal's Puzzle",
+    "introduction": "Le principal du lycée, connu pour son amour des énigmes, a verrouillé toutes les portes du lycée. Pour sortir, vous devez résoudre une série de défis qu'il a concoctés. Êtes-vous prêt à résoudre le puzzle du principal ?",
+    "conclusionWin": "Bien joué! Vous avez résolu le puzzle du principal et gagné votre liberté. En sortant, vous découvrez que c'était juste un test pour le club de puzzle du lycée. Vous êtes maintenant membre honoraire du club!",
+    "conclusionLose": "Dommage! Vous n'avez pas réussi à résoudre le puzzle du principal. Cependant, il est tellement impressionné par vos efforts qu'il vous offre un second essai. Qui sait, vous pourriez être le prochain champion du club de puzzle!"
+  },
+  {
+    "scenario": "Time Travel Trouble",
+    "introduction": "Un voyage dans le temps a mal tourné et vous êtes coincé dans le lycée du passé. Pour retourner à votre époque, vous devez résoudre une série de défis. Êtes-vous prêt à affronter le passé pour sauver votre futur ?",
+    "conclusionWin": "Félicitations! Vous avez résolu tous les défis et êtes revenu à votre époque. En sortant, vous réalisez que ce n'était qu'une expérience de réalité virtuelle pour le club de science. Vous êtes maintenant la coqueluche du club!",
+    "conclusionLose": "Vous n'avez pas réussi à résoudre tous les défis et êtes coincé dans le passé. Heureusement, c'était juste une expérience de réalité virtuelle du club de science. Vous n'avez peut-être pas gagné, mais au moins vous avez eu une aventure incroyable."
+  },
+  {
+    "scenario": "The Binary Code Adventure",
+    "introduction": "Votre professeur d'informatique, un fan de science-fiction, prétend être un cyborg venu du futur. Il a verrouillé les portes du lycée et la seule façon de sortir est de résoudre une série de défis codés en binaire qu'il a préparés. Est-ce que vous êtes prêt pour l'aventure en code binaire ?",
+    "conclusionWin": "Félicitations! Vous avez décodé tous les défis et gagné votre liberté. En sortant, votre professeur vous salue avec un clin d'œil et un sourire. Il vous annonce que vous êtes officiellement invité à rejoindre le club de codage secret du lycée, connu seulement sous le nom de 'Les Cyborgs'.",
+    "conclusionLose": "Dommage, vous n'avez pas réussi à déchiffrer tous les défis. Cependant, votre professeur est tellement impressionné par vos efforts qu'il vous offre une seconde chance et vous invite à rejoindre le club de codage secret du lycée, 'Les Cyborgs', pour améliorer vos compétences."
+  },
+  {
+    "scenario": "The Mock Baccalaureate Conundrum",
+    "introduction": "Le lycée est en émoi à l'approche de l'examen blanc du baccalauréat. Mais voilà, votre proviseur a décidé de corser un peu les choses. Il a verrouillé les portes du lycée et la seule façon de sortir est de résoudre une série de défis basés sur le programme du baccalauréat. Pouvez-vous relever le défi et vous échapper à temps pour réviser ?",
+    "conclusionWin": "Félicitations! Vous avez réussi à résoudre tous les défis et à déverrouiller les portes. Votre proviseur, impressionné par votre performance, vous annonce que vous êtes exempté de l'examen blanc du baccalauréat et que vous êtes déjà qualifié pour passer l'examen réel.",
+    "conclusionLose": "Malheureusement, les défis étaient trop difficiles et vous n'avez pas réussi à déverrouiller les portes. Cependant, votre proviseur est tellement impressionné par votre persévérance qu'il décide de vous donner des cours particuliers pour vous aider à préparer l'examen blanc du baccalauréat."
+  }
+]
