@@ -64,9 +64,9 @@ play_button_image = pygame.transform.scale(play_button_image, (100,100))
 play_button_pos = (250, 450)
 play_button_rect = play_button_image.get_rect(topleft=play_button_pos)
 
-memo_button_rect = pygame.Rect(0, 50, 193, 256)
-morpion_button_rect = pygame.Rect(0, 311, 193, 289)
-quiz_button_rect = pygame.Rect(365, 250, 235, 350)
+memo_button_rect = pygame.Rect(0, 50, 195, 256)
+morpion_button_rect = pygame.Rect(0, 311, 195, 289)
+quiz_button_rect = pygame.Rect(363, 249, 237, 350)
 
 menu_button_size = 50
 menu_button_margin = 10
@@ -85,6 +85,13 @@ memory_game_results = []
 memory_game_click_count = 0
 
 final_memory_game_click_count = 0
+
+tictactoe_game_case = []
+tictactoe_game_case_clicked = []
+tictactoe_game_result = []
+tictactoe_game_click_count = 0
+
+final_tictactoe_game_click_count = 0
 
 def start_screen():
     # Affiche la page d'accueil du jeu
@@ -318,29 +325,72 @@ def memory_game():
         state = MENU_STATE
 
 def init_tic_tac_toe_game():
+    global tictactoe_game_case
+    global tictactoe_game_results
+    global tictactoe_game_click_count
+    global livesCount
     
-    square_top = 50
-    carré = []
-    for j in range(3):
-        square_top = square_top + 130
-        square_left = 120
-        for i in range(1,4):
-            carré.append(f'square_{j}{i}')
-            pygame.draw.rect(fenetre, (255,255,255), ((square_left,square_top), (110,110)))
-            square_left = square_left + 130
+    # Initilise le morpion s'il ne l'est pas déjà
+    if not tictactoe_game_case and livesCount > 0:
+        tictactoe_game_click_count = 0
+        
+        # Dimensions des cases du morpion
+        SQUARE_WIDTH = 105
+        SQUARE_HEIGHT = 105
+        GAP = 30  # Espace entre les rectangles
+
+        # Calcul total de l'espace horizontal et vertical
+        total_width = 3 * (SQUARE_WIDTH + GAP) - GAP
+        total_height = 3 * (SQUARE_HEIGHT + GAP) - GAP
+
+        # Position du coin supérieur gauche de la zone des rectangle
+        start_x = ((tic_tac_toe_background.get_width() - total_width) // 2) - (SQUARE_WIDTH // 4)
+        start_y = ((tic_tac_toe_background.get_height() - total_height) // 2) + (SQUARE_HEIGHT // 4)
+        # Création des cases du mémo
+        square_positions  = []
+        for ligne in range(3):
+            for colonne in range(3):
+                square_positions.append((start_x + (SQUARE_WIDTH + GAP) * colonne + GAP,
+                                       start_y + (SQUARE_HEIGHT + GAP) * ligne + GAP))
+                
+         # Combine (zip) les index d'images et les cases du jeu
+        tictactoe_game_case = [{'square': pygame.Rect(position[0], position[1], SQUARE_WIDTH, SQUARE_HEIGHT),
+                              'clicked': False}
+                            for position in square_positions]
+        tictactoe_game_results = []
+        
+    for square_info in tictactoe_game_case:
+        # On affiche une case blanche si la case n'est pas déjà cliquées ou validées
+        if square_info not in tictactoe_game_results and square_info not in tictactoe_game_case_clicked:
+            square_surf = pygame.Surface(square_info['square'].size)
+            square_surf.fill(pygame.Color('white'))
+            fenetre.blit(square_surf, square_info['square'])    
 
     
 def tic_tac_toe_game():
+    global tictactoe_game_case_clicked
+    global tictactoe_game_click_count
+    global tictactoe_game_case
+    global state
+    global livesCount
+    global final_tictactoe_game_click_count
+    
     # Play the tic-tac-toe game
     fenetre.blit(tic_tac_toe_background, (0, score_barre_rect.height))
     init_tic_tac_toe_game()
     
-
     # Affiche la barre de score
     score_barre(True)
 
     # Implement tic-tac-toe game logic here
     gérer_curseur()
+
+    
+        
+        
+        
+
+        
 
 def quiz_game():
     # Play the quiz game
