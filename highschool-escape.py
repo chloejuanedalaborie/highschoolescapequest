@@ -7,8 +7,8 @@ import random
 # Initialise PyGame
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load('musics\password-infinity-123276.mp3')
-#pygame.mixer.music.play()
+pygame.mixer.music.load('./musics/password-infinity-123276.mp3')
+pygame.mixer.music.play()
 clock = pygame.time.Clock()
 
 # Dimensions de la fenêtre
@@ -40,8 +40,10 @@ state = START_STATE
 
 # Nombre de vies du joueur au début la partie
 LIVES = 3
-life_image = pygame.image.load("./images/life.png").convert_alpha()
-live_image = pygame.transform.scale(life_image, (15,15))
+life_full_image = pygame.image.load("./images/Icon_Large_HeartFull.png").convert_alpha()
+life_full_image = pygame.transform.scale(life_full_image, (15,15))
+life_empty_image = pygame.image.load("./images/Icon_Large_HeartEmpty.png").convert_alpha()
+life_empty_image = pygame.transform.scale(life_empty_image, (15,15))
 livesCount=LIVES
 
 # Barre de score
@@ -103,8 +105,10 @@ def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
     life_text_surface = score_text_font.render("Vies :", True, GRAY)
     life_text_rect = life_text_surface.get_rect(topleft=(10, 10))
     fenetre.blit(life_text_surface, life_text_rect)
-    for life in range(livesCount):
-        fenetre.blit(live_image, (life_text_rect.width + (20 * life) + live_image.get_width() , 10))
+    for life_full in range(livesCount):
+        fenetre.blit(life_full_image, (life_text_rect.width + 20 + (life_full * life_full_image.get_width()), 10))
+    for life_empty in range(LIVES - livesCount):
+        fenetre.blit(life_empty_image, (life_text_rect.width + 20 + (livesCount * (life_full_image.get_width())) + (life_empty * life_empty_image.get_width()), 10))
 
     score_text_surface = score_text_font.render(sScoreText, True, GRAY)
     score_text_rect = score_text_surface.get_rect(topleft=(10, 30))
