@@ -65,7 +65,7 @@ play_button_pos = (250, 450)
 play_button_rect = play_button_image.get_rect(topleft=play_button_pos)
 
 memo_button_rect = pygame.Rect(0, 50, 195, 256)
-morpion_button_rect = pygame.Rect(0, 311, 195, 289)
+tictactoe_button_rect = pygame.Rect(0, 311, 195, 289)
 quiz_button_rect = pygame.Rect(363, 249, 237, 350)
 
 menu_button_size = 50
@@ -101,7 +101,6 @@ def start_screen():
 
     fenetre.blit(fond, (0, 0))
     fenetre.blit(play_button_image, play_button_rect)
-    gérer_curseur()
 
 def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
     # Affiche la barre de score
@@ -156,13 +155,13 @@ def menu_screen():
         score_text_rect = score_text_surface.get_rect(center=(memo_button_rect.centerx, memo_button_rect.bottom - 50))
         fenetre.blit(score_text_surface, score_text_rect)
 
-    morpion_image_text_font = pygame.font.Font(font_path, 24)
-    morpion_image_text_surface = morpion_image_text_font.render("Morpion", True, pygame.Color('black'))
-    morpion_rect = pygame.draw.rect(fenetre, WHITE, morpion_button_rect, 2)
-    morpion_image = pygame.transform.scale(tic_tac_toe_background, morpion_rect.size)
-    morpion_image_text_rect = morpion_image_text_surface.get_rect(center=morpion_image.get_rect().center)
-    morpion_image.blit(morpion_image_text_surface, morpion_image_text_rect)
-    fenetre.blit(morpion_image, morpion_rect)
+    tictactoe_image_text_font = pygame.font.Font(font_path, 24)
+    tictactoe_image_text_surface = tictactoe_image_text_font.render("Morpion", True, pygame.Color('black'))
+    tictactoe_rect = pygame.draw.rect(fenetre, WHITE, tictactoe_button_rect, 2)
+    tictactoe_image = pygame.transform.scale(tic_tac_toe_background, tictactoe_rect.size)
+    tictactoe_image_text_rect = tictactoe_image_text_surface.get_rect(center=tictactoe_image.get_rect().center)
+    tictactoe_image.blit(tictactoe_image_text_surface, tictactoe_image_text_rect)
+    fenetre.blit(tictactoe_image, tictactoe_rect)
 
     quiz_image_text_font = pygame.font.Font(font_path, 24)
     quiz_image_text_surface = quiz_image_text_font.render("Quiz", True, pygame.Color('black'))
@@ -177,8 +176,6 @@ def menu_screen():
         complete_text_surface = gameover_font.render("Game Over !", True, pygame.Color('red'))
         complete_text_rect = complete_text_surface.get_rect(center=(WINDOW_WIDTH // 2, 30))
         fenetre.blit(complete_text_surface, complete_text_rect)
-
-    gérer_curseur()
 
 # Function to draw the menu button
 def menu_button():
@@ -256,7 +253,7 @@ def memory_game():
     global livesCount
     global final_memory_game_click_count
 
-    MAX_TENTATIVES=10
+    MAX_TENTATIVES=2
 
     # Affiche le background du jeu mémo
     fenetre.blit(memory_background, (0, score_barre_rect.height))
@@ -267,8 +264,6 @@ def memory_game():
     init_memory_game()
 
     refresh_memory_game_cards_display()
-
-    gérer_curseur()
 
     # On teste si une paire de carte a été retournée
     if len(memory_game_case_clicked) == 2:
@@ -326,15 +321,13 @@ def memory_game():
 
 def init_tic_tac_toe_game():
     global tictactoe_game_case
-    global tictactoe_game_results
-    global tictactoe_game_click_count
     global livesCount
-    
-    # Initilise le morpion s'il ne l'est pas déjà
-    if not tictactoe_game_case and livesCount > 0:
-        tictactoe_game_click_count = 0
+    global tictactoe_game_player_turn  
         
-        # Dimensions des cases du morpion
+    # Initilise le tictactoe s'il ne l'est pas déjà
+    if not tictactoe_game_case and livesCount > 0:
+            
+        # Dimensions des cases du tictactoe
         SQUARE_WIDTH = 105
         SQUARE_HEIGHT = 105
         GAP = 30  # Espace entre les rectangles
@@ -346,51 +339,50 @@ def init_tic_tac_toe_game():
         # Position du coin supérieur gauche de la zone des rectangle
         start_x = ((tic_tac_toe_background.get_width() - total_width) // 2) - (SQUARE_WIDTH // 4)
         start_y = ((tic_tac_toe_background.get_height() - total_height) // 2) + (SQUARE_HEIGHT // 4)
-        # Création des cases du mémo
-        square_positions  = []
+
+        # Création des cases du morpion
+        tictactoe_game_case = []
         for ligne in range(3):
             for colonne in range(3):
-                square_positions.append((start_x + (SQUARE_WIDTH + GAP) * colonne + GAP,
-                                       start_y + (SQUARE_HEIGHT + GAP) * ligne + GAP))
+                rect = pygame.Rect(start_x + (SQUARE_WIDTH + GAP) * colonne + GAP,
+                                   start_y + (SQUARE_HEIGHT + GAP) * ligne + GAP, 
+                                   SQUARE_WIDTH, 
+                                   SQUARE_HEIGHT)
+                tictactoe_game_case.append({'square': rect,'clicked': None})
                 
-         # Combine (zip) les index d'images et les cases du jeu
-        tictactoe_game_case = [{'square': pygame.Rect(position[0], position[1], SQUARE_WIDTH, SQUARE_HEIGHT),
-                              'clicked': False}
-                            for position in square_positions]
-        tictactoe_game_results = []
-        
-    for square_info in tictactoe_game_case:
-        # On affiche une case blanche si la case n'est pas déjà cliquées ou validées
-        if square_info not in tictactoe_game_results and square_info not in tictactoe_game_case_clicked:
-            square_surf = pygame.Surface(square_info['square'].size)
-            square_surf.fill(pygame.Color('white'))
-            fenetre.blit(square_surf, square_info['square'])    
-
+        # Choisi aléatoirement qui commence la partie
+        tictactoe_game_player_turn = random.choice([True,False])
     
 def tic_tac_toe_game():
-    global tictactoe_game_case_clicked
-    global tictactoe_game_click_count
     global tictactoe_game_case
+    global tictactoe_game_player_turn
     global state
     global livesCount
-    global final_tictactoe_game_click_count
-    
+
+    init_tic_tac_toe_game()
+
     # Play the tic-tac-toe game
     fenetre.blit(tic_tac_toe_background, (0, score_barre_rect.height))
-    init_tic_tac_toe_game()
-    
+
+    if not tictactoe_game_player_turn:
+        empty_square_case = random.choice([position for position in tictactoe_game_case if not position['clicked']])
+        empty_square_case['clicked'] = 'computer'
+        tictactoe_game_player_turn = True
+                
+    for square_info in tictactoe_game_case:
+        square_surf = pygame.Surface(square_info['square'].size)
+        # On affiche une case blanche si la case n'est pas déjà cliquées ou validées
+        if not square_info['clicked']:
+            square_surf.fill(pygame.Color('white'))
+        elif 'player' in square_info['clicked']:
+            square_surf.fill(pygame.Color('green'))
+            #pygame.time.delay(2000)
+        elif 'computer' in square_info['clicked']:
+            square_surf.fill(pygame.Color('red'))
+        fenetre.blit(square_surf, square_info['square'])        
+
     # Affiche la barre de score
-    score_barre(True)
-
-    # Implement tic-tac-toe game logic here
-    gérer_curseur()
-
-    
-        
-        
-        
-
-        
+    score_barre(True)   
 
 def quiz_game():
     # Play the quiz game
@@ -398,9 +390,6 @@ def quiz_game():
 
     # Affiche la barre de score
     score_barre(True)
-
-    # Implement quiz game logic here
-    gérer_curseur()
 
 def gérer_curseur():
     # Display the cursor
@@ -425,13 +414,23 @@ def memory_game_events(mousePosition):
                 rect_info['clicked'] = True
                 memory_game_case_clicked.append(rect_info)
 
-def morpion_game_events(mousePosition):
+def tictactoe_game_events(mousePosition):
     global menu_button_rect
+    global tictactoe_game_case
+    global tictactoe_game_player_turn
     global state
 
     # Gestion du bouton de retour au menu
     if menu_button_rect.collidepoint(mousePosition):
         state = MENU_STATE
+        
+    # On teste chaque case du tictactoe
+    for square_info in tictactoe_game_case:
+        if square_info['square'].collidepoint(mousePosition):
+            # Si ce n'est pas une case déjà cliquées
+            if not square_info['clicked']:
+                square_info['clicked'] = 'player'
+                tictactoe_game_player_turn = False
 
 def quiz_game_events(mousePosition):
     global menu_button_rect
@@ -443,15 +442,15 @@ def quiz_game_events(mousePosition):
 
 def menu_events(mousePosition):
     global memo_button_rect
-    global morpion_button_rect
+    global tictactoe_button_rect
     global quiz_button_rect
     global state
 
     if memo_button_rect.collidepoint(mousePosition):
        pygame.draw.rect(fenetre, LIGHT_BLUE, memo_button_rect, 2)
        state = MEMORY_STATE
-    elif morpion_button_rect.collidepoint(mousePosition):
-        pygame.draw.rect(fenetre, LIGHT_BLUE, morpion_button_rect, 2)
+    elif tictactoe_button_rect.collidepoint(mousePosition):
+        pygame.draw.rect(fenetre, LIGHT_BLUE, tictactoe_button_rect, 2)
         state = TIC_TAC_TOE_STATE
     elif quiz_button_rect.collidepoint(mousePosition):
         pygame.draw.rect(fenetre, LIGHT_BLUE, quiz_button_rect, 2)
@@ -478,7 +477,7 @@ def gérer_events():
             elif state == MEMORY_STATE:
                 memory_game_events(event.pos)
             elif state == TIC_TAC_TOE_STATE:
-                morpion_game_events(event.pos)
+                tictactoe_game_events(event.pos)
             elif state == QUIZ_STATE:
                 quiz_game_events(event.pos)
 
@@ -497,5 +496,7 @@ while True:
     elif state == QUIZ_STATE:
         quiz_game()
 
+    gérer_curseur()
+      
     pygame.display.update()
     clock.tick(60)
