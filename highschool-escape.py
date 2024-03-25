@@ -73,7 +73,6 @@ if __name__ == "__main__":
     fenetre = pygame.display.set_mode((variables.WINDOW_WIDTH, variables.WINDOW_HEIGHT))
     pygame.display.set_caption("High School Escape Quest")
 
-
     # Main game loop
     while True:
         gestion_events()

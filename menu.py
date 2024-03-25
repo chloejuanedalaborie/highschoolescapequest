@@ -49,12 +49,15 @@ def events(mousePosition):
 
     fenetre_surface = pygame.display.get_surface()
     if MEMO_BUTTON_RECT.collidepoint(mousePosition):
+       print('MENU: le joueur a cliqué sur le jeu "mémo"')
        pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), MEMO_BUTTON_RECT, 2)
        variables.state = variables.MEMORY_STATE
     elif TICTACTOE_BUTTON_RECT.collidepoint(mousePosition):
+        print('MENU: le joueur a cliqué sur le jeu "morpion"')
         pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), TICTACTOE_BUTTON_RECT, 2)
         variables.state = variables.TIC_TAC_TOE_STATE
     elif QUIZ_BUTTON_RECT.collidepoint(mousePosition):
+        print('MENU: le joueur a cliqué sur le jeu "quiz"')
         pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), QUIZ_BUTTON_RECT, 2)
         variables.state = variables.QUIZ_STATE
 
