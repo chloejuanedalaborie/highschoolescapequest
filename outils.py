@@ -69,11 +69,11 @@ def score_barre(bShowMenuButton=False, sScoreText="", dGameOverText={}):
         score_text_rect = score_text_surface.get_rect(topleft=(10, 30))
         fenetre_surface.blit(score_text_surface, score_text_rect)
 
-    # Affichage du texte de fin de partie
-    if dGameOverText:
-        gameover_text_surface = gameover_font.render(dGameOverText['text'], True, dGameOverText['color'])
-        gameover_text_rect = gameover_text_surface.get_rect(midleft=(score_text_rect.right + 20, 30)) # à décaler un peu à droite
-        fenetre_surface.blit(gameover_text_surface, gameover_text_rect)
+        # Affichage du texte de fin de partie
+        if dGameOverText:
+            gameover_text_surface = gameover_font.render(dGameOverText['text'], True, dGameOverText['color'])
+            gameover_text_rect = gameover_text_surface.get_rect(midleft=(score_text_rect.right + 20, 30)) # à décaler un peu à droite
+            fenetre_surface.blit(gameover_text_surface, gameover_text_rect)
 
     if bShowMenuButton:
         # Affiche le bouton menu

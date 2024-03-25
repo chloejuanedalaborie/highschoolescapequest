@@ -20,7 +20,7 @@ def initialisation():
 
     # Initilise le mémo s'il ne l'est pas déjà
     if not memory_game_case and variables.livesCount > 0:
-        print("initialisation du mémo")
+        print("Mémo: initialisation")
         memory_game_click_count = 0
         delayDisplayUpdate = 0
 
@@ -116,14 +116,14 @@ def screen():
 
             # Si toutes les cartes ont été retournées, le jeu est fini on retourne au menu
             if len(memory_game_results) == len(memory_game_case):
-                print(f'gagné aprés {memory_game_click_count} tentatives')
+                print(f'Mémo: gagné aprés {memory_game_click_count} tentatives')
                 outils.score_barre(True,
                                    f"Nombre de tentatives: {memory_game_click_count}",
                                    {"text": "Well done !", "color": pygame.Color('green')})       
 
             # Au delà de 10 tentatives on perd une vie
             elif memory_game_click_count >= MAX_TENTATIVES:
-                print(f'perdu aprés {memory_game_click_count} tentatives')
+                print(f'Mémo: perdu aprés {memory_game_click_count} tentatives')
                 outils.score_barre(True,
                                    f"Nombre de tentatives: {memory_game_click_count}",
                                    {"text": "Perdu !", "color": pygame.Color('red')})
@@ -167,13 +167,13 @@ def events(mousePosition):
                         # Si la paire est incorrecte, on doit à nouveau cacher les cartes
                         if memory_game_case_clicked[0]['image_index'] != memory_game_case_clicked[1]['image_index']:
                             # On initialise un delai pour laisser au joueur le temps de voir la carte
-                            print(f'tentative #{memory_game_click_count}: paire KO')
+                            print(f'Mémo: tentative #{memory_game_click_count}: paire KO')
                             delayDisplayUpdate = pygame.time.get_ticks() + 1000 
                             for rect_info in memory_game_case_clicked:
                                 rect_info['clicked'] = False
                         else:
                             # On ajoute la paire aux cartes validées
-                            print(f'tentative #{memory_game_click_count}: paire OK')
+                            print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
                             memory_game_results.extend(memory_game_case_clicked)
                             # On réinitialise la liste des cartes cliquéés
                             memory_game_case_clicked.clear()
