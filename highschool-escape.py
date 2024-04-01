@@ -171,12 +171,10 @@ def initialize_memory_game():
                                     start_y + (RECT_HEIGHT + GAP) * ligne + GAP))
 
     # Mélanges les paires d'images
-    index_images_disponibles = random.sample(list(range(6)) * 2, k=len(rect_positions))
+    index_images_disponibles = random.sample(list(range(1,7)) * 2, k=len(rect_positions))
 
     # Combine (zip) les index d'images et les cases du jeu
-    return [{'rectangle': pygame.Rect(position[0], position[1], RECT_WIDTH, RECT_HEIGHT),
-             'image_index': image_index,
-             'clicked': False}
+    return [{'rectangle': pygame.Rect(position[0], position[1], RECT_WIDTH, RECT_HEIGHT), 'image_index': image_index}
             for position, image_index in zip(rect_positions, index_images_disponibles)]
 
 def display_memory_game(cases, cases_selected, cases_found, memory_game_click_count):
@@ -192,7 +190,7 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
 
     # On itére sur l'ensemble des cases
     for rect_info in cases:
-        index = rect_info['image_index'] + 1
+        index = rect_info['image_index']
         rect_surf = pygame.image.load(f'./images/mémo/card_{index}.jpeg').convert()
         rect_surf = pygame.transform.scale(rect_surf, (105, 125))        
       
@@ -229,9 +227,9 @@ def initialize_tictactoe_game():
     for ligne in range(3):
         for colonne in range(3):
             rect = pygame.Rect(start_x + (SQUARE_WIDTH + GAP) * colonne + GAP,
-                                start_y + (SQUARE_HEIGHT + GAP) * ligne + GAP, 
-                                SQUARE_WIDTH, 
-                                SQUARE_HEIGHT)
+                               start_y + (SQUARE_HEIGHT + GAP) * ligne + GAP, 
+                               SQUARE_WIDTH, 
+                               SQUARE_HEIGHT)
             tictactoe_game_case.append({'square': rect,'clicked': None})
 
     return tictactoe_game_case
@@ -313,7 +311,7 @@ clock = pygame.time.Clock()
 pygame.mixer.init()
 
 pygame.mixer.music.load('./musics/password-infinity-123276.mp3')
-pygame.mixer.music.play()
+#pygame.mixer.music.play()
 
 # Création de la fenêtre
 fenetre = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -340,7 +338,7 @@ memory_game_cases_found = []
 memory_game_click_count = 0
 
 
-with open('quiz-questions-list.json') as f:
+with open('./quiz-questions-list.json') as f:
     quiz_questions = json.load(f)
 
 medium_questions = [question for question in quiz_questions if question['difficulty'] == 'medium']
@@ -399,8 +397,7 @@ while True:
                         for rect_info in memory_game_cases:
                             if rect_info['rectangle'].collidepoint(event.pos):
                                 # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
-                                if not rect_info['clicked'] and rect_info not in memory_game_cases_found and len(memory_game_cases_selected) < 2:
-                                    rect_info['clicked'] = True
+                                if rect_info not in memory_game_cases_found and len(memory_game_cases_selected) < 2:
                                     memory_game_cases_selected.append(rect_info)
 
                                     # On teste si une paire de carte a été retournée
@@ -413,8 +410,6 @@ while True:
                                             # On initialise un delai pour laisser au joueur le temps de voir la carte
                                             print(f'Mémo: tentative #{memory_game_click_count}: paire KO')
                                             playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
-                                            for rect_info in memory_game_cases_selected:
-                                                rect_info['clicked'] = False
                                         else:
                                             # On ajoute la paire aux cartes validées
                                             print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
