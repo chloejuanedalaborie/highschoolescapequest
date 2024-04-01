@@ -682,28 +682,6 @@
     ]
   },
   {
-    "question": "Qui a réalisé le film 'The Room', souvent considéré comme le pire film jamais réalisé ?",
-    "difficulty": "normal",
-    "answers": [
-      {
-        "answer": "Tommy Wiseau",
-        "isCorrect": true
-      },
-      {
-        "answer": "Ed Wood",
-        "isCorrect": false
-      },
-      {
-        "answer": "Michael Bay",
-        "isCorrect": false
-      },
-      {
-        "answer": "Uwe Boll",
-        "isCorrect": false
-      }
-    ]
-  },
-  {
     "question": "Quelle est la complexité temporelle de l'algorithme de tri à bulles ?",
     "difficulty": "hard",
     "answers": [
@@ -721,28 +699,6 @@
       },
       {
         "answer": "O(log n)",
-        "isCorrect": false
-      }
-    ]
-  },
-  {
-    "question": "Quel mangaka a créé 'Akira' ?",
-    "difficulty": "normal",
-    "answers": [
-      {
-        "answer": "Katsuhiro Otomo",
-        "isCorrect": true
-      },
-      {
-        "answer": "Akira Toriyama",
-        "isCorrect": false
-      },
-      {
-        "answer": "Osamu Tezuka",
-        "isCorrect": false
-      },
-      {
-        "answer": "Hayao Miyazaki",
         "isCorrect": false
       }
     ]

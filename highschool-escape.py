@@ -3,6 +3,7 @@
 import pygame
 import sys
 import random
+import json
 
 # Variables pour maintenir l'état de la navigation dans le jeu
 START_STATE = 'start'
@@ -337,6 +338,20 @@ memory_game_cases = []
 memory_game_cases_selected = []
 memory_game_cases_found = []
 memory_game_click_count = 0
+
+
+with open('quiz-questions-list.json') as f:
+    quiz_questions = json.load(f)
+
+medium_questions = [question for question in quiz_questions if question['difficulty'] == 'medium']
+medium_questions = random.sample(medium_questions, k=len(medium_questions))
+
+
+for item in medium_questions:
+    print(item['question'])
+    bonne_reponse = [answer for answer in item['answers'] if answer['isCorrect']]
+    print(str(bonne_reponse[0]))
+
 
 # Main game loop
 while True:
