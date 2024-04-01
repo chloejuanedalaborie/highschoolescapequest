@@ -178,7 +178,7 @@ def initialize_memory_game():
              'clicked': False}
             for position, image_index in zip(rect_positions, index_images_disponibles)]
 
-def display_memory_game(cases, cases_selected, cases_found):
+def display_memory_game(cases, cases_selected, cases_found, memory_game_click_count):
     # Play the memory game
     fenetre_surface = pygame.display.get_surface()
     
@@ -195,12 +195,12 @@ def display_memory_game(cases, cases_selected, cases_found):
         rect_surf = pygame.image.load(f'./images/mémo/card_{index}.jpeg').convert()
         rect_surf = pygame.transform.scale(rect_surf, (105, 125))        
       
-        # Si le joueur a perdu, on met toutes les cases en rouge
-        if memory_game_click_count > MEMORY_GAME_MAX_TENTATIVES:
-            rect_surf.fill(pygame.Color('red'))
         # Si le joueur a gagné, on met toutes les cases en vert
-        elif len(cases_found) == len(cases):
+        if len(cases_found) == len(cases):
             rect_surf.fill(pygame.Color('green'))
+        # Si le joueur a perdu, on met toutes les cases en rouge
+        elif memory_game_click_count >= MEMORY_GAME_MAX_TENTATIVES:
+            rect_surf.fill(pygame.Color('red'))
         # On affiche une case blanche si la case n'est pas déjà cliquées ou validées
         elif rect_info not in cases_found and rect_info not in cases_selected:
             rect_surf.fill(pygame.Color('white'))
@@ -332,7 +332,7 @@ gameoverDelayDisplayUpdate = 0
 tictactoe_game_cases = []
 tictactoe_game_player_turn = None
 
-# Variables Tic Tac Toe
+# Variables Mémo
 memory_game_cases = []
 memory_game_cases_selected = []
 memory_game_cases_found = []
@@ -404,8 +404,6 @@ while True:
                                             # On ajoute la paire aux cartes validées
                                             print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
                                             memory_game_cases_found.extend(memory_game_cases_selected)
-                                            # On réinitialise la liste des cartes cliquéés
-                                            #memory_game_cases_selected.clear()
 
                 elif state == TIC_TAC_TOE_STATE:
                     # On teste chaque case du tictactoe
@@ -426,7 +424,10 @@ while True:
 
     elif state == MENU_STATE:
         display_menu_screen()
-        display_score_barre(lives)
+        if lives == 0:
+            display_score_barre(lives, False, "Fin de la partie", {"text": "Game Over!", "color": pygame.Color('red')})
+        else:
+            display_score_barre(lives)
 
     elif state == MEMORY_STATE:
         # Initilise le mémo s'il ne l'est pas déjà
@@ -447,7 +448,7 @@ while True:
 
         display_score_barre(lives, True, "Nombre de tentatives: " + str(memory_game_click_count))
 
-        display_memory_game(memory_game_cases, memory_game_cases_selected, memory_game_cases_found)
+        display_memory_game(memory_game_cases, memory_game_cases_selected, memory_game_cases_found, memory_game_click_count)
 
         # FIN du mémo
         if memory_game_click_count >= MEMORY_GAME_MAX_TENTATIVES or len(memory_game_cases_found) == len(memory_game_cases):
@@ -476,7 +477,6 @@ while True:
                                     {"text": "Perdu !", "color": pygame.Color('red')})
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
-                print('délai écoulé')
 
                 if len(memory_game_cases_found) < len(memory_game_cases):                  
                     # On décrémente le nombre de vies
