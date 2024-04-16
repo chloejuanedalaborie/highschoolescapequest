@@ -46,6 +46,7 @@ SCORE_BARRE_LIFE_IMAGE_DIMENSIONS = (15, 15)
 MAX_LIVES = 3
 MEMORY_GAME_MAX_TENTATIVES = 10
 QUIZ_GAME_MAX_QUESTIONS = 10
+QUIZ_GAME_WIN_LIMIT = 8
 
 def display_start_screen():
     # Affiche la page d'accueil du jeu
@@ -313,6 +314,51 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
         surface.blit(surface_ligne, rect_ligne)
         y_offset += font.get_height()
 
+def initialize_quiz_game():
+    print("Quiz: initialisation")
+    
+    with open('./quiz-questions-list.json') as f:
+        quiz_questions_all = json.load(f)
+
+    # game_level = "medium" en variable globale, si on a le temps on codera
+    #                       comment le joueur choisi le niveau de difficulté
+    quiz = [question for question in quiz_questions_all if question['difficulty'] == game_level]
+
+    # on randomize la liste et on réduit le nombre de question à MAX_QUIZ_QUESTIONS
+    quiz = random.sample(quiz, k=QUIZ_GAME_MAX_QUESTIONS)
+    
+    item_x = (fenetre_surface.get_width() * 0.2)//2 + 10
+    quiz_question_rect_y = ((fenetre_surface.get_height() - SCORE_BARRE_HEIGHT) * 0.2)//2 + SCORE_BARRE_HEIGHT + 10
+                
+    question_rect_width = (fenetre_surface.get_width() * 0.8) - 20
+    answer_rect_width = question_rect_width - 100
+    answer_rect_height = (((fenetre_surface.get_height() - SCORE_BARRE_HEIGHT) * 0.8) - 40) // 6
+    question_rect_heigth = answer_rect_height * 2
+    
+    quiz_questions = []            
+    for idx, question in enumerate(quiz):
+        quiz_questions.append({
+            'question': {
+                'rect': pygame.Rect(item_x, quiz_question_rect_y, question_rect_width, question_rect_heigth),
+                'text': f"{QUIZ_GAME_MAX_QUESTIONS - idx}: {question['question']}"
+            },
+            'answers': []
+        })
+        first_answer_rect_top = quiz_question_rect_y + 10 + question_rect_heigth + 5   
+
+        # on mélange également la liste de réponse
+        for index, answer in enumerate(random.sample(question['answers'], k=len(question['answers']))):
+            top = first_answer_rect_top + (answer_rect_height + 5) * index
+
+            quiz_questions[-1]['answers'].append({
+                # on decale le rect pour le text de 110 pour laisser la place à une image
+                'rect': pygame.Rect(item_x + 100, top, answer_rect_width, answer_rect_height),
+                'text': answer['answer'],
+                'isCorrect': answer['isCorrect']
+            })
+            
+    return quiz_questions
+
 def display_quiz_game(item):
     fenetre_surface = pygame.display.get_surface()
 
@@ -344,7 +390,22 @@ def display_quiz_game(item):
         quiz_answer_bullet_img = pygame.image.load(f"./images/quiz{index}.png").convert_alpha()
         quiz_answer_bullet_img = pygame.transform.scale(quiz_answer_bullet_img, (30, 30))
         fenetre_surface.blit(quiz_answer_bullet_img, (item['question']['rect'].left + 50, item2['rect'].top - 5))
-        if item2['rect'].collidepoint(pygame.mouse.get_pos()):
+
+        # Si le joueur a déjà répondu on affiche en vert la bonne réponse, en rouge les mauvaises
+        if playerDelayDisplayUpdate > 0:
+            if item2['isCorrect']:
+                afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
+                                            item2['rect'],
+                                            pygame.Color('forestgreen'), 
+                                            pygame.font.Font(GAME_FONTS, 18),
+                                            item2['text'])               
+            else:
+                afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
+                                            item2['rect'],
+                                            pygame.Color('red'), 
+                                            pygame.font.Font(GAME_FONTS, 18),
+                                            item2['text'])
+        elif item2['rect'].collidepoint(pygame.mouse.get_pos()):
             afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
                                         item2['rect'],
                                         pygame.Color('black'), 
@@ -356,97 +417,7 @@ def display_quiz_game(item):
                                         pygame.Color('gray50'), 
                                         pygame.font.Font(GAME_FONTS, 18),
                                         item2['text'])
-         
-                
-def run_quiz_game_emilie(question_index, score_quiz, medium_questions, bonne_reponse):  
-    fenetre_surface = pygame.display.get_surface()
-    print("quiz")
-    # Fond d'écran
-    quiz_background = pygame.image.load(QUIZ_BACKGROUND_IMAGE).convert()
-    quiz_background = pygame.transform.scale(quiz_background, (fenetre_surface.get_width(), fenetre_surface.get_height() - SCORE_BARRE_HEIGHT))
-    fenetre_surface.blit(quiz_background, (0, SCORE_BARRE_HEIGHT))
-    
-    font = pygame.font.SysFont(None, 30)
-    
-    #couleurs
-    BLACK = (0, 0, 0)
-    WHITE = (255, 255, 255)
-    GREEN = (0, 255, 0)
-    RED = (255, 0, 0)
-        
-        
-    #questions et réponses (temporaire)
-    
-    questions = [question["question"] for question in medium_questions]
-    import random
-
-    answers = [[answer["answer"] for answer in question["answers"]] for question in medium_questions]
-     
-
-    correct_answers = []  
-    for question in medium_questions:
-        for answer_index, answer in enumerate(question["answers"]):
-            if answer["isCorrect"]:
-                correct_answers.append(answer_index)
-    print(correct_answers)
-    
-    
-    quiz = True
-    while quiz:
-        # Clear the screen
-        fenetre_surface.blit(quiz_background, (0, SCORE_BARRE_HEIGHT))
-        #answers=random.shuffle(answers[question_index])
-        # Display the question
-        question_text = font.render(questions[question_index], True, BLACK)
-        fenetre.blit(question_text, (50, 50))
-
-        # Display answer options
-        for i, answer in enumerate(answers[question_index]): #3
-            answer_text = font.render(answer, True, BLACK)
-            fenetre.blit(answer_text, (50, 100 + i * 50))
-
-        # vérification de la réponse
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                # Check if user clicked on an answer
-                if 50 <= x <= 750:
-                    selected_answer_index = (y - 100) // 50
-                    if selected_answer_index == correct_answers[question_index]:
-                        #si c'est correct
-                        answer_text = font.render(answers[question_index][selected_answer_index], True, GREEN)
-                        fenetre.blit(answer_text, (50, 100 + selected_answer_index * 50))
-                        pygame.time.wait(1000)  # pause de 1 seconde
-                        score_quiz+=1
-                        question_index+=1
-                
-                    else:
-                        # If answer is incorrect
-                        answer_text = font.render(answers[question_index][selected_answer_index], True, RED)
-                        fenetre.blit(answer_text, (50, 100 + selected_answer_index * 50))
-                        pygame.display.flip()
-                        pygame.time.wait(1000)  # Pause for 1 second
-                        quiz = False  # End the quiz
-                    
-                    # Move to the next question
-                    print(question_index) 
-                    if question_index < len(questions):
-                        quiz=False
-                    
-                    
-                        
-
-        pygame.display.flip()
-
-     # End of quiz
-def quiz_gagne(score_quiz, question_index):
-    if score_quiz==question_index:
-        return True
-    return False, None #trouver comment faire    
-    
+                   
 def display_final_screen():
     # Affiche la page du gameover
     pass
@@ -501,7 +472,7 @@ memory_game_click_count = 0
 # Variables Quiz
 quiz_game_questions = []
 quiz_game_current_question = None
-
+quiz_game_score = 0
 
 question_index=0
 score_quiz = 0
@@ -581,10 +552,16 @@ while True:
                                 playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
 
                 elif state == QUIZ_STATE:
-                    for item in quiz_game_current_question['answers']:
-                        if item['rect'].collidepoint(event.pos):
-                            print(f"{item['text']} : {str(item['isCorrect'])} ")                        
-        
+                    if quiz_game_current_question != None and lives > 0:
+                        for item in quiz_game_current_question['answers']:
+                            if item['rect'].collidepoint(event.pos):
+                                # quand le joueur a choisi une réponse on déclenche le compteur
+                                # pour laisser le temps de voir le résultat avant de passer à la question suivante
+                                playerDelayDisplayUpdate = pygame.time.get_ticks() + 2000
+                                
+                                # si c'est la bonne réponse, on incrémente le score                            
+                                if item['isCorrect']:
+                                    quiz_game_score += 1        
 
     # On affiche les différents écran du jeux en fonction de l'état de "state"
     if state == START_STATE:
@@ -685,9 +662,9 @@ while True:
                 gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 2000 
 
             if 'player' in winner:
-                display_score_barre(lives, True,"fin de la partie: ",{"text": "Gagné !", "color": pygame.Color('green')})
+                display_score_barre(lives, True, "fin de la partie: ", {"text": "Gagné !", "color": pygame.Color('green')})
             else:
-                display_score_barre(lives, True,"fin de la partie: ",{"text": "Perdu !", "color": pygame.Color('red')})        
+                display_score_barre(lives, True, "fin de la partie: ", {"text": "Perdu !", "color": pygame.Color('red')})        
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:              
                 # On décrémente le nombre de vies
@@ -714,65 +691,52 @@ while True:
             display_score_barre(lives, True)
 
     elif state == QUIZ_STATE:
-        """ run_quiz_game(question_index, score_quiz, medium_questions, bonne_reponse)
-        question_index+=1
-        score_quiz """
-        
-       # Initilise le quiz s'il ne l'est pas déjà
-        if quiz_game_questions == [] and lives > 0:
+        # Initilise le quiz s'il ne l'est pas déjà
+        if not quiz_game_current_question and quiz_game_questions == [] and lives > 0:
             playerDelayDisplayUpdate = 0
             gameoverDelayDisplayUpdate = 0
-
-            with open('./quiz-questions-list.json') as f:
-                quiz_questions_all = json.load(f)
-
-            # game_level = "medium" en variable globale, si on a le temps on codera
-            #                       comment le joueur choisi le niveau de difficulté
-            quiz = [question for question in quiz_questions_all if question['difficulty'] == game_level]
-
-            # on randomize la liste et on réduit le nombre de question à MAX_QUIZ_QUESTIONS
-            quiz = random.sample(quiz, k=QUIZ_GAME_MAX_QUESTIONS)
-            
-            item_x = (fenetre_surface.get_width() * 0.2)//2 + 10
-            quiz_question_rect_y = ((fenetre_surface.get_height() - SCORE_BARRE_HEIGHT) * 0.2)//2 + SCORE_BARRE_HEIGHT + 10
-                        
-            question_rect_width = (fenetre_surface.get_width() * 0.8) - 20
-            answer_rect_width = question_rect_width - 100
-            answer_rect_height = (((fenetre_surface.get_height() - SCORE_BARRE_HEIGHT) * 0.8) - 40) // 6
-            question_rect_heigth = answer_rect_height * 2
-                        
-            for question in quiz:
-                quiz_game_questions.append({
-                    'question': {
-                        'rect': pygame.Rect(item_x, quiz_question_rect_y, question_rect_width, question_rect_heigth),
-                        'text': question['question']
-                    },
-                    'answers': []
-                })
-                first_answer_rect_top = quiz_question_rect_y + 10 + question_rect_heigth + 5   
-
-                # on mélange également la liste de réponse
-                for index, answer in enumerate(random.sample(question['answers'], k=len(question['answers']))):
-                    top = first_answer_rect_top + (answer_rect_height + 5) * index
-
-                    quiz_game_questions[-1]['answers'].append({
-                        # on decale le rect pour le text de 110 pour laisser la place à une image
-                        'rect': pygame.Rect(item_x + 100, top, answer_rect_width, answer_rect_height),
-                        'text': answer['answer'],
-                        'isCorrect': answer['isCorrect']
-                    })
+            quiz_game_questions = initialize_quiz_game()
 
         if len(quiz_game_questions) > 0:
             # on regarde si on a une nouvelle à afficher
-            if not quiz_game_current_question:
+            if not quiz_game_current_question or \
+               (playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate):
                 quiz_game_current_question = quiz_game_questions.pop()
-        else:
-            # on a afficher toutes questions, il faut vérifier si le joueur a gagné ou perdu
-            pass
-        
-        display_quiz_game(quiz_game_current_question)
-                   
-        display_score_barre(lives, True)
+                playerDelayDisplayUpdate = 0
+
+            display_score_barre(lives, True, f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}")
+
+        elif playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
+            # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
+            if gameoverDelayDisplayUpdate == 0:
+                print(f"Quiz: partie terminée avec le score {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}")
+                gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 2000             
+            
+            # on a affiché toutes questions, il faut vérifier si le joueur a gagné ou perdu
+            if quiz_game_score >= QUIZ_GAME_WIN_LIMIT:
+                display_score_barre(lives, True,
+                                    f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
+                                    {"text": "Well done !", "color": pygame.Color('green')})       
+            else:
+                display_score_barre(lives, True,
+                                    f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
+                                    {"text": "Perdu !", "color": pygame.Color('red')})
+
+            if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:              
+                # On décrémente le nombre de vies
+                if lives > 0 and quiz_game_score < QUIZ_GAME_WIN_LIMIT:
+                    lives -= 1
+                    # S'il reste au moins 1 vie au joueur on réinitialise le quiz
+                    if lives >= 1:
+                        quiz_game_current_question = None
+
+                quiz_game_score = 0
+                gameoverDelayDisplayUpdate = 0
+                # On retourne au menu
+                state = MENU_STATE
+
+        if quiz_game_current_question != None:
+            display_quiz_game(quiz_game_current_question)
 
     elif state == END_STATE:
         display_final_screen()
