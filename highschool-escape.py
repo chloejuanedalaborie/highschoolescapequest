@@ -562,31 +562,30 @@ while True:
 
                 if state == MEMORY_STATE:
                     if not memory_game_click_count >= MEMORY_GAME_MAX_TENTATIVES or not len(memory_game_cases_found) == len(memory_game_cases):
-                        # On teste chaque case du mémo
-                        for rect_info in memory_game_cases:
+                        # On teste chaque case du mémo qui n'est ni déja sélectionnée ni déjà trouvée
+                        cases = [case for case in memory_game_cases if case not in memory_game_cases_found and case not in memory_game_cases_selected]
+                        for rect_info in cases:
                             if rect_info['rectangle'].collidepoint(event.pos):
-                                # Si ce n'est pas une case déjà cliquées ou validées, on l'ajoute à la liste des cases cliquées
-                                if rect_info not in memory_game_cases_found and len(memory_game_cases_selected) < 2:
-                                    memory_game_cases_selected.append(rect_info)
+                                memory_game_cases_selected.append(rect_info)
 
-                                    # On teste si une paire de carte a été retournée
-                                    if len(memory_game_cases_selected) == 2:
-                                        # on incrémente le nombre de tentatives
-                                        memory_game_click_count += 1
+                                # On teste si une paire de carte a été retournée
+                                if len(memory_game_cases_selected) == 2:
+                                    # on incrémente le nombre de tentatives
+                                    memory_game_click_count += 1
 
-                                        # Si la paire est incorrecte, on doit à nouveau cacher les cartes
-                                        if memory_game_cases_selected[0]['image_index'] != memory_game_cases_selected[1]['image_index']:
-                                            # On initialise un delai pour laisser au joueur le temps de voir la carte
-                                            print(f'Mémo: tentative #{memory_game_click_count}: paire KO')
-                                            sound_wrong.play()
-                                            playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
-                                        else:
-                                            # On ajoute la paire aux cartes validées
-                                            print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
-                                            sound_correct.play()
-                                            memory_game_cases_found.extend(memory_game_cases_selected)
+                                    # Si la paire est incorrecte, on doit à nouveau cacher les cartes
+                                    if memory_game_cases_selected[0]['image_index'] != memory_game_cases_selected[1]['image_index']:
+                                        # On initialise un delai pour laisser au joueur le temps de voir la carte
+                                        print(f'Mémo: tentative #{memory_game_click_count}: paire KO')
+                                        sound_wrong.play()
+                                        playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
                                     else:
-                                        sound_click.play()
+                                        # On ajoute la paire aux cartes validées
+                                        print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
+                                        sound_correct.play()
+                                        memory_game_cases_found.extend(memory_game_cases_selected)
+                                else:
+                                    sound_click.play()
 
                 elif state == TIC_TAC_TOE_STATE:
                     # On teste chaque case du tictactoe
