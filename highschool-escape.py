@@ -128,6 +128,19 @@ def display_menu_screen():
         fenetre_surface.blit(button_image, button["rect"])
 
 def display_score_barre(lives, bShowMenuButton=False, sScoreText="", dGameOverText={}):
+    """
+    Affiche la barre de score du jeu.
+
+    Args:
+        lives (int): nombres de points de vie
+        bShowMenuButton (bool, optional): Montre ou non le bouton guidant au menu, False par défaut
+        sScoreText (str, optional): affiche le score."" par défaut.
+        dGameOverText (dict, optional): Un dictionnaire contenant le texte et la couleur à afficher
+        en fin de partie. Par défaut, {}.
+    Returns:
+        None
+    """
+    
     life_full_image = pygame.image.load(SCORE_BARRE_LIFE_FULL_IMAGE).convert_alpha()
     life_full_image = pygame.transform.scale(life_full_image, (15, 15))
     life_empty_image = pygame.image.load(SCORE_BARRE_LIFE_EMPTY_IMAGE).convert_alpha()
@@ -177,6 +190,16 @@ def display_score_barre(lives, bShowMenuButton=False, sScoreText="", dGameOverTe
             pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), menu_button_text_rect, 2)  
 
 def initialize_memory_game():
+    """
+    Permet d'initialiser le jeux du memory.
+    Mélange les carte et charge l'interface du memory.
+
+    Returns:
+        List:   Liste de dictionnaires représentant les cartes du jeu.
+                Chaque dictionnaire contient un rectangle pygame et l'index
+                de l'image associée
+    """
+
     # Dimensions des cases du mémo
     RECT_WIDTH = 105
     RECT_HEIGHT = 125
@@ -205,6 +228,21 @@ def initialize_memory_game():
             for position, image_index in zip(rect_positions, index_images_disponibles)]
 
 def display_memory_game(cases, cases_selected, cases_found, memory_game_click_count):
+    """
+    (description)
+
+    Args:
+        cases (List):   Liste de dictionnaires représentant les cartes du jeu.
+                        Chaque dictionnaire contient un rectangle pygame et l'index
+                        de l'image associée.
+        cases_selected (List): Liste des cases sélectionnées/retournées par le joueur
+        cases_found (List): Liste des paires de cartes déjà trouvées par le joueur
+        memory_game_click_count (int): Nombre de clics du joueur sur les cases dans la partie
+
+    Returns:
+        None
+    """
+
     # Play the memory game
     fenetre_surface = pygame.display.get_surface()
     
@@ -234,6 +272,15 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
         fenetre_surface.blit(rect_surf, rect_info['rectangle'])    
 
 def initialize_tictactoe_game():
+    """
+    Permet d'initialiser le jeu du tic tac toe en affichant les cases du jeu
+
+    Returns:
+        List:   Liste de dictionnaires représentant les cases du jeu.
+                Chaque dictionnaire contient un rectangle pygame et
+                un état 'clicked' initialisé à None.
+    """
+
     print("Tic Tac Toe: initialisation")
 
     # Dimensions des cases du tictactoe
@@ -262,24 +309,45 @@ def initialize_tictactoe_game():
     return tictactoe_game_case
 
 def check_tictactoe_game_over(cases):
+    """
+    Permet de vérifier s'il y a un vainqueur 
+    (et donc si c'est la fin de la partie)
 
+    Arguments:
+        cases (List):   Liste de  dictionnaires représentant les  cases du morpion. 
+                        Chaque dictionnaire devrait avoir une clé 'clicked'
+                        pour indiquer si la case a été sélectionnée ou non.
+
+    Returns:
+        String: 'player' ou 'computer'
+        None: s'il n'y a pas de vainqueur
+    """
     for i in range(3):
         # On test s'il y a une ligne compléte
         if cases[i * 3]['clicked'] == cases[i * 3 + 1]['clicked'] == cases[i * 3 + 2]['clicked'] is not None:
-            return True, cases[i * 3]['clicked']
+            return cases[i * 3]['clicked']
         # On test s'il y a une colonne compléte
         if cases[i]['clicked'] == cases[i + 3]['clicked'] == cases[i + 6]['clicked'] is not None:
-            return True, cases[i]['clicked']
+            return cases[i]['clicked']
 
     # On test les 2 diagonales        
     if cases[0]['clicked'] == cases[4]['clicked'] == cases[8]['clicked'] is not None:
-        return True, cases[0]['clicked']
+        return cases[0]['clicked']
     if cases[2]['clicked'] == cases[4]['clicked'] == cases[6]['clicked'] is not None:
-        return True, cases[2]['clicked'] 
+        return cases[2]['clicked'] 
 
-    return False, None
+    return None
 
 def display_tictactoe_game(cases):
+    """
+    Affiche l'état actuel du jeu de morpion Tic Tac Toe.
+
+    Args:
+        cases (List):   Une liste de dictionnaires représentant les cases du jeu.
+                        Chaque dictionnaire contient un rectangle pygame et
+                        l'état 'clicked' indiquant si la case a été sélectionnée (et par qui).
+    """
+
     # Play the tictactoe game
     fenetre_surface = pygame.display.get_surface()
     
@@ -452,6 +520,12 @@ def display_final_screen():
 
 # Remplace le curseur de la souris par une image
 def display_cursor():
+    """
+    Cache le pointeur de souris et le remplace par un custom
+    
+    Returns:
+        None
+    """
     pygame.mouse.set_visible(False) # cache le pointeur par défaut
     fenetre_surface = pygame.display.get_surface()
 
@@ -707,8 +781,8 @@ while True:
         display_tictactoe_game(tictactoe_game_cases)
 
         # On regarde s'il y a un gagnant
-        result, winner = check_tictactoe_game_over(tictactoe_game_cases)
-        if result:
+        winner = check_tictactoe_game_over(tictactoe_game_cases)
+        if winner != None:
             # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
             if gameoverDelayDisplayUpdate == 0:
                 print(f"Tic Tac Toe: le gagnant est {winner}")
