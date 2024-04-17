@@ -599,7 +599,7 @@ while True:
                                 playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
 
                 elif state == QUIZ_STATE:
-                    if quiz_game_current_question != None and lives > 0:
+                    if playerDelayDisplayUpdate == 0 and quiz_game_current_question != None and lives > 0:
                         for item in quiz_game_current_question['answers']:
                             if item['rect'].collidepoint(event.pos):
                                 # quand le joueur a choisi une réponse on déclenche le compteur
