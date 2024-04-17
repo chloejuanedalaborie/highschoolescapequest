@@ -23,6 +23,14 @@ MEMORY_BACKGROUND_IMAGE = "./images/salle_memo.png"
 TICTACTOE_BACKGROUND_IMAGE = "./images/salle_morpion.png"
 QUIZ_BACKGROUND_IMAGE = "./images/salle_quiz.png"
 
+# Musique et sons
+GAME_MUSIC = "./musics/password-infinity-123276.mp3"
+CLICK = "./musics/click.wav"
+CORRECT = "./musics/correct.wav"
+WRONG = "./musics/wrong.wav"
+WIN = "./musics/game_win.wav"
+LOST = "./musics/game_lost.wav"
+
 # Zones de clics
 MEMO_BUTTON_RECT = pygame.Rect(0, 50, 193, 256)
 TICTACTOE_BUTTON_RECT = pygame.Rect(0, 311, 193, 289)
@@ -48,19 +56,36 @@ MEMORY_GAME_MAX_TENTATIVES = 10
 QUIZ_GAME_MAX_QUESTIONS = 10
 QUIZ_GAME_WIN_LIMIT = 8
 
-def display_start_screen():
+def display_start_screen(scenario):
     # Affiche la page d'accueil du jeu
     fond = pygame.image.load("./images/title.png").convert()
     fond = pygame.transform.scale(fond, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
     fenetre.blit(fond, (0, 0))
 
-    # Charger l'image du bouton  
-    start_button_image = pygame.image.load('./images/bouton_play.png').convert_alpha()
-    start_button_image = pygame.transform.scale(start_button_image, (start_button_rect.width, start_button_rect.height))
+    # Blitter le bouton sur l'écran        
+    if playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
+        # Création d'un rectangle translucide pour accueillir la question et les réponses
+        title_rect_width = fenetre_surface.get_width() * 0.8
+        title_rect_height = fenetre_surface.get_rect().height * 0.5
+        title_rect_x = (fenetre_surface.get_width() * 0.2)//2
+        title_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
+        title_rect = pygame.Rect(title_rect_x, title_rect_y, title_rect_width, title_rect_height)
+        title_surf = pygame.Surface((title_rect.width, title_rect.height))
+        title_surf.fill(pygame.Color('white'))
+        title_surf.set_alpha(200)
+        fenetre_surface.blit(title_surf, title_rect)
 
-    # Blitter le bouton sur l'écran
-    fenetre.blit(start_button_image, start_button_rect)
+        afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
+                                              title_rect,
+                                              pygame.Color('black'), 
+                                              pygame.font.Font(GAME_FONTS, 16),
+                                              scenario['introduction']) 
+
+        # Charger l'image du bouton  
+        start_button_image = pygame.image.load('./images/bouton_play.png').convert_alpha()
+        start_button_image = pygame.transform.scale(start_button_image, (start_button_rect.width, start_button_rect.height))
+        fenetre.blit(start_button_image, start_button_rect)
 
 def display_menu_screen():
     fenetre_surface = pygame.display.get_surface()
@@ -420,7 +445,10 @@ def display_quiz_game(item):
                    
 def display_final_screen():
     # Affiche la page du gameover
-    pass
+    if lives == 0:
+        
+        
+        pass
 
 # Remplace le curseur de la souris par une image
 def display_cursor():
@@ -441,22 +469,35 @@ clock = pygame.time.Clock()
 # Initialise le mixer pour la musique et les sons
 pygame.mixer.init()
 
-pygame.mixer.music.load('./musics/password-infinity-123276.mp3')
-#pygame.mixer.music.play()
+pygame.mixer.music.load(GAME_MUSIC)
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
+
+sound_click = pygame.mixer.Sound(CLICK)
+sound_correct = pygame.mixer.Sound(CORRECT)
+sound_wrong = pygame.mixer.Sound(WRONG)
+sound_win = pygame.mixer.Sound(WIN)
+sound_lost = pygame.mixer.Sound(LOST)
+
+with open('./game-scenario-list.json') as f:
+    game_scenarios = json.load(f)
+
+# selection d'un scénario aléatoirement
+game_scenario = random.choice(game_scenarios)
 
 # Création de la fenêtre
 fenetre = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("High School Escape Quest")
+pygame.display.set_caption(f"High School Escape Quest: {game_scenario['scenario']}")
 
 state = START_STATE
 lives = MAX_LIVES
 score = 0
 game_level = "medium" # on pourrait laisser le joueur choisir le niveau de difficulté
 
-start_button_rect = pygame.Rect(252, 450, 100, 100)
+start_button_rect = pygame.Rect(252, 475, 100, 100)
 
 # Variables pour permettre d'ajouter du délai à l'affichage
-playerDelayDisplayUpdate = 0
+playerDelayDisplayUpdate = pygame.time.get_ticks() + 1500
 gameoverDelayDisplayUpdate = 0
 
 # Variables Tic Tac Toe
@@ -474,9 +515,6 @@ quiz_game_questions = []
 quiz_game_current_question = None
 quiz_game_score = 0
 
-question_index=0
-score_quiz = 0
-
 # Main game loop
 while True:
     fenetre_surface = pygame.display.get_surface()
@@ -492,20 +530,24 @@ while True:
 
             # écran d'accueil
             if state == START_STATE and start_button_rect.collidepoint(event.pos):
+                sound_click.play()
                 state = MENU_STATE
 
             # écran menu
             elif state == MENU_STATE:
                 if MEMO_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "mémo"')
+                    sound_click.play()
                     pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), MEMO_BUTTON_RECT, 2)
                     state = MEMORY_STATE
                 elif TICTACTOE_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "morpion"')
+                    sound_click.play()
                     pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), TICTACTOE_BUTTON_RECT, 2)
                     state = TIC_TAC_TOE_STATE
                 elif QUIZ_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "quiz"')
+                    sound_click.play()
                     pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), QUIZ_BUTTON_RECT, 2)
                     state = QUIZ_STATE
 
@@ -515,6 +557,7 @@ while True:
                 menu_button_text_surface = menu_button_text_font.render(SCORE_BARRE_MENU_BUTTON_TEXT, True, pygame.Color('gray44'))
                 menu_button_text_rect = menu_button_text_surface.get_rect(topright=(fenetre_surface.get_width() - SCORE_BARRE_MENU_BUTTON_SIZE, SCORE_BARRE_MENU_BUTTON_MARGIN))                
                 if menu_button_text_rect.collidepoint(event.pos):
+                    sound_click.play()
                     state = MENU_STATE
 
                 if state == MEMORY_STATE:
@@ -535,11 +578,15 @@ while True:
                                         if memory_game_cases_selected[0]['image_index'] != memory_game_cases_selected[1]['image_index']:
                                             # On initialise un delai pour laisser au joueur le temps de voir la carte
                                             print(f'Mémo: tentative #{memory_game_click_count}: paire KO')
+                                            sound_wrong.play()
                                             playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
                                         else:
                                             # On ajoute la paire aux cartes validées
                                             print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
+                                            sound_correct.play()
                                             memory_game_cases_found.extend(memory_game_cases_selected)
+                                    else:
+                                        sound_click.play()
 
                 elif state == TIC_TAC_TOE_STATE:
                     # On teste chaque case du tictactoe
@@ -547,6 +594,7 @@ while True:
                         if square_info['square'].collidepoint(event.pos):
                             # Si ce n'est pas une case déjà cliquées
                             if not square_info['clicked'] and tictactoe_game_player_turn:
+                                sound_click.play()
                                 square_info['clicked'] = 'player'
                                 tictactoe_game_player_turn = False
                                 playerDelayDisplayUpdate = pygame.time.get_ticks() + 1000 
@@ -561,11 +609,14 @@ while True:
                                 
                                 # si c'est la bonne réponse, on incrémente le score                            
                                 if item['isCorrect']:
-                                    quiz_game_score += 1        
+                                    sound_correct.play()
+                                    quiz_game_score += 1
+                                else:
+                                    sound_wrong.play()      
 
     # On affiche les différents écran du jeux en fonction de l'état de "state"
     if state == START_STATE:
-        display_start_screen()
+        display_start_screen(game_scenario)
 
     elif state == MENU_STATE:
         display_menu_screen()
@@ -623,7 +674,8 @@ while True:
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
 
-                if len(memory_game_cases_found) < len(memory_game_cases):                  
+                if len(memory_game_cases_found) < len(memory_game_cases):
+                    sound_lost.play()                  
                     # On décrémente le nombre de vies
                     if lives > 0:
                         lives -= 1
@@ -632,6 +684,8 @@ while True:
                         # S'il reste au moins 1 vie au joueur on réinitialise le mémo
                         if lives >= 1:
                             memory_game_cases.clear()
+                else:
+                    sound_win.play()
 
                 gameoverDelayDisplayUpdate = 0
                 # On retourne au menu
@@ -668,11 +722,15 @@ while True:
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:              
                 # On décrémente le nombre de vies
-                if lives > 0 and 'computer' in winner:
-                    lives -= 1
-                    # S'il reste au moins 1 vie au joueur on réinitialise le mémo
-                    if lives >= 1:
-                        tictactoe_game_cases.clear()
+                if 'computer' in winner:
+                    sound_lost.play()
+                    if 'computer' in winner:
+                        lives -= 1
+                        # S'il reste au moins 1 vie au joueur on réinitialise le mémo
+                        if lives >= 1:
+                            tictactoe_game_cases.clear()
+                else:
+                    sound_win.play()
 
                 gameoverDelayDisplayUpdate = 0
                 # On retourne au menu
@@ -722,13 +780,17 @@ while True:
                                     f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
                                     {"text": "Perdu !", "color": pygame.Color('red')})
 
-            if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:              
-                # On décrémente le nombre de vies
-                if lives > 0 and quiz_game_score < QUIZ_GAME_WIN_LIMIT:
-                    lives -= 1
-                    # S'il reste au moins 1 vie au joueur on réinitialise le quiz
-                    if lives >= 1:
-                        quiz_game_current_question = None
+            if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
+                if quiz_game_score < QUIZ_GAME_WIN_LIMIT:
+                    sound_lost.play()              
+                    # On décrémente le nombre de vies
+                    if lives > 0 and quiz_game_score < QUIZ_GAME_WIN_LIMIT:
+                        lives -= 1
+                        # S'il reste au moins 1 vie au joueur on réinitialise le quiz
+                        if lives >= 1:
+                            quiz_game_current_question = None
+                else:
+                    sound_win.play()
 
                 quiz_game_score = 0
                 gameoverDelayDisplayUpdate = 0
