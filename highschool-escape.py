@@ -18,6 +18,7 @@ WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 600
 
 # Backgrounds
+TITLE_SCREEN_BACKGROUND_IMAGE = "./images/title.png"
 MENU_BACKGROUND_IMAGE = "./images/plan_lycee.png"
 MEMORY_BACKGROUND_IMAGE = "./images/salle_memo.png"
 TICTACTOE_BACKGROUND_IMAGE = "./images/salle_morpion.png"
@@ -32,9 +33,9 @@ WIN = "./musics/game_win.wav"
 LOST = "./musics/game_lost.wav"
 
 # Zones de clics
-MEMO_BUTTON_RECT = pygame.Rect(0, 50, 193, 256)
-TICTACTOE_BUTTON_RECT = pygame.Rect(0, 311, 193, 289)
-QUIZ_BUTTON_RECT = pygame.Rect(365, 250, 235, 350)
+MEMO_BUTTON_RECT = pygame.Rect(0, 50, 195, 255)
+TICTACTOE_BUTTON_RECT = pygame.Rect(0, 309, 195, 292)
+QUIZ_BUTTON_RECT = pygame.Rect(362, 248, 239, 353)
 
 # Pointeur de souris
 CURSOR_IMAGE = "./images/curseur.png"
@@ -57,15 +58,17 @@ QUIZ_GAME_MAX_QUESTIONS = 10
 QUIZ_GAME_WIN_LIMIT = 8
 
 def display_start_screen(scenario):
+    fenetre_surface = pygame.display.get_surface()
+    
     # Affiche la page d'accueil du jeu
-    fond = pygame.image.load("./images/title.png").convert()
-    fond = pygame.transform.scale(fond, (WINDOW_WIDTH, WINDOW_HEIGHT))
+    title_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
+    title_background = pygame.transform.scale(title_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-    fenetre.blit(fond, (0, 0))
+    fenetre_surface.blit(title_background, (0, 0))
 
     # Blitter le bouton sur l'écran        
     if playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
-        # Création d'un rectangle translucide pour accueillir la question et les réponses
+        # Création d'un rectangle translucide pour accueillir les différents scénarios
         title_rect_width = fenetre_surface.get_width() * 0.8
         title_rect_height = fenetre_surface.get_rect().height * 0.5
         title_rect_x = (fenetre_surface.get_width() * 0.2)//2
@@ -85,7 +88,7 @@ def display_start_screen(scenario):
         # Charger l'image du bouton  
         start_button_image = pygame.image.load('./images/bouton_play.png').convert_alpha()
         start_button_image = pygame.transform.scale(start_button_image, (start_button_rect.width, start_button_rect.height))
-        fenetre.blit(start_button_image, start_button_rect)
+        fenetre_surface.blit(start_button_image, start_button_rect)
 
 def display_menu_screen():
     fenetre_surface = pygame.display.get_surface()
@@ -393,7 +396,7 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
     ligne_actuelle = ""
     for mot in mots:
         test_ligne = ligne_actuelle + mot + " "
-        if font.size(test_ligne)[0] < rect.width:
+        if font.size(test_ligne)[0] < rect.width - 20:
             ligne_actuelle = test_ligne
         else:
             lignes.append(ligne_actuelle)
@@ -403,7 +406,7 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
     y_offset = 0
     for ligne in lignes:
         surface_ligne = font.render(ligne, True, couleur)
-        rect_ligne = surface_ligne.get_rect(left=rect.left, top=rect.top + y_offset)
+        rect_ligne = surface_ligne.get_rect(left=rect.left + 10, top=rect.top + 10 + y_offset)
         surface.blit(surface_ligne, rect_ligne)
         y_offset += font.get_height()
 
@@ -472,7 +475,7 @@ def display_quiz_game(item):
     fenetre_surface.blit(quiz_question_surf, quiz_question_rect)
     
     # Affichage de la question
-    afficher_texte_avec_retour_a_la_ligne(fenetre,  
+    afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
                                           item['question']['rect'],
                                           pygame.Color('black'), 
                                           pygame.font.Font(GAME_FONTS, 18),
@@ -482,7 +485,7 @@ def display_quiz_game(item):
     for index, item2 in enumerate(item[('answers')]):
         quiz_answer_bullet_img = pygame.image.load(f"./images/quiz{index}.png").convert_alpha()
         quiz_answer_bullet_img = pygame.transform.scale(quiz_answer_bullet_img, (30, 30))
-        fenetre_surface.blit(quiz_answer_bullet_img, (item['question']['rect'].left + 50, item2['rect'].top - 5))
+        fenetre_surface.blit(quiz_answer_bullet_img, (item['question']['rect'].left + 50, item2['rect'].top + 5))
 
         # Si le joueur a déjà répondu on affiche en vert la bonne réponse, en rouge les mauvaises
         if playerDelayDisplayUpdate > 0:
@@ -511,13 +514,32 @@ def display_quiz_game(item):
                                         pygame.font.Font(GAME_FONTS, 18),
                                         item2['text'])
                    
-def display_final_screen():
-    # Affiche la page du gameover
-    if lives == 0:
-        
-        
-        pass
+def display_final_screen(text):
+    fenetre_surface = pygame.display.get_surface()
+    
+    # On réutilise la page d'accueil du jeu
+    final_screen_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
+    final_screen_background = pygame.transform.scale(final_screen_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
 
+    fenetre_surface.blit(final_screen_background, (0, 0))
+    
+    # Création d'un rectangle translucide pour accueillir les différents scénarios de fin
+    final_screen_rect_width = fenetre_surface.get_width() * 0.8
+    final_screen_rect_height = fenetre_surface.get_rect().height * 0.5
+    final_screen_rect_x = (fenetre_surface.get_width() * 0.2)//2
+    final_screen_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
+    final_screen_rect = pygame.Rect(final_screen_rect_x, final_screen_rect_y, final_screen_rect_width, final_screen_rect_height)
+    final_screen_surf = pygame.Surface((final_screen_rect.width, final_screen_rect.height))
+    final_screen_surf.fill(pygame.Color('white'))
+    final_screen_surf.set_alpha(200)
+    fenetre_surface.blit(final_screen_surf, final_screen_rect)
+
+    afficher_texte_avec_retour_a_la_ligne(fenetre_surface,  
+                                          final_screen_rect,
+                                          pygame.Color('black'), 
+                                          pygame.font.Font(GAME_FONTS, 16),
+                                          text)       
+        
 # Remplace le curseur de la souris par une image
 def display_cursor():
     """
@@ -560,7 +582,7 @@ with open('./game-scenario-list.json') as f:
 game_scenario = random.choice(game_scenarios)
 
 # Création de la fenêtre
-fenetre = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption(f"High School Escape Quest: {game_scenario['scenario']}")
 
 state = START_STATE
@@ -577,17 +599,22 @@ gameoverDelayDisplayUpdate = 0
 # Variables Tic Tac Toe
 tictactoe_game_cases = []
 tictactoe_game_player_turn = None
+tictactoe_game_completed = False
 
 # Variables Mémo
 memory_game_cases = []
 memory_game_cases_selected = []
 memory_game_cases_found = []
 memory_game_click_count = 0
+memory_game_completed = False
 
 # Variables Quiz
 quiz_game_questions = []
 quiz_game_current_question = None
 quiz_game_score = 0
+quiz_game_completed = False
+
+game_over = False
 
 # Main game loop
 while True:
@@ -603,9 +630,12 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN:
 
             # écran d'accueil
-            if state == START_STATE and start_button_rect.collidepoint(event.pos):
-                sound_click.play()
-                state = MENU_STATE
+            if state == START_STATE and \
+               playerDelayDisplayUpdate > 0 and \
+               pygame.time.get_ticks() >= playerDelayDisplayUpdate and \
+               start_button_rect.collidepoint(event.pos):
+                    sound_click.play()
+                    state = MENU_STATE
 
             # écran menu
             elif state == MENU_STATE:
@@ -692,11 +722,14 @@ while True:
         display_start_screen(game_scenario)
 
     elif state == MENU_STATE:
-        display_menu_screen()
-        if lives == 0:
-            display_score_barre(lives, False, "Fin de la partie", {"text": "Game Over!", "color": pygame.Color('red')})
+        if lives > 0:
+            if quiz_game_completed and tictactoe_game_completed and memory_game_completed:
+                state = END_STATE
+            else:
+                display_score_barre(lives)
+                display_menu_screen()
         else:
-            display_score_barre(lives)
+            state = END_STATE
 
     elif state == MEMORY_STATE:
         # Initilise le mémo s'il ne l'est pas déjà
@@ -737,7 +770,7 @@ while True:
             if len(memory_game_cases_found) == len(memory_game_cases):
                 display_score_barre(lives, True,
                                     f"Nombre de tentatives: {memory_game_click_count}",
-                                    {"text": "Well done !", "color": pygame.Color('green')})       
+                                    {"text": "Gagné !", "color": pygame.Color('green')})       
 
             # Au delà de 10 tentatives on perd une vie
             elif memory_game_click_count >= MEMORY_GAME_MAX_TENTATIVES:
@@ -758,6 +791,7 @@ while True:
                         if lives >= 1:
                             memory_game_cases.clear()
                 else:
+                    memory_game_completed = True
                     sound_win.play()
 
                 gameoverDelayDisplayUpdate = 0
@@ -803,6 +837,7 @@ while True:
                         if lives >= 1:
                             tictactoe_game_cases.clear()
                 else:
+                    tictactoe_game_completed = True
                     sound_win.play()
 
                 gameoverDelayDisplayUpdate = 0
@@ -847,7 +882,7 @@ while True:
             if quiz_game_score >= QUIZ_GAME_WIN_LIMIT:
                 display_score_barre(lives, True,
                                     f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
-                                    {"text": "Well done !", "color": pygame.Color('green')})       
+                                    {"text": "Gagné !", "color": pygame.Color('green')})       
             else:
                 display_score_barre(lives, True,
                                     f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
@@ -863,6 +898,7 @@ while True:
                         if lives >= 1:
                             quiz_game_current_question = None
                 else:
+                    quiz_game_completed = True
                     sound_win.play()
 
                 quiz_game_score = 0
@@ -874,7 +910,22 @@ while True:
             display_quiz_game(quiz_game_current_question)
 
     elif state == END_STATE:
-        display_final_screen()
+        # Si le nombre de vie est supérieur à 0 c'est que le joueur a gagné
+        if lives > 0:
+            # On utilise ce booléen pour ne jouer le son qu'une seule fois
+            if not game_over:
+                game_over = True
+                sound_win.play()
+               
+            display_final_screen(game_scenario['conclusionWin'])
+
+        # Sinon il a perdu
+        else:
+            if not game_over:
+                game_over = True
+                sound_lost.play()
+                
+            display_final_screen(game_scenario['conclusionLose'])
 
     display_cursor()
 
