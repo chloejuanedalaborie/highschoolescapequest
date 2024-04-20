@@ -24,6 +24,11 @@ MEMORY_BACKGROUND_IMAGE = "./images/salle_memo.png"
 TICTACTOE_BACKGROUND_IMAGE = "./images/salle_morpion.png"
 QUIZ_BACKGROUND_IMAGE = "./images/salle_quiz.png"
 
+# Characters images
+MEMORY_CHARACTER_IMAGE = "./images/memory-game-character.png"
+TICTACTOE_CHARACTER_IMAGE = "./images/tic-tac-toe-game-character.png"
+QUIZ_CHARACTER_IMAGE = "images/quiz-game-character.png"
+
 # Musique et sons
 GAME_MUSIC = "./musics/password-infinity-123276.mp3"
 CLICK = "./musics/click.wav"
@@ -97,35 +102,48 @@ def display_menu_screen():
     menu_background = pygame.image.load(MENU_BACKGROUND_IMAGE).convert()
     menu_background = pygame.transform.scale(menu_background, (fenetre_surface.get_width(), fenetre_surface.get_height()))
     fenetre_surface.blit(menu_background, (0, 0))
+    
+    # Création de la surface grise où apparaitront les jeux gagnés
+    pygame.draw.rect(fenetre_surface, pygame.Color('gray'), pygame.Rect(456,51,144,192), 0)
+
 
     buttons = [
         {"image": MEMORY_BACKGROUND_IMAGE,
+         "character": MEMORY_CHARACTER_IMAGE,
          "rect": MEMO_BUTTON_RECT,
          "text": "Mémo"},
         {"image": TICTACTOE_BACKGROUND_IMAGE,
+         "character": TICTACTOE_CHARACTER_IMAGE,
          "rect": TICTACTOE_BUTTON_RECT,
          "text": "Morpion"},
         {"image": QUIZ_BACKGROUND_IMAGE,
+         "character": QUIZ_CHARACTER_IMAGE,
          "rect": QUIZ_BUTTON_RECT,
          "text": "Quiz"}                  
     ]
 
     for button in buttons:
-        # Charger l'image du bouton
-        button_image = pygame.image.load(button["image"]).convert()
-
         # Dessiner le rectangle du bouton
-        pygame.draw.rect(fenetre_surface, pygame.Color('white'), button["rect"], 2)
+        #pygame.draw.rect(fenetre_surface, pygame.Color('white'), button["rect"], 2)
 
-        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
-        button_image = pygame.transform.scale(button_image, button["rect"].size)
-
-        # Ajouter du texte au bouton
-        if button["text"] != "":
-            text_font = pygame.font.Font(GAME_FONTS, 24)
-            text_surface = text_font.render(button["text"], True, pygame.Color('black'))
-            text_rect = text_surface.get_rect(center=button_image.get_rect().center)
-            button_image.blit(text_surface, text_rect.topleft)
+        # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
+        if button["rect"].collidepoint(pygame.mouse.get_pos()):
+            # Charger l'image du bouton
+            button_image = pygame.image.load(button["character"]).convert()
+            # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+            button_image = pygame.transform.scale(button_image, button["rect"].size)
+        else:
+            # Charger l'image du bouton
+            button_image = pygame.image.load(button["image"]).convert()
+            # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+            button_image = pygame.transform.scale(button_image, button["rect"].size)
+                 
+            # Ajouter du texte au bouton
+            if button["text"] != "":
+                text_font = pygame.font.Font(GAME_FONTS, 24)
+                text_surface = text_font.render(button["text"], True, pygame.Color('black'))
+                text_rect = text_surface.get_rect(center=button_image.get_rect().center)
+                button_image.blit(text_surface, text_rect.topleft)
 
         # Blitter le bouton sur l'écran
         fenetre_surface.blit(button_image, button["rect"])
@@ -642,17 +660,14 @@ while True:
                 if MEMO_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "mémo"')
                     sound_click.play()
-                    pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), MEMO_BUTTON_RECT, 2)
                     state = MEMORY_STATE
                 elif TICTACTOE_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "morpion"')
                     sound_click.play()
-                    pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), TICTACTOE_BUTTON_RECT, 2)
                     state = TIC_TAC_TOE_STATE
                 elif QUIZ_BUTTON_RECT.collidepoint(event.pos):
                     print('Menu: le joueur a cliqué sur le jeu "quiz"')
                     sound_click.play()
-                    pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), QUIZ_BUTTON_RECT, 2)
                     state = QUIZ_STATE
 
             else:
@@ -726,8 +741,8 @@ while True:
             if quiz_game_completed and tictactoe_game_completed and memory_game_completed:
                 state = END_STATE
             else:
-                display_score_barre(lives)
                 display_menu_screen()
+                display_score_barre(lives)
         else:
             state = END_STATE
 
