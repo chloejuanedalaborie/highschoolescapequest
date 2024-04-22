@@ -272,14 +272,9 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
     memory_background = pygame.transform.scale(memory_background, (fenetre_surface.get_width(), fenetre_surface.get_height() - SCORE_BARRE_HEIGHT))
     fenetre_surface.blit(memory_background, (0, SCORE_BARRE_HEIGHT))
 
-    fenetre_surface = pygame.display.get_surface()
-
     # On itére sur l'ensemble des cases
     for rect_info in cases:
-        index = rect_info['image_index']
-        rect_surf = pygame.image.load(f'./images/mémo/card_{index}.jpeg').convert()
-        rect_surf = pygame.transform.scale(rect_surf, (105, 125))
-
+        rect_surf=pygame.Surface(rect_info['rectangle'].size)
         # Si le joueur a gagné, on met toutes les cases en vert
         if len(cases_found) == len(cases):
             rect_surf.fill(pygame.Color('green'))
@@ -289,6 +284,11 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
         # On affiche une case blanche si la case n'est pas déjà cliquées ou validées
         elif rect_info not in cases_found and rect_info not in cases_selected:
             rect_surf.fill(pygame.Color('white'))
+        # Sinon on affiche l'image
+        else:
+            index = rect_info['image_index']
+            rect_surf = pygame.image.load(f'./images/mémo/card_{index}.jpeg').convert()
+            rect_surf = pygame.transform.scale(rect_surf, (105, 125))
 
         fenetre_surface.blit(rect_surf, rect_info['rectangle'])
 
@@ -684,7 +684,7 @@ while True:
                         # On teste chaque case du mémo qui n'est ni déja sélectionnée ni déjà trouvée
                         cases = [case for case in memory_game_cases if case not in memory_game_cases_found and case not in memory_game_cases_selected]
                         for rect_info in cases:
-                            if rect_info['rectangle'].collidepoint(event.pos):
+                            if playerDelayDisplayUpdate == 0 and len(memory_game_cases_selected) <= 2 and rect_info['rectangle'].collidepoint(event.pos):
                                 memory_game_cases_selected.append(rect_info)
 
                                 # On teste si une paire de carte a été retournée
@@ -703,6 +703,7 @@ while True:
                                         print(f'Mémo: tentative #{memory_game_click_count}: paire OK')
                                         sound_correct.play()
                                         memory_game_cases_found.extend(memory_game_cases_selected)
+                                        memory_game_cases_selected.clear()
                                 else:
                                     sound_click.play()
 
@@ -762,6 +763,7 @@ while True:
         # quand le joueur a déja retourné 2 cartes et que le délai d'attente est atteint on réinitialise la liste des cartes cliquéés
         if len(memory_game_cases_selected) == 2 and playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
             memory_game_cases_selected.clear()
+            playerDelayDisplayUpdate = 0
 
         display_score_barre(lives, True, "Nombre de tentatives: " + str(memory_game_click_count))
 
