@@ -38,7 +38,7 @@
     "game-title": "High School Escape Quest",
     "scenario": "The Binary Code Adventure",
     "introduction": "Votre professeur d'informatique, un fan de science-fiction, prétend être un cyborg venu du futur. Il a verrouillé les portes du lycée et la seule façon de sortir est de résoudre une série de défis codés en binaire qu'il a préparés. Est-ce que vous êtes prêt pour l'aventure en code binaire ?",
-    "conclusionWin": "Félicitations! Vous avez décodé tous les défis et gagné votre liberté. En sortant, votre professeur vous salue avec un clin d'œil et un sourire. Il vous annonce que vous êtes officiellement invité à rejoindre le club de codage secret du lycée, connu seulement sous le nom de 'Les Cyborgs'.",
+    "conclusionWin": "Félicitations! Vous avez décodé tous les défis et gagné votre liberté. En sortant, votre professeur vous salue avec un clin d'oeil et un sourire. Il vous annonce que vous êtes officiellement invité à rejoindre le club de codage secret du lycée, connu seulement sous le nom de 'Les Cyborgs'.",
     "conclusionLose": "Dommage, vous n'avez pas réussi à déchiffrer tous les défis. Cependant, votre professeur est tellement impressionné par vos efforts qu'il vous offre une seconde chance et vous invite à rejoindre le club de codage secret du lycée, 'Les Cyborgs', pour améliorer vos compétences."
   },
   {

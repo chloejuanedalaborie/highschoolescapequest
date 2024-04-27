@@ -57,6 +57,9 @@ SCORE_BARRE_LIFE_FULL_IMAGE = "./images/Icon_Large_HeartFull.png"
 SCORE_BARRE_LIFE_EMPTY_IMAGE = "./images/Icon_Large_HeartEmpty.png"
 SCORE_BARRE_LIFE_IMAGE_DIMENSIONS = (15, 15)
 
+GAME_COMPLETED_IMAGE = "./images/Icon_Large_Star.png"
+
+
 MAX_LIVES = 3
 MEMORY_GAME_MAX_TENTATIVES = 10
 QUIZ_GAME_MAX_QUESTIONS = 10
@@ -104,49 +107,104 @@ def display_menu_screen():
     fenetre_surface.blit(menu_background, (0, 0))
 
     # Création de la surface grise où apparaitront les jeux gagnés
-    pygame.draw.rect(fenetre_surface, pygame.Color('gray'), pygame.Rect(456,51,144,192), 0)
+    completed_game_rect = pygame.Rect(456,51,144,192)
+    completed_game_surf = pygame.Surface((completed_game_rect.width, completed_game_rect.height))
+    completed_game_surf.fill(pygame.Color('gray'))
+    game_surf_height = completed_game_surf.get_height()//3
 
+    game_completed_image = pygame.image.load(GAME_COMPLETED_IMAGE).convert_alpha()
+    game_completed_image = pygame.transform.scale(game_completed_image, (25, 25))
 
-    buttons = [
-        {"image": MEMORY_BACKGROUND_IMAGE,
-         "character": MEMORY_CHARACTER_IMAGE,
-         "rect": MEMO_BUTTON_RECT,
-         "text": "Mémo"},
-        {"image": TICTACTOE_BACKGROUND_IMAGE,
-         "character": TICTACTOE_CHARACTER_IMAGE,
-         "rect": TICTACTOE_BUTTON_RECT,
-         "text": "Morpion"},
-        {"image": QUIZ_BACKGROUND_IMAGE,
-         "character": QUIZ_CHARACTER_IMAGE,
-         "rect": QUIZ_BUTTON_RECT,
-         "text": "Quiz"}
-    ]
+    # Si aucun jeu n'a été gagné on affiche la case "locked"
+    if not memory_game_completed and not quiz_game_completed and not tictactoe_game_completed:
+        locked_font = pygame.font.Font(GAME_FONTS, 24)
+        locked_surface = locked_font.render("Locked", True, pygame.Color('black'))
+        locked_rect = locked_surface.get_rect(center=completed_game_surf.get_rect().center)
+        completed_game_surf.blit(locked_surface, locked_rect)
+    else:
+        if memory_game_completed:
+            memory_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
+            memory_game_completed_surface = memory_game_completed_font.render("Mémo", True, pygame.Color('gray44'))
+            memory_game_completed_rect = memory_game_completed_surface.get_rect(topleft=(40, completed_game_surf.get_rect().top + 20))
+            completed_game_surf.blit(game_completed_image, (memory_game_completed_rect.left - 30,memory_game_completed_rect.top - 5))
+            completed_game_surf.blit(memory_game_completed_surface, memory_game_completed_rect)      
+        if tictactoe_game_completed:
+            tictactoe_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
+            tictactoe_game_completed_surface = tictactoe_game_completed_font.render("Morpion", True, pygame.Color('gray44'))
+            tictactoe_game_completed_rect = tictactoe_game_completed_surface.get_rect(topleft=(40 ,completed_game_surf.get_rect().top + game_surf_height + 20))
+            completed_game_surf.blit(game_completed_image, (tictactoe_game_completed_rect.left - 30,tictactoe_game_completed_rect.top - 5))
+            completed_game_surf.blit(tictactoe_game_completed_surface, tictactoe_game_completed_rect)  
+        if quiz_game_completed:
+            quiz_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
+            quiz_game_completed_surface = quiz_game_completed_font.render("Quiz", True, pygame.Color('gray44'))
+            quiz_game_completed_rect = quiz_game_completed_surface.get_rect(topleft=(40, completed_game_surf.get_rect().top + 2*game_surf_height + 20))
+            completed_game_surf.blit(game_completed_image, (quiz_game_completed_rect.left - 30,quiz_game_completed_rect.top - 5))
+            completed_game_surf.blit(quiz_game_completed_surface, quiz_game_completed_rect)  
+               
+    fenetre_surface.blit(completed_game_surf, completed_game_rect)
 
-    for button in buttons:
-        # Dessiner le rectangle du bouton
-        #pygame.draw.rect(fenetre_surface, pygame.Color('white'), button["rect"], 2)
+    # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
+    if MEMO_BUTTON_RECT.collidepoint(pygame.mouse.get_pos()) or memory_game_completed:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(MEMORY_CHARACTER_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, MEMO_BUTTON_RECT.size)
+    else:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(MEMORY_BACKGROUND_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, MEMO_BUTTON_RECT.size)
 
-        # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
-        if button["rect"].collidepoint(pygame.mouse.get_pos()):
-            # Charger l'image du bouton
-            button_image = pygame.image.load(button["character"]).convert()
-            # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
-            button_image = pygame.transform.scale(button_image, button["rect"].size)
-        else:
-            # Charger l'image du bouton
-            button_image = pygame.image.load(button["image"]).convert()
-            # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
-            button_image = pygame.transform.scale(button_image, button["rect"].size)
+        # Ajouter du texte au bouton
+        text_font = pygame.font.Font(GAME_FONTS, 24)
+        text_surface = text_font.render("Mémo", True, pygame.Color('black'))
+        text_rect = text_surface.get_rect(center=button_image.get_rect().center)
+        button_image.blit(text_surface, text_rect.topleft)
+        
+    # Blitter le bouton sur l'écran
+    fenetre_surface.blit(button_image, MEMO_BUTTON_RECT)
 
-            # Ajouter du texte au bouton
-            if button["text"] != "":
-                text_font = pygame.font.Font(GAME_FONTS, 24)
-                text_surface = text_font.render(button["text"], True, pygame.Color('black'))
-                text_rect = text_surface.get_rect(center=button_image.get_rect().center)
-                button_image.blit(text_surface, text_rect.topleft)
+    # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
+    if TICTACTOE_BUTTON_RECT.collidepoint(pygame.mouse.get_pos()) or tictactoe_game_completed:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(TICTACTOE_CHARACTER_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, TICTACTOE_BUTTON_RECT.size)
+    else:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(TICTACTOE_BACKGROUND_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, TICTACTOE_BUTTON_RECT.size)
 
-        # Blitter le bouton sur l'écran
-        fenetre_surface.blit(button_image, button["rect"])
+        # Ajouter du texte au bouton
+        text_font = pygame.font.Font(GAME_FONTS, 24)
+        text_surface = text_font.render("Morpion", True, pygame.Color('black'))
+        text_rect = text_surface.get_rect(center=button_image.get_rect().center)
+        button_image.blit(text_surface, text_rect.topleft)
+            
+    # Blitter le bouton sur l'écran
+    fenetre_surface.blit(button_image, TICTACTOE_BUTTON_RECT)
+
+    # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
+    if QUIZ_BUTTON_RECT.collidepoint(pygame.mouse.get_pos()) or quiz_game_completed:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(QUIZ_CHARACTER_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, QUIZ_BUTTON_RECT.size)
+    else:
+        # Charger l'image du bouton
+        button_image = pygame.image.load(QUIZ_BACKGROUND_IMAGE).convert()
+        # Mettre à l'échelle l'image pour qu'elle s'adapte à la taille du bouton
+        button_image = pygame.transform.scale(button_image, QUIZ_BUTTON_RECT.size)
+
+        # Ajouter du texte au bouton
+        text_font = pygame.font.Font(GAME_FONTS, 24)
+        text_surface = text_font.render("Morpion", True, pygame.Color('black'))
+        text_rect = text_surface.get_rect(center=button_image.get_rect().center)
+        button_image.blit(text_surface, text_rect.topleft)
+            
+    # Blitter le bouton sur l'écran
+    fenetre_surface.blit(button_image, QUIZ_BUTTON_RECT)
 
 def display_score_barre(lives, bShowMenuButton=False, sScoreText="", dGameOverText={}):
     """
@@ -738,14 +796,16 @@ while True:
         display_start_screen(game_scenario)
 
     elif state == MENU_STATE:
-        if lives > 0:
-            if quiz_game_completed and tictactoe_game_completed and memory_game_completed:
+        if lives == 0 or (quiz_game_completed and tictactoe_game_completed and memory_game_completed):
+            # quand le joueur a complété les 3 jeux ou épuisé toutes les vies
+            # pour lui laisser le temps de voir le résultat on met un délai
+            if gameoverDelayDisplayUpdate == 0:
+                gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 2000
+            if gameoverDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
                 state = END_STATE
-            else:
-                display_menu_screen()
-                display_score_barre(lives)
-        else:
-            state = END_STATE
+                
+        display_menu_screen()
+        display_score_barre(lives)
 
     elif state == MEMORY_STATE:
         # Initilise le mémo s'il ne l'est pas déjà
@@ -887,7 +947,7 @@ while True:
                 quiz_game_current_question = quiz_game_questions.pop()
                 playerDelayDisplayUpdate = 0
 
-            display_score_barre(lives, True, f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}")
+            display_score_barre(lives, True, f"{str(quiz_game_score)}/{str(QUIZ_GAME_WIN_LIMIT)} bonnes réponses attendues")
 
         elif playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
             # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
@@ -898,11 +958,11 @@ while True:
             # on a affiché toutes questions, il faut vérifier si le joueur a gagné ou perdu
             if quiz_game_score >= QUIZ_GAME_WIN_LIMIT:
                 display_score_barre(lives, True,
-                                    f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
+                                    f"Bonnes réponses: {str(quiz_game_score)}",
                                     {"text": "Gagné !", "color": pygame.Color('green')})
             else:
                 display_score_barre(lives, True,
-                                    f"Bonnes réponses: {str(quiz_game_score)}/{str(QUIZ_GAME_MAX_QUESTIONS)}",
+                                    f"Bonnes réponses: {str(quiz_game_score)}/8 nécessaires",
                                     {"text": "Perdu !", "color": pygame.Color('red')})
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
