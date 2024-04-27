@@ -715,15 +715,15 @@ while True:
 
             # écran menu
             elif state == MENU_STATE:
-                if MEMO_BUTTON_RECT.collidepoint(event.pos):
+                if MEMO_BUTTON_RECT.collidepoint(event.pos) and not memory_game_completed:
                     print('Menu: le joueur a cliqué sur le jeu "mémo"')
                     sound_click.play()
                     state = MEMORY_STATE
-                elif TICTACTOE_BUTTON_RECT.collidepoint(event.pos):
+                elif TICTACTOE_BUTTON_RECT.collidepoint(event.pos) and not tictactoe_game_completed:
                     print('Menu: le joueur a cliqué sur le jeu "morpion"')
                     sound_click.play()
                     state = TIC_TAC_TOE_STATE
-                elif QUIZ_BUTTON_RECT.collidepoint(event.pos):
+                elif QUIZ_BUTTON_RECT.collidepoint(event.pos) and not quiz_game_completed:
                     print('Menu: le joueur a cliqué sur le jeu "quiz"')
                     sound_click.play()
                     state = QUIZ_STATE
