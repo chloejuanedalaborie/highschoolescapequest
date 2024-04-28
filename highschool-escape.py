@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import pygame
 import sys
 import random
@@ -17,7 +15,7 @@ END_STATE = 'game_over'
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 600
 
-# Backgrounds
+# Fonds d'écrans
 TITLE_SCREEN_BACKGROUND_IMAGE = "./images/title.png"
 MENU_BACKGROUND_IMAGE = "./images/plan_lycee.png"
 MEMORY_BACKGROUND_IMAGE = "./images/salle_memo.png"
@@ -66,6 +64,16 @@ QUIZ_GAME_MAX_QUESTIONS = 10
 QUIZ_GAME_WIN_LIMIT = 8
 
 def display_start_screen(scenario):
+    """
+    Affiche l'écran de départ puis après 1500 millisecondes, 
+    affiche un scénario chargé aléatoirement 
+
+    Args:
+        scenario (dict): scénario chargé aléatoirement tiré d'un fichier json
+        
+    Return:
+        None
+    """
     fenetre_surface = pygame.display.get_surface()
 
     # Affiche la page d'accueil du jeu
@@ -99,6 +107,13 @@ def display_start_screen(scenario):
         fenetre_surface.blit(start_button_image, start_button_rect)
 
 def display_menu_screen():
+    """
+    Affiche le menu une fois le bouton play de start_screen appuyé
+    puis créé des zones cliquables sur chaque zones de jeu qui permettent d'accéder au jeu
+    
+    Return:
+        None
+    """
     fenetre_surface = pygame.display.get_surface()
 
     # Fond d'écran
@@ -122,18 +137,23 @@ def display_menu_screen():
         locked_rect = locked_surface.get_rect(center=completed_game_surf.get_rect().center)
         completed_game_surf.blit(locked_surface, locked_rect)
     else:
+        # Si le jeu Mémo est complété alors il apparait avec l'étoile dans le rectangle
         if memory_game_completed:
             memory_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
             memory_game_completed_surface = memory_game_completed_font.render("Mémo", True, pygame.Color('gray44'))
             memory_game_completed_rect = memory_game_completed_surface.get_rect(topleft=(40, completed_game_surf.get_rect().top + 20))
             completed_game_surf.blit(game_completed_image, (memory_game_completed_rect.left - 30,memory_game_completed_rect.top - 5))
             completed_game_surf.blit(memory_game_completed_surface, memory_game_completed_rect)      
+        
+        # Si le jeu Morpion est complété alors il apparait avec l'étoile dans le rectangle        
         if tictactoe_game_completed:
             tictactoe_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
             tictactoe_game_completed_surface = tictactoe_game_completed_font.render("Morpion", True, pygame.Color('gray44'))
             tictactoe_game_completed_rect = tictactoe_game_completed_surface.get_rect(topleft=(40 ,completed_game_surf.get_rect().top + game_surf_height + 20))
             completed_game_surf.blit(game_completed_image, (tictactoe_game_completed_rect.left - 30,tictactoe_game_completed_rect.top - 5))
             completed_game_surf.blit(tictactoe_game_completed_surface, tictactoe_game_completed_rect)  
+
+        # Si le jeu Quiz est complété alors il apparait avec l'étoile dans le rectangle
         if quiz_game_completed:
             quiz_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
             quiz_game_completed_surface = quiz_game_completed_font.render("Quiz", True, pygame.Color('gray44'))
@@ -199,7 +219,7 @@ def display_menu_screen():
 
         # Ajouter du texte au bouton
         text_font = pygame.font.Font(GAME_FONTS, 24)
-        text_surface = text_font.render("Morpion", True, pygame.Color('black'))
+        text_surface = text_font.render("Quiz", True, pygame.Color('black'))
         text_rect = text_surface.get_rect(center=button_image.get_rect().center)
         button_image.blit(text_surface, text_rect.topleft)
             
@@ -322,7 +342,7 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
         None
     """
 
-    # Play the memory game
+    # Obtiens la surface de la fenêztre actuelle
     fenetre_surface = pygame.display.get_surface()
 
     # Fond d'écran
@@ -487,6 +507,12 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
         y_offset += font.get_height()
 
 def initialize_quiz_game():
+    """
+    Permet d'initialiser le jeu quiz en chargeant les questions avec leur réponses
+
+    Returns:
+        quiz_question(List): liste des questions-réponses avec leur placement et position
+    """
     print("Quiz: initialisation")
 
     with open('./quiz-questions-list.json', encoding='utf-8') as f:
@@ -523,7 +549,7 @@ def initialize_quiz_game():
             top = first_answer_rect_top + (answer_rect_height + 5) * index
 
             quiz_questions[-1]['answers'].append({
-                # on decale le rect pour le text de 110 pour laisser la place à une image
+                # on decale le rect pour le text de 100 pour laisser la place à une image
                 'rect': pygame.Rect(item_x + 100, top, answer_rect_width, answer_rect_height),
                 'text': answer['answer'],
                 'isCorrect': answer['isCorrect']
@@ -532,6 +558,17 @@ def initialize_quiz_game():
     return quiz_questions
 
 def display_quiz_game(item):
+    """
+    Créé le rectangle on apparaissent les questions/réponses du quiz et 
+    affiche une question ; si la réponses cliquée est correcte elle apparait en vert
+    sinon en rouge
+
+    Args:
+        item (List): liste de questions-réponses avec leur placement et position
+        
+    Return:
+        None
+    """
     fenetre_surface = pygame.display.get_surface()
 
     # Fond d'écran
@@ -591,6 +628,17 @@ def display_quiz_game(item):
                                         item2['text'])
 
 def display_final_screen(text):
+    """
+    Lorsque le jeu est fini (tous les jeux complétés ou plus de vie) 
+    on affiche l'image du jeu avec un rectangle translucide 
+    on y affiche alors le texte correspondant (conclusionWin ou clonclusionLose)
+    
+    Args:
+        text (List): texte de la conclusion appropriée (conclusionWin ou clonclusionLose)
+        
+    Return:
+        None
+    """
     fenetre_surface = pygame.display.get_surface()
 
     # On réutilise la page d'accueil du jeu
@@ -657,6 +705,7 @@ with open('./game-scenario-list.json', encoding='utf-8') as f:
 # selection d'un scénario aléatoirement
 game_scenario = random.choice(game_scenarios)
 
+
 # Création de la fenêtre
 pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption(f"High School Escape Quest: {game_scenario['scenario']}")
@@ -690,9 +739,8 @@ quiz_game_current_question = None
 quiz_game_score = 0
 quiz_game_completed = False
 
-game_over = False
 
-# Main game loop
+# Boucle principale du jeu
 while True:
     fenetre_surface = pygame.display.get_surface()
 
