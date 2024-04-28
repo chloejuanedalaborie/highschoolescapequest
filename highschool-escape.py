@@ -739,6 +739,7 @@ quiz_game_current_question = None
 quiz_game_score = 0
 quiz_game_completed = False
 
+game_over = False
 
 # Boucle principale du jeu
 while True:
