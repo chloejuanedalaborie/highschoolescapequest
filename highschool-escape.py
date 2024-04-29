@@ -5,6 +5,7 @@ import json
 
 # Variables pour maintenir l'état de la navigation dans le jeu
 START_STATE = 'start'
+LEVEL_STATE = 'level'
 MENU_STATE = 'menu'
 MEMORY_STATE = 'memory'
 TIC_TAC_TOE_STATE = 'tic_tac_toe'
@@ -39,6 +40,10 @@ LOST = "./musics/game_lost.wav"
 MEMO_BUTTON_RECT = pygame.Rect(0, 50, 195, 255)
 TICTACTOE_BUTTON_RECT = pygame.Rect(0, 309, 195, 292)
 QUIZ_BUTTON_RECT = pygame.Rect(362, 248, 239, 353)
+START_BUTTON_RECT = pygame.Rect(252, 475, 100, 100)
+EASY_LEVEL_RECT = pygame.Rect(90, 199, 160, 31)
+NORMAL_LEVEL_RECT = pygame.Rect(240, 199, 160, 31)
+HARD_LEVEL_RECT = pygame.Rect(420, 199, 160, 31)
 
 # Pointeur de souris
 CURSOR_IMAGE = "./images/curseur.png"
@@ -57,9 +62,7 @@ SCORE_BARRE_LIFE_IMAGE_DIMENSIONS = (15, 15)
 
 GAME_COMPLETED_IMAGE = "./images/Icon_Large_Star.png"
 
-
 MAX_LIVES = 3
-MEMORY_GAME_MAX_TENTATIVES = 10
 QUIZ_GAME_MAX_QUESTIONS = 10
 QUIZ_GAME_WIN_LIMIT = 8
 
@@ -103,8 +106,97 @@ def display_start_screen(scenario):
 
         # Charger l'image du bouton
         start_button_image = pygame.image.load('./images/bouton_play.png').convert_alpha()
-        start_button_image = pygame.transform.scale(start_button_image, (start_button_rect.width, start_button_rect.height))
-        fenetre_surface.blit(start_button_image, start_button_rect)
+        start_button_image = pygame.transform.scale(start_button_image, (START_BUTTON_RECT.width, START_BUTTON_RECT.height))
+        fenetre_surface.blit(start_button_image, START_BUTTON_RECT)
+
+
+def display_level_screen():
+    """
+    Affiche l'écran de sélection du niveau de difficulté
+
+    Return:
+        None
+    """
+    fenetre_surface = pygame.display.get_surface()
+
+    # Affiche la page d'accueil du jeu
+    title_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
+    title_background = pygame.transform.scale(title_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
+
+    fenetre_surface.blit(title_background, (0, 0))
+
+    # Création d'un rectangle translucide pour accueillir les différents scénarios
+    level_rect_width = fenetre_surface.get_width() * 0.8
+    level_rect_height = fenetre_surface.get_rect().height * 0.7
+    level_rect_x = (fenetre_surface.get_width() * 0.2)//2
+    level_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
+    level_rect = pygame.Rect(level_rect_x, level_rect_y, level_rect_width, level_rect_height)
+    level_surf = pygame.Surface((level_rect.width, level_rect.height))
+    level_surf.fill(pygame.Color('white'))
+    level_surf.set_alpha(200)
+    fenetre_surface.blit(level_surf, level_rect)
+
+    level_select_font = pygame.font.Font(GAME_FONTS, 30)
+    level_select_font.set_italic(True)
+    level_select_text_surf = level_select_font.render("Level Select", True, pygame.Color('red'))
+    if show_text:
+        fenetre_surface.blit(level_select_text_surf, level_select_text_surf.get_rect(midtop=(fenetre_surface.get_rect().centerx,level_rect.top + 10)))
+
+    level_font = pygame.font.Font(GAME_FONTS, 24)
+    level_font.set_italic(True)
+
+    level_text_rect = pygame.Rect(level_rect.left + 10, 300, level_rect_width - 20, level_rect_height - (level_select_font.get_height() + level_font.get_height()) - 20)
+
+    # si le pointeur de la souris est au-dessus du text on colorie en bleu
+    if EASY_LEVEL_RECT.collidepoint(pygame.mouse.get_pos()):
+        easy_text_surf = level_select_font.render("Easy", True, pygame.Color('blue'))
+        easy_message = """
+        Bienvenue dans le niveau Facile ! C'est comme une journée sans devoirs, une équation simple à résoudre, ou un épisode de votre série préférée.
+        C'est relaxant, amusant et sans pression. Mais n'oubliez pas, chaque grand défi commence par une première étape facile. Alors, êtes-vous prêt à vous lancer dans l'aventure ?
+        """
+        afficher_texte_avec_retour_a_la_ligne(fenetre_surface,
+                                              level_text_rect,
+                                              pygame.Color('black'),
+                                              pygame.font.Font(GAME_FONTS, 16),
+                                              easy_message)
+    else:
+        easy_text_surf = level_select_font.render("Easy", True, pygame.Color('black'))
+    fenetre_surface.blit(easy_text_surf, EASY_LEVEL_RECT)
+
+    # si le pointeur de la souris est au-dessus du text on colorie en bleu
+    if NORMAL_LEVEL_RECT.collidepoint(pygame.mouse.get_pos()):
+        normal_text_surf = level_select_font.render("Normal", True, pygame.Color('blue'))
+        normal_message = """
+        Voici le niveau Normal, l'équilibre parfait entre le défi et l'amusement. C'est comme résoudre un problème de maths un peu corsé ou apprendre une nouvelle langue.
+        Vous savez, ce sentiment quand vous résolvez un problème après y avoir longuement réfléchi ? C'est exactement ce qui vous attend ici.
+        Prêt à mettre votre cerveau en action et à vous amuser en même temps ?
+        """
+        afficher_texte_avec_retour_a_la_ligne(fenetre_surface,
+                                              level_text_rect,
+                                              pygame.Color('black'),
+                                              pygame.font.Font(GAME_FONTS, 16),
+                                              normal_message)
+    else:
+        normal_text_surf = level_select_font.render("Normal", True, pygame.Color('black'))
+    fenetre_surface.blit(normal_text_surf, NORMAL_LEVEL_RECT)
+
+    # si le pointeur de la souris est au-dessus du text on colorie en bleu
+    if HARD_LEVEL_RECT.collidepoint(pygame.mouse.get_pos()):
+        hard_text_surf = level_select_font.render("Hard", True, pygame.Color('blue'))
+        hard_message = """
+        Bienvenue au niveau Difficile, le sommet de la montagne, le boss final. C'est ici que les vrais gamers brillent et que les légendes sont écrites.
+        Vous vous sentirez peut-être comme un poisson hors de l'eau, mais rappelez-vous, chaque grand défi offre une grande récompense.
+        Alors, préparez-vous, mettez votre casquette de gamer et voyons si vous êtes à la hauteur !
+        """
+        afficher_texte_avec_retour_a_la_ligne(fenetre_surface,
+                                              level_text_rect,
+                                              pygame.Color('black'),
+                                              pygame.font.Font(GAME_FONTS, 16),
+                                              hard_message)
+    else:
+        hard_text_surf = level_select_font.render("Hard", True, pygame.Color('black'))
+    fenetre_surface.blit(hard_text_surf, HARD_LEVEL_RECT)
+
 
 def display_menu_screen():
     """
@@ -522,8 +614,6 @@ def initialize_quiz_game():
     with open('./quiz-questions-list.json', encoding='utf-8') as f:
         quiz_questions_all = json.load(f)
 
-    # game_level = "medium" en variable globale, si on a le temps on codera
-    #                       comment le joueur choisi le niveau de difficulté
     quiz = [question for question in quiz_questions_all if question['difficulty'] == game_level]
 
     # on randomize la liste et on réduit le nombre de question à MAX_QUIZ_QUESTIONS
@@ -717,9 +807,6 @@ pygame.display.set_caption(f"High School Escape Quest: {game_scenario['scenario'
 state = START_STATE
 lives = MAX_LIVES
 score = 0
-game_level = "medium" # on pourrait laisser le joueur choisir le niveau de difficulté
-
-start_button_rect = pygame.Rect(252, 475, 100, 100)
 
 # Variables pour permettre d'ajouter du délai à l'affichage
 playerDelayDisplayUpdate = pygame.time.get_ticks() + 1500
@@ -745,6 +832,10 @@ quiz_game_completed = False
 
 game_over = False
 
+font_fade = pygame.USEREVENT + 1
+pygame.time.set_timer(font_fade, 250)
+show_text = True
+
 # Boucle principale du jeu
 while True:
     fenetre_surface = pygame.display.get_surface()
@@ -754,15 +845,37 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == font_fade:
+            show_text = not show_text
 
         # Gestion du clic
         elif event.type == pygame.MOUSEBUTTONDOWN:
 
             # écran d'accueil
-            if state == START_STATE and \
-               playerDelayDisplayUpdate > 0 and \
-               pygame.time.get_ticks() >= playerDelayDisplayUpdate and \
-               start_button_rect.collidepoint(event.pos):
+            if state == START_STATE:
+                if playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
+                    if START_BUTTON_RECT.collidepoint(event.pos):
+                        sound_click.play()
+                        state = LEVEL_STATE
+
+            # écran choix niveau de difficulté
+            elif state == LEVEL_STATE:
+                if EASY_LEVEL_RECT.collidepoint(event.pos):
+                    print('Level: le joueur a choisi le niveau "Easy"')
+                    game_level = "easy"
+                    MEMORY_GAME_MAX_TENTATIVES = 12
+                    sound_click.play()
+                    state = MENU_STATE
+                if NORMAL_LEVEL_RECT.collidepoint(event.pos):
+                    print('Level: le joueur a choisi le niveau "Normal"')
+                    game_level = "medium"
+                    MEMORY_GAME_MAX_TENTATIVES = 10
+                    sound_click.play()
+                    state = MENU_STATE
+                if HARD_LEVEL_RECT.collidepoint(event.pos):
+                    print('Level: le joueur a choisi le niveau "Hard"')
+                    game_level = "hard"
+                    MEMORY_GAME_MAX_TENTATIVES = 9
                     sound_click.play()
                     state = MENU_STATE
 
@@ -847,6 +960,9 @@ while True:
     # On affiche les différents écran du jeux en fonction de l'état de "state"
     if state == START_STATE:
         display_start_screen(game_scenario)
+
+    if state == LEVEL_STATE:
+        display_level_screen()
 
     elif state == MENU_STATE:
         if lives == 0 or (quiz_game_completed and tictactoe_game_completed and memory_game_completed):
