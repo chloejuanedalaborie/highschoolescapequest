@@ -65,12 +65,12 @@ QUIZ_GAME_WIN_LIMIT = 8
 
 def display_start_screen(scenario):
     """
-    Affiche l'écran de départ puis après 1500 millisecondes, 
-    affiche un scénario chargé aléatoirement 
+    Affiche l'écran de départ puis après 1500 millisecondes,
+    affiche un scénario chargé aléatoirement
 
     Args:
         scenario (dict): scénario chargé aléatoirement tiré d'un fichier json
-        
+
     Return:
         None
     """
@@ -110,7 +110,7 @@ def display_menu_screen():
     """
     Affiche le menu une fois le bouton play de start_screen appuyé
     puis créé des zones cliquables sur chaque zones de jeu qui permettent d'accéder au jeu
-    
+
     Return:
         None
     """
@@ -143,15 +143,15 @@ def display_menu_screen():
             memory_game_completed_surface = memory_game_completed_font.render("Mémo", True, pygame.Color('gray44'))
             memory_game_completed_rect = memory_game_completed_surface.get_rect(topleft=(40, completed_game_surf.get_rect().top + 20))
             completed_game_surf.blit(game_completed_image, (memory_game_completed_rect.left - 30,memory_game_completed_rect.top - 5))
-            completed_game_surf.blit(memory_game_completed_surface, memory_game_completed_rect)      
-        
-        # Si le jeu Morpion est complété alors il apparait avec l'étoile dans le rectangle        
+            completed_game_surf.blit(memory_game_completed_surface, memory_game_completed_rect)
+
+        # Si le jeu Morpion est complété alors il apparait avec l'étoile dans le rectangle
         if tictactoe_game_completed:
             tictactoe_game_completed_font = pygame.font.Font(GAME_FONTS, 18)
             tictactoe_game_completed_surface = tictactoe_game_completed_font.render("Morpion", True, pygame.Color('gray44'))
             tictactoe_game_completed_rect = tictactoe_game_completed_surface.get_rect(topleft=(40 ,completed_game_surf.get_rect().top + game_surf_height + 20))
             completed_game_surf.blit(game_completed_image, (tictactoe_game_completed_rect.left - 30,tictactoe_game_completed_rect.top - 5))
-            completed_game_surf.blit(tictactoe_game_completed_surface, tictactoe_game_completed_rect)  
+            completed_game_surf.blit(tictactoe_game_completed_surface, tictactoe_game_completed_rect)
 
         # Si le jeu Quiz est complété alors il apparait avec l'étoile dans le rectangle
         if quiz_game_completed:
@@ -159,8 +159,8 @@ def display_menu_screen():
             quiz_game_completed_surface = quiz_game_completed_font.render("Quiz", True, pygame.Color('gray44'))
             quiz_game_completed_rect = quiz_game_completed_surface.get_rect(topleft=(40, completed_game_surf.get_rect().top + 2*game_surf_height + 20))
             completed_game_surf.blit(game_completed_image, (quiz_game_completed_rect.left - 30,quiz_game_completed_rect.top - 5))
-            completed_game_surf.blit(quiz_game_completed_surface, quiz_game_completed_rect)  
-               
+            completed_game_surf.blit(quiz_game_completed_surface, quiz_game_completed_rect)
+
     fenetre_surface.blit(completed_game_surf, completed_game_rect)
 
     # si le pointeur de la souris est au-dessus de la zone on charge l'image du Character
@@ -180,7 +180,7 @@ def display_menu_screen():
         text_surface = text_font.render("Mémo", True, pygame.Color('black'))
         text_rect = text_surface.get_rect(center=button_image.get_rect().center)
         button_image.blit(text_surface, text_rect.topleft)
-        
+
     # Blitter le bouton sur l'écran
     fenetre_surface.blit(button_image, MEMO_BUTTON_RECT)
 
@@ -201,7 +201,7 @@ def display_menu_screen():
         text_surface = text_font.render("Morpion", True, pygame.Color('black'))
         text_rect = text_surface.get_rect(center=button_image.get_rect().center)
         button_image.blit(text_surface, text_rect.topleft)
-            
+
     # Blitter le bouton sur l'écran
     fenetre_surface.blit(button_image, TICTACTOE_BUTTON_RECT)
 
@@ -222,7 +222,7 @@ def display_menu_screen():
         text_surface = text_font.render("Quiz", True, pygame.Color('black'))
         text_rect = text_surface.get_rect(center=button_image.get_rect().center)
         button_image.blit(text_surface, text_rect.topleft)
-            
+
     # Blitter le bouton sur l'écran
     fenetre_surface.blit(button_image, QUIZ_BUTTON_RECT)
 
@@ -418,24 +418,28 @@ def check_tictactoe_game_over(cases):
                         pour indiquer si la case a été sélectionnée ou non.
 
     Returns:
-        String: 'player' ou 'computer'
+        String: 'player' ou 'computer' ou 'égalité'
         None: s'il n'y a pas de vainqueur
     """
     for i in range(3):
-        # On test s'il y a une ligne compléte
+        # On teste s'il y a une ligne compléte
         if cases[i * 3]['clicked'] == cases[i * 3 + 1]['clicked'] == cases[i * 3 + 2]['clicked'] is not None:
             return cases[i * 3]['clicked']
-        # On test s'il y a une colonne compléte
+        # On teste s'il y a une colonne compléte
         if cases[i]['clicked'] == cases[i + 3]['clicked'] == cases[i + 6]['clicked'] is not None:
             return cases[i]['clicked']
 
-    # On test les 2 diagonales
+    # On teste les 2 diagonales
     if cases[0]['clicked'] == cases[4]['clicked'] == cases[8]['clicked'] is not None:
         return cases[0]['clicked']
     if cases[2]['clicked'] == cases[4]['clicked'] == cases[6]['clicked'] is not None:
         return cases[2]['clicked']
 
-    return None
+    # On enfin teste si toutes les cases ont été cliquées
+    if None not in [case['clicked'] for case in cases]:
+        return "égalité"
+    else:
+        return None
 
 def display_tictactoe_game(cases):
     """
@@ -559,13 +563,13 @@ def initialize_quiz_game():
 
 def display_quiz_game(item):
     """
-    Créé le rectangle on apparaissent les questions/réponses du quiz et 
+    Créé le rectangle on apparaissent les questions/réponses du quiz et
     affiche une question ; si la réponses cliquée est correcte elle apparait en vert
     sinon en rouge
 
     Args:
         item (List): liste de questions-réponses avec leur placement et position
-        
+
     Return:
         None
     """
@@ -629,13 +633,13 @@ def display_quiz_game(item):
 
 def display_final_screen(text):
     """
-    Lorsque le jeu est fini (tous les jeux complétés ou plus de vie) 
-    on affiche l'image du jeu avec un rectangle translucide 
+    Lorsque le jeu est fini (tous les jeux complétés ou plus de vie)
+    on affiche l'image du jeu avec un rectangle translucide
     on y affiche alors le texte correspondant (conclusionWin ou clonclusionLose)
-    
+
     Args:
         text (List): texte de la conclusion appropriée (conclusionWin ou clonclusionLose)
-        
+
     Return:
         None
     """
@@ -852,7 +856,7 @@ while True:
                 gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 2000
             if gameoverDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
                 state = END_STATE
-                
+
         display_menu_screen()
         display_score_barre(lives)
 
@@ -940,7 +944,7 @@ while True:
 
         display_tictactoe_game(tictactoe_game_cases)
 
-        # On regarde s'il y a un gagnant
+        # On regarde si la partie est terminée
         winner = check_tictactoe_game_over(tictactoe_game_cases)
         if winner != None:
             # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
@@ -950,18 +954,26 @@ while True:
 
             if 'player' in winner:
                 display_score_barre(lives, True, "fin de la partie: ", {"text": "Gagné !", "color": pygame.Color('green')})
-            else:
+            elif 'computer' in winner:
                 display_score_barre(lives, True, "fin de la partie: ", {"text": "Perdu !", "color": pygame.Color('red')})
+            else:
+                display_score_barre(lives, True, "fin de la partie: ", {"text": "Egalité !", "color": pygame.Color('blue')})
 
             if pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
-                # On décrémente le nombre de vies
+                # On décrémente le nombre de vies si le joueur a perdu
                 if 'computer' in winner:
                     sound_lost.play()
-                    if 'computer' in winner:
+                    # On décrémente le nombre de vies
+                    if lives > 0:
                         lives -= 1
                         # S'il reste au moins 1 vie au joueur on réinitialise le mémo
                         if lives >= 1:
                             tictactoe_game_cases.clear()
+                # En cas d'égalité le joueur peut rejouer sans perdre de vie
+                elif 'égalité' in winner:
+                    sound_lost.play()
+                    # On réinitialise le mémo
+                    tictactoe_game_cases.clear()
                 else:
                     tictactoe_game_completed = True
                     sound_win.play()
