@@ -660,23 +660,23 @@
     ]
   },
   {
-    "question": "Quel est le nom du personnage principal dans Super Mario ?",
+    "question": "Quel est le nom du frère de Mario dans Super Mario ?",
     "difficulty": "easy",
     "answers": [
       {
-        "answer": "Mario",
+        "answer": "Luigi",
         "isCorrect": true
       },
       {
-        "answer": "Luigi",
+        "answer": "Wario",
         "isCorrect": false
       },
       {
-        "answer": "Peach",
+        "answer": "Yoshi",
         "isCorrect": false
       },
       {
-        "answer": "Bowser",
+        "answer": "Toad",
         "isCorrect": false
       }
     ]
