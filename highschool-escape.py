@@ -11,6 +11,7 @@ MEMORY_STATE = 'memory'
 TIC_TAC_TOE_STATE = 'tic_tac_toe'
 QUIZ_STATE = 'quiz'
 END_STATE = 'game_over'
+CREDIT_STATE = 'credits'
 
 # Dimensions de la fenêtre
 WINDOW_WIDTH = 600
@@ -44,6 +45,7 @@ START_BUTTON_RECT = pygame.Rect(252, 475, 100, 100)
 EASY_LEVEL_RECT = pygame.Rect(90, 199, 160, 31)
 NORMAL_LEVEL_RECT = pygame.Rect(240, 199, 160, 31)
 HARD_LEVEL_RECT = pygame.Rect(420, 199, 160, 31)
+CREDITS_BUTTON_RECT = pygame.Rect(465, 549, 115, 31)
 
 # Pointeur de souris
 CURSOR_IMAGE = "./images/curseur.png"
@@ -81,7 +83,7 @@ def display_start_screen(scenario):
 
     # Affiche la page d'accueil du jeu
     title_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
-    title_background = pygame.transform.scale(title_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
+    title_background = pygame.transform.scale(title_background, fenetre_surface.get_size())
 
     fenetre_surface.blit(title_background, (0, 0))
 
@@ -93,7 +95,7 @@ def display_start_screen(scenario):
         title_rect_x = (fenetre_surface.get_width() * 0.2)//2
         title_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
         title_rect = pygame.Rect(title_rect_x, title_rect_y, title_rect_width, title_rect_height)
-        title_surf = pygame.Surface((title_rect.width, title_rect.height))
+        title_surf = pygame.Surface(title_rect.size)
         title_surf.fill(pygame.Color('white'))
         title_surf.set_alpha(200)
         fenetre_surface.blit(title_surf, title_rect)
@@ -106,7 +108,7 @@ def display_start_screen(scenario):
 
         # Charger l'image du bouton
         start_button_image = pygame.image.load('./images/bouton_play.png').convert_alpha()
-        start_button_image = pygame.transform.scale(start_button_image, (START_BUTTON_RECT.width, START_BUTTON_RECT.height))
+        start_button_image = pygame.transform.scale(start_button_image, START_BUTTON_RECT.size)
         fenetre_surface.blit(start_button_image, START_BUTTON_RECT)
 
 
@@ -121,7 +123,7 @@ def display_level_screen():
 
     # Affiche la page d'accueil du jeu
     title_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
-    title_background = pygame.transform.scale(title_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
+    title_background = pygame.transform.scale(title_background, fenetre_surface.get_size())
 
     fenetre_surface.blit(title_background, (0, 0))
 
@@ -131,7 +133,7 @@ def display_level_screen():
     level_rect_x = (fenetre_surface.get_width() * 0.2)//2
     level_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
     level_rect = pygame.Rect(level_rect_x, level_rect_y, level_rect_width, level_rect_height)
-    level_surf = pygame.Surface((level_rect.width, level_rect.height))
+    level_surf = pygame.Surface(level_rect.size)
     level_surf.fill(pygame.Color('white'))
     level_surf.set_alpha(200)
     fenetre_surface.blit(level_surf, level_rect)
@@ -210,12 +212,12 @@ def display_menu_screen():
 
     # Fond d'écran
     menu_background = pygame.image.load(MENU_BACKGROUND_IMAGE).convert()
-    menu_background = pygame.transform.scale(menu_background, (fenetre_surface.get_width(), fenetre_surface.get_height()))
+    menu_background = pygame.transform.scale(menu_background, fenetre_surface.get_size())
     fenetre_surface.blit(menu_background, (0, 0))
 
     # Création de la surface grise où apparaitront les jeux gagnés
     completed_game_rect = pygame.Rect(456,51,144,192)
-    completed_game_surf = pygame.Surface((completed_game_rect.width, completed_game_rect.height))
+    completed_game_surf = pygame.Surface(completed_game_rect.size)
     completed_game_surf.fill(pygame.Color('gray'))
     game_surf_height = completed_game_surf.get_height()//3
 
@@ -318,6 +320,7 @@ def display_menu_screen():
     # Blitter le bouton sur l'écran
     fenetre_surface.blit(button_image, QUIZ_BUTTON_RECT)
 
+
 def display_score_barre(lives, bShowMenuButton=False, sScoreText="", dGameOverText={}):
     """
     Affiche la barre de score du jeu.
@@ -380,6 +383,7 @@ def display_score_barre(lives, bShowMenuButton=False, sScoreText="", dGameOverTe
         if menu_button_text_rect.collidepoint(pygame.mouse.get_pos()):
             pygame.draw.rect(fenetre_surface, pygame.Color('lightblue'), menu_button_text_rect, 2)
 
+
 def initialize_memory_game():
     """
     Permet d'initialiser le jeux du memory.
@@ -417,6 +421,7 @@ def initialize_memory_game():
     # Combine (zip) les index d'images et les cases du jeu
     return [{'rectangle': pygame.Rect(position[0], position[1], RECT_WIDTH, RECT_HEIGHT), 'image_index': image_index}
             for position, image_index in zip(rect_positions, index_images_disponibles)]
+
 
 def display_memory_game(cases, cases_selected, cases_found, memory_game_click_count):
     """
@@ -462,6 +467,7 @@ def display_memory_game(cases, cases_selected, cases_found, memory_game_click_co
 
         fenetre_surface.blit(rect_surf, rect_info['rectangle'])
 
+
 def initialize_tictactoe_game():
     """
     Permet d'initialiser le jeu du tic tac toe en affichant les cases du jeu
@@ -499,6 +505,7 @@ def initialize_tictactoe_game():
 
     return tictactoe_game_case
 
+
 def check_tictactoe_game_over(cases):
     """
     Permet de vérifier s'il y a un vainqueur
@@ -532,6 +539,7 @@ def check_tictactoe_game_over(cases):
         return "égalité"
     else:
         return None
+
 
 def display_tictactoe_game(cases):
     """
@@ -568,6 +576,7 @@ def display_tictactoe_game(cases):
                 text_surface = text_font.render("X", True, pygame.Color('red'))
                 text_rect = text_surface.get_rect(center=square_info['square'].center)
             fenetre_surface.blit(text_surface, text_rect.topleft)
+
 
 def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
     """
@@ -651,6 +660,7 @@ def initialize_quiz_game():
 
     return quiz_questions
 
+
 def display_quiz_game(item):
     """
     Créé le rectangle on apparaissent les questions/réponses du quiz et
@@ -676,7 +686,7 @@ def display_quiz_game(item):
     quiz_question_rect_height = (fenetre_surface.get_rect().height - SCORE_BARRE_HEIGHT) * 0.8
     quiz_question_rect_y = ((fenetre_surface.get_rect().height - SCORE_BARRE_HEIGHT) * 0.2)//2 + SCORE_BARRE_HEIGHT
     quiz_question_rect = pygame.Rect(quiz_question_rect_x, quiz_question_rect_y, quiz_question_rect_width, quiz_question_rect_height)
-    quiz_question_surf = pygame.Surface((quiz_question_rect.width, quiz_question_rect.height))
+    quiz_question_surf = pygame.Surface(quiz_question_rect.size)
     quiz_question_surf.fill(pygame.Color('white'))
     quiz_question_surf.set_alpha(200)
     fenetre_surface.blit(quiz_question_surf, quiz_question_rect)
@@ -721,6 +731,7 @@ def display_quiz_game(item):
                                         pygame.font.Font(GAME_FONTS, 18),
                                         item2['text'])
 
+
 def display_final_screen(text):
     """
     Lorsque le jeu est fini (tous les jeux complétés ou plus de vie)
@@ -737,7 +748,7 @@ def display_final_screen(text):
 
     # On réutilise la page d'accueil du jeu
     final_screen_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
-    final_screen_background = pygame.transform.scale(final_screen_background, (WINDOW_WIDTH, WINDOW_HEIGHT))
+    final_screen_background = pygame.transform.scale(final_screen_background, fenetre_surface.get_size())
 
     fenetre_surface.blit(final_screen_background, (0, 0))
 
@@ -747,7 +758,7 @@ def display_final_screen(text):
     final_screen_rect_x = (fenetre_surface.get_width() * 0.2)//2
     final_screen_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
     final_screen_rect = pygame.Rect(final_screen_rect_x, final_screen_rect_y, final_screen_rect_width, final_screen_rect_height)
-    final_screen_surf = pygame.Surface((final_screen_rect.width, final_screen_rect.height))
+    final_screen_surf = pygame.Surface(final_screen_rect.size)
     final_screen_surf.fill(pygame.Color('white'))
     final_screen_surf.set_alpha(200)
     fenetre_surface.blit(final_screen_surf, final_screen_rect)
@@ -757,6 +768,71 @@ def display_final_screen(text):
                                           pygame.Color('black'),
                                           pygame.font.Font(GAME_FONTS, 16),
                                           text)
+
+    # Créer un bouton pour accéder à l'écran de crédits
+    credits_font = pygame.font.Font(GAME_FONTS, 24)
+    credits_font.set_italic(True)
+
+    # si le pointeur de la souris est au-dessus du text on colorie en bleu
+    if CREDITS_BUTTON_RECT.collidepoint(pygame.mouse.get_pos()):
+        credits_surface = credits_font.render("Credits", True, pygame.Color('blue'), pygame.Color('white'))
+    else:
+        credits_surface = credits_font.render("Credits", True, pygame.Color('black'), pygame.Color('white'))
+    credits_surface.set_alpha(200)
+    fenetre_surface.blit(credits_surface, CREDITS_BUTTON_RECT)
+
+
+def display_credits_screen():
+    """
+    Affiche l'écran de crédits du jeu.
+
+    Return:
+        None
+    """
+    fenetre_surface = pygame.display.get_surface()
+
+
+    # On réutilise la page d'accueil du jeu
+    credits_background = pygame.image.load(TITLE_SCREEN_BACKGROUND_IMAGE).convert()
+    credits_background = pygame.transform.scale(credits_background, fenetre_surface.get_size())
+
+    fenetre_surface.blit(credits_background, (0, 0))
+
+    # Création d'un rectangle translucide pour accueillir les credits
+    credits_rect_width = fenetre_surface.get_width() * 0.9
+    credits_rect_height = fenetre_surface.get_rect().height * 0.7
+    credits_rect_x = (fenetre_surface.get_width() * 0.1)//2
+    credits_rect_y = (fenetre_surface.get_rect().height * 0.5)//2
+    credits_rect = pygame.Rect(credits_rect_x, credits_rect_y, credits_rect_width, credits_rect_height)
+    credits_surf = pygame.Surface(credits_rect.size)
+    credits_surf.fill(pygame.Color('white'))
+    credits_surf.set_alpha(200)
+
+    credits_title_font = pygame.font.Font(GAME_FONTS, 24)
+    credits_title_font.set_italic(True)
+    credits_title_surf = credits_title_font.render("Credits !!!", True, pygame.Color('black'))
+    credits_surf.blit(credits_title_surf, (credits_surf.get_rect().centerx - credits_title_surf.get_width()//2, credits_surf.get_rect().top + 10))
+
+    credits_column1_font = pygame.font.Font(GAME_FONTS, 12)
+
+    credits_column1_font.set_bold(True)
+
+    credits_column2_font = pygame.font.Font(GAME_FONTS, 12)
+    print(str(credits_column1_font.render("Musique et effets sonores", True, pygame.Color('black')).get_width()))
+
+    column1_text = ["Développeurs", "Scénarios", "Conception graphique", "Personnages", "Musique et effets sonores", "Test du jeu", "Remerciements spéciaux"]
+    column2_text = ["Chloé\nEmilie", "Générés à l'aide d'OpenAI", "ref. site web", "Générés avec DALL-E", "ref. site web", "liste de nom", "texte libre multiligne"]
+
+    for i, text in enumerate(column1_text):
+        text_surface = credits_column1_font.render(text, True, pygame.Color('gray44'))
+        credits_surf.blit(text_surface, text_surface.get_rect(topright=((credits_surf.get_width() // 2) - 10, (credits_title_surf.get_rect().bottom + 50) + i*30)))
+
+    for i, text in enumerate(column2_text):
+        text_surface = credits_column2_font.render(text, True, pygame.Color('black'))
+        credits_surf.blit(text_surface, text_surface.get_rect(topleft=(credits_surf.get_width() // 2, (credits_title_surf.get_rect().bottom + 50) + i*30)))
+
+    fenetre_surface.blit(credits_surf, credits_rect)
+
 
 # Remplace le curseur de la souris par une image
 def display_cursor():
@@ -856,7 +932,9 @@ while True:
                 if playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
                     if START_BUTTON_RECT.collidepoint(event.pos):
                         sound_click.play()
-                        state = LEVEL_STATE
+                        #state = LEVEL_STATE
+                        game_over = True
+                        state = END_STATE
 
             # écran choix niveau de difficulté
             elif state == LEVEL_STATE:
@@ -956,6 +1034,11 @@ while True:
                                     quiz_game_score += 1
                                 else:
                                     sound_wrong.play()
+
+                elif state == END_STATE:
+                    if CREDITS_BUTTON_RECT.collidepoint(event.pos):
+                        sound_click.play()
+                        state = CREDIT_STATE
 
     # On affiche les différents écran du jeux en fonction de l'état de "state"
     if state == START_STATE:
@@ -1180,6 +1263,9 @@ while True:
                 sound_lost.play()
 
             display_final_screen(game_scenario['conclusionLose'])
+
+    elif state == CREDIT_STATE:
+        display_credits_screen()
 
     display_cursor()
 
