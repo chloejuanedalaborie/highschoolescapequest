@@ -42,9 +42,9 @@ MEMO_BUTTON_RECT = pygame.Rect(0, 50, 195, 255)
 TICTACTOE_BUTTON_RECT = pygame.Rect(0, 309, 195, 292)
 QUIZ_BUTTON_RECT = pygame.Rect(362, 248, 239, 353)
 START_BUTTON_RECT = pygame.Rect(252, 475, 100, 100)
-EASY_LEVEL_RECT = pygame.Rect(90, 199, 160, 31)
-NORMAL_LEVEL_RECT = pygame.Rect(240, 199, 160, 31)
-HARD_LEVEL_RECT = pygame.Rect(420, 199, 160, 31)
+EASY_LEVEL_RECT = pygame.Rect(90, 220, 160, 31)
+NORMAL_LEVEL_RECT = pygame.Rect(240, 220, 160, 31)
+HARD_LEVEL_RECT = pygame.Rect(420, 220, 160, 31)
 CREDITS_BUTTON_RECT = pygame.Rect(465, 549, 115, 31)
 
 # Pointeur de souris
@@ -147,7 +147,7 @@ def display_level_screen():
     level_font = pygame.font.Font(GAME_FONTS, 24)
     level_font.set_italic(True)
 
-    level_text_rect = pygame.Rect(level_rect.left + 10, 300, level_rect_width - 20, level_rect_height - (level_select_font.get_height() + level_font.get_height()) - 20)
+    level_text_rect = pygame.Rect(level_rect.left + 10, 300, level_rect_width - 20, level_rect_height - (level_select_font.get_height() + level_font.get_height()) - 10)
 
     # si le pointeur de la souris est au-dessus du text on colorie en bleu
     if EASY_LEVEL_RECT.collidepoint(pygame.mouse.get_pos()):
@@ -590,7 +590,7 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
         texte (str): Le texte à afficher.
 
     Returns:
-        None
+        bottom (int): le bottom de la dernière ligne affichée
     """
     mots = texte.split()
     lignes = []
@@ -610,6 +610,9 @@ def afficher_texte_avec_retour_a_la_ligne(surface, rect, couleur, font, texte):
         rect_ligne = surface_ligne.get_rect(left=rect.left + 10, top=rect.top + 10 + y_offset)
         surface.blit(surface_ligne, rect_ligne)
         y_offset += font.get_height()
+    
+    # on retourne le bottom de la dernière ligne
+    return (rect.top + 10 + y_offset)
 
 def initialize_quiz_game():
     """
@@ -782,7 +785,7 @@ def display_final_screen(text):
     fenetre_surface.blit(credits_surface, CREDITS_BUTTON_RECT)
 
 
-def display_credits_screen():
+def display_credits_screen(credits):
     """
     Affiche l'écran de crédits du jeu.
 
@@ -811,26 +814,25 @@ def display_credits_screen():
     credits_title_font = pygame.font.Font(GAME_FONTS, 24)
     credits_title_font.set_italic(True)
     credits_title_surf = credits_title_font.render("Credits !!!", True, pygame.Color('black'))
-    credits_surf.blit(credits_title_surf, (credits_surf.get_rect().centerx - credits_title_surf.get_width()//2, credits_surf.get_rect().top + 10))
+    credits_surf.blit(credits_title_surf, (credits_surf.get_rect().centerx - credits_title_surf.get_width()//2, credits_surf.get_rect().top + 40))
 
-    credits_column1_font = pygame.font.Font(GAME_FONTS, 12)
-
+    credits_column1_font = pygame.font.Font(GAME_FONTS, 14)
     credits_column1_font.set_bold(True)
 
-    credits_column2_font = pygame.font.Font(GAME_FONTS, 12)
-    print(str(credits_column1_font.render("Musique et effets sonores", True, pygame.Color('black')).get_width()))
 
-    column1_text = ["Développeurs", "Scénarios", "Conception graphique", "Personnages", "Musique et effets sonores", "Test du jeu", "Remerciements spéciaux"]
-    column2_text = ["Chloé\nEmilie", "Générés à l'aide d'OpenAI", "ref. site web", "Générés avec DALL-E", "ref. site web", "liste de nom", "texte libre multiligne"]
+    top = credits_title_surf.get_rect().bottom + 70
+    for i, section in enumerate(credits):
+        titre_surface = credits_column1_font.render(section["titre"], True, pygame.Color('gray44'))
+        credits_surf.blit(titre_surface, titre_surface.get_rect(topright=((credits_surf.get_width() // 2) - 20, top)))
 
-    for i, text in enumerate(column1_text):
-        text_surface = credits_column1_font.render(text, True, pygame.Color('gray44'))
-        credits_surf.blit(text_surface, text_surface.get_rect(topright=((credits_surf.get_width() // 2) - 10, (credits_title_surf.get_rect().bottom + 50) + i*30)))
-
-    for i, text in enumerate(column2_text):
-        text_surface = credits_column2_font.render(text, True, pygame.Color('black'))
-        credits_surf.blit(text_surface, text_surface.get_rect(topleft=(credits_surf.get_width() // 2, (credits_title_surf.get_rect().bottom + 50) + i*30)))
-
+        for text in section["contenu"]:
+            top = afficher_texte_avec_retour_a_la_ligne(credits_surf,
+                                                        pygame.Rect((credits_surf.get_width() // 2) - 10, top - 10, credits_surf.get_width() // 2, 100),
+                                                        pygame.Color('black'),
+                                                        pygame.font.Font(GAME_FONTS, 12),
+                                                        text)
+        top += 20
+            
     fenetre_surface.blit(credits_surf, credits_rect)
 
 
@@ -872,6 +874,9 @@ sound_lost = pygame.mixer.Sound(LOST)
 with open('./game-scenario-list.json', encoding='utf-8') as f:
     game_scenarios = json.load(f)
 
+with open('./credits-list.json', encoding='utf-8') as f:
+    credits = json.load(f)
+    
 # selection d'un scénario aléatoirement
 game_scenario = random.choice(game_scenarios)
 
@@ -932,9 +937,7 @@ while True:
                 if playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
                     if START_BUTTON_RECT.collidepoint(event.pos):
                         sound_click.play()
-                        #state = LEVEL_STATE
-                        game_over = True
-                        state = END_STATE
+                        state = LEVEL_STATE
 
             # écran choix niveau de difficulté
             elif state == LEVEL_STATE:
@@ -1265,7 +1268,7 @@ while True:
             display_final_screen(game_scenario['conclusionLose'])
 
     elif state == CREDIT_STATE:
-        display_credits_screen()
+        display_credits_screen(credits)
 
     display_cursor()
 
