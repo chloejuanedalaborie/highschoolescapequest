@@ -1,0 +1,29 @@
+[
+    {
+        "titre": "Développeurs",
+        "contenu": [
+            "Chloé JUANÉDA-LABORIE (106)",
+            "Émilie BON (106)"
+        ]
+    },
+    {
+        "titre": "Scénarios",
+        "contenu": ["Générés à l'aide d'OpenAI"]
+    },
+    {
+        "titre": "Conception graphique",
+        "contenu": ["penzilla.itch.io"]
+    },
+    {
+        "titre": "Personnages",
+        "contenu": ["Générés avec DALL-E"]
+    },
+    {
+        "titre": "Musique et effets sonores",
+        "contenu": ["pixabay.com"]
+    },
+    {
+        "titre": "Remerciements spéciaux",
+        "contenu": ["Nous remercions énormément toutes les personnes ayant participées aux nombreux tests et suivies les avancés du jeu."]
+    }
+]
