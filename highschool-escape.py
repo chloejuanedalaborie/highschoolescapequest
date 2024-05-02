@@ -1202,15 +1202,17 @@ while True:
             playerDelayDisplayUpdate = 0
             gameoverDelayDisplayUpdate = 0
             quiz_game_questions = initialize_quiz_game()
+            
+        if len(quiz_game_questions) >= 0:
+            display_score_barre(lives, True, f"{str(quiz_game_score)}/{str(QUIZ_GAME_WIN_LIMIT)} bonnes réponses attendues")
 
         if len(quiz_game_questions) > 0:
             # on regarde si on a une nouvelle à afficher
             if not quiz_game_current_question or \
-               (playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate):
+               (playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate) and len(quiz_game_questions) > 0:
                 quiz_game_current_question = quiz_game_questions.pop()
                 playerDelayDisplayUpdate = 0
-
-            display_score_barre(lives, True, f"{str(quiz_game_score)}/{str(QUIZ_GAME_WIN_LIMIT)} bonnes réponses attendues")
+            
 
         elif playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
             # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
