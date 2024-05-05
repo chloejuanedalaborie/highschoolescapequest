@@ -24,7 +24,7 @@ MEMORY_BACKGROUND_IMAGE = "./images/salle_memo.png"
 TICTACTOE_BACKGROUND_IMAGE = "./images/salle_morpion.png"
 QUIZ_BACKGROUND_IMAGE = "./images/salle_quiz.png"
 
-# Characters images
+# Images des characters
 MEMORY_CHARACTER_IMAGE = "./images/memory-game-character.png"
 TICTACTOE_CHARACTER_IMAGE = "./images/tic-tac-toe-game-character.png"
 QUIZ_CHARACTER_IMAGE = "images/quiz-game-character.png"
@@ -871,6 +871,7 @@ sound_wrong = pygame.mixer.Sound(WRONG)
 sound_win = pygame.mixer.Sound(WIN)
 sound_lost = pygame.mixer.Sound(LOST)
 
+# Ouverture des fichiers json
 with open('./game-scenario-list.json', encoding='utf-8') as f:
     game_scenarios = json.load(f)
 
@@ -885,7 +886,7 @@ game_scenario = random.choice(game_scenarios)
 pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption(f"High School Escape Quest: {game_scenario['scenario']}")
 
-state = START_STATE
+state = START_STATE # écran de départ lorsqu'on lance le jeu
 lives = MAX_LIVES
 score = 0
 
@@ -1055,7 +1056,7 @@ while True:
             # quand le joueur a complété les 3 jeux ou épuisé toutes les vies
             # pour lui laisser le temps de voir le résultat on met un délai
             if gameoverDelayDisplayUpdate == 0:
-                gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 2000
+                gameoverDelayDisplayUpdate = pygame.time.get_ticks() + 1000
             if gameoverDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= gameoverDelayDisplayUpdate:
                 state = END_STATE
 
@@ -1267,7 +1268,8 @@ while True:
                 sound_lost.play()
 
             display_final_screen(game_scenario['conclusionLose'])
-
+            
+    # écran des crédits
     elif state == CREDIT_STATE:
         display_credits_screen(credits)
 
