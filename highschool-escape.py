@@ -739,7 +739,7 @@ def display_final_screen(text):
     """
     Lorsque le jeu est fini (tous les jeux complétés ou plus de vie)
     on affiche l'image du jeu avec un rectangle translucide
-    on y affiche alors le texte correspondant (conclusionWin ou clonclusionLose)
+    on y affiche alors le texte correspondant (conclusionWin ou conclusionLose)
 
     Args:
         text (List): texte de la conclusion appropriée (conclusionWin ou clonclusionLose)
@@ -1212,7 +1212,6 @@ while True:
                (playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate) and len(quiz_game_questions) > 0:
                 quiz_game_current_question = quiz_game_questions.pop()
                 playerDelayDisplayUpdate = 0
-            
 
         elif playerDelayDisplayUpdate > 0 and pygame.time.get_ticks() >= playerDelayDisplayUpdate:
             # On ajoute un délai (2s) en fin de partie pour avoir le temps de voir le résultat
